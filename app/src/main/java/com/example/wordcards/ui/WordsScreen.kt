@@ -1,5 +1,6 @@
 package com.example.wordcards.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -51,7 +52,7 @@ fun WordsScreen(vm: WordsViewModel = viewModel()) {
         Text(if (words.size >= 2000) "Показано 2000 — уточните поиск или уровень" else "Слов: ${words.size}", Modifier.padding(16.dp, 8.dp), style = MaterialTheme.typography.labelMedium)
         LazyColumn(Modifier.fillMaxSize()) {
             items(words, key = { it.id }) { w ->
-                WordRow(w, onSpeak = { speaker.speak(w.en) },
+                WordRow(w, onSpeak = { speaker.speak(w.en) }, onSpeakExample = { speaker.speak(w.exampleEn) },
                     onFav = { vm.toggleFav(w) }, onKnown = { vm.toggleKnown(w) })
                 HorizontalDivider()
             }
@@ -60,15 +61,26 @@ fun WordsScreen(vm: WordsViewModel = viewModel()) {
 }
 
 @Composable
-private fun WordRow(w: Word, onSpeak: () -> Unit, onFav: () -> Unit, onKnown: () -> Unit) {
+private fun WordRow(w: Word, onSpeak: () -> Unit, onSpeakExample: () -> Unit, onFav: () -> Unit, onKnown: () -> Unit) {
     Row(Modifier.fillMaxWidth().padding(start = 16.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
             Text(w.en, fontWeight = FontWeight.Bold, style = MaterialTheme.typography.titleMedium)
             if (w.transcription.isNotBlank())
                 Text(w.transcription, style = MaterialTheme.typography.bodySmall)
             Text(w.ru, style = MaterialTheme.typography.bodyLarge)
-            if (w.exampleEn.isNotBlank())
-                Text(w.exampleEn, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+            if (w.exampleEn.isNotBlank()) {
+                // Нажатие на пример — озвучивание предложения
+                Row(Modifier.clickable(onClick = onSpeakExample).padding(top = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(Icons.AutoMirrored.Filled.VolumeUp, "Озвучить предложение", Modifier.size(16.dp),
+                        tint = MaterialTheme.colorScheme.primary)
+                    Spacer(Modifier.width(6.dp))
+                    Column {
+                        Text(w.exampleEn, style = MaterialTheme.typography.bodySmall)
+                        if (w.exampleRu.isNotBlank())
+                            Text(w.exampleRu, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
+                    }
+                }
+            }
         }
         IconButton(onClick = onSpeak) { Icon(Icons.AutoMirrored.Filled.VolumeUp, "Озвучить") }
         IconButton(onClick = onFav) {

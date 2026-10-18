@@ -25,503 +25,500 @@ bad;плохой;/bæd/;The weather is bad.;Погода плохая.
 eat;есть, кушать;/iːt/;I eat breakfast at eight.;Я завтракаю в восемь.
 drink;пить;/drɪŋk/;Do you drink tea?;Ты пьёшь чай?
 go;идти, ехать;/ɡəʊ/;I go to school.;Я иду в школу.
-the;(артикль);/ðə/;;
-to;к, до; (частица to);/tɪ/;;
-and;и;/ənd/;;
-of;из, о (предлог of);/əv/;;
-in;в;/ɪn/;;
-is;есть, является;/ɪz/;;
-for;для, за;/fər/;;
-that;тот, что;/ðət/;;
-you;ты, вы;/ju/;;
-it;оно, это;/ɪt/;;
-on;на;/ɔn/;;
-with;с;/wɪθ/;;
-this;этот;/ðɪs/;;
-was;был, была;/wɑz/;;
-be;быть;/bi/;;
-as;как;/ɛz/;;
-are;есть, являются;/ər/;;
-have;иметь;/hæv/;;
-at;в, у, на;/æt/;;
-he;он;/hi/;;
-not;не;/nɑt/;;
-by;у, рядом, посредством;/baɪ/;;
-but;но;/bət/;;
-from;из, от;/frəm/;;
-my;мой;/maɪ/;;
-or;или;/ər/;;
-we;мы;/wi/;;
-an;(артикль);/ən/;;
-your;твой, ваш;/jʊr/;;
-all;все, всё;/ɔl/;;
-so;так, поэтому;/soʊ/;;
-his;его;/hɪz/;;
-they;они;/ðeɪ/;;
-me;мне, меня;/mi/;;
-if;если;/ɪf/;;
-one;один, раз;/wən/;;
-can;мочь, уметь;/kən/;;
-will;будет (вспом. глагол);/wɪl/;;
-just;просто, только что;/ʤɪst/;;
-like;нравиться, как;/laɪk/;;
-about;о, около;/əˈbaʊt/;;
-up;вверх;/əp/;;
-out;вне, наружу;/aʊt/;;
-what;что, какой;/wət/;;
-has;имеет;/həz/;;
-when;когда;/wɪn/;;
-more;больше, более;/mɔr/;;
-do;делать;/du/;;
-were;были;/wər/;;
-who;кто;/hu/;;
-it's;это-то;/ɪts/;;
-their;их;/ðɛr/;;
-there;там, (есть);/ðɛr/;;
-her;её, ей;/hər/;;
-which;который, какой;/wɪʧ/;;
-time;время, раз;/taɪm/;;
-get;получать, становиться;/gɪt/;;
-been;был (причастие be);/bɪn/;;
-would;бы (вспом. глагол);/wʊd/;;
-she;она;/ʃi/;;
-new;новый;/nu/;;
-people;люди;/ˈpipəl/;;
-how;как;/haʊ/;;
-some;некоторые, несколько;/səm/;;
-also;также, тоже;/ˈɔlsoʊ/;;
-them;им, их;/ðɛm/;;
-now;сейчас;/naʊ/;;
-other;другой;/ˈəðər/;;
-its;его, её (о предмете);/ɪts/;;
-our;наш;/ɑr/;;
-than;чем;/ðən/;;
-only;только;/ˈoʊnli/;;
-after;после, спустя, вслед;/ˈæftər/;;
-first;первый;/fərst/;;
-him;ему, его;/ɪm/;;
-into;в, внутрь;/ˈɪntu/;;
-know;знать, узнать, уметь;/noʊ/;;
-see;видеть;/si/;;
-two;два;/tu/;;
-make;делать, создавать;/meɪk/;;
-over;над, через;/ˈoʊvər/;;
-think;думать, придумать, мыслить;/θɪŋk/;;
-any;любой, какой-нибудь;/ˈɛni/;;
-then;потом, тогда;/ðɛn/;;
-could;мог бы;/kʊd/;;
-back;назад, обратно, спина;/bæk/;;
-these;эти;/ðiz/;;
-us;нас, нам;/ˈjuˈɛs/;;
-want;потребность, хотеть, захотеть;/wɔnt/;;
-because;потому что;/bɪˈkəz/;;
-well;ну, ладно, хорошо;/wɛl/;;
-said;сказал;/sɛd/;;
-way;путь, способ;/weɪ/;;
-most;наиболее, большинство;/moʊst/;;
-much;много;/məʧ/;;
-very;очень;/ˈvɛri/;;
-where;где;/wɛr/;;
-even;даже;/ˈivɪn/;;
-should;следовать, нужно;/ʃʊd/;;
-may;мочь, можно;/meɪ/;;
-here;здесь, тут, вот;/hir/;;
-really;действительно, уж, так-таки;/ˈrɪli/;;
-did;делал (прош. от do);/dɪd/;;
-right;право, правильно, правый;/raɪt/;;
-work;работа, работать, деятельность;/wərk/;;
-year;год;/jɪr/;;
-years;лета;/jɪrz/;;
-being;нахождение, бытие, творение;/biɪŋ/;;
-too;слишком, также, тоже;/tu/;;
-before;перед, раньше, прежде;/ˌbiˈfɔr/;;
-off;с, прочь;/ɔf/;;
-why;почему, зачем, отчего;/waɪ/;;
-made;сделал, сделанный;/meɪd/;;
-still;ещё, всё-таки, всё;/stɪl/;;
-take;взять, принять, принимать;/teɪk/;;
-got;попасть;/gɑt/;;
-many;много;/ˈmɛni/;;
-never;никогда;/ˈnɛvər/;;
-life;жизнь, существование, быт;/laɪf/;;
-say;сказать, рассказать, слышь;/seɪ/;;
-world;мир, свет, всемирный;/wərld/;;
-down;вниз;/daʊn/;;
-great;великий, большой, гениальный;/greɪt/;;
-through;через, сквозь, насквозь;/θru/;;
-last;последний, прошлый, длиться;/læst/;;
-that's;это-то;/ðæts/;;
-while;когда, пока;/waɪl/;;
-best;лучший, наилучший;/bɛst/;;
-such;такой;/səʧ/;;
-love;любовь, любить, любовный;/ləv/;;
-home;дом, родной, домашний;/hoʊm/;;
-long;длинный, долго;/lɔŋ/;;
-look;смотреть, взгляд;/lʊk/;;
-something;что-то, чего-то, что-нибудь;/ˈsəmθɪŋ/;;
-use;использовать;/juz/;;
-can't;нельзя;/kænt/;;
-used;отработанный, стреляный, погашенный;/juzd/;;
-both;двух, оба;/boʊθ/;;
-every;каждый, любой;/ˈɛvəri/;;
-am;есть (я есть);/æm/;;
-come;приходить;/kəm/;;
-part;часть;/pɑrt/;;
-state;государство, государственный, состояние;/steɪt/;;
-three;три, тройка;/θri/;;
-around;вокруг, примерно, около;/əraʊnd/;;
-between;между;/bɪtˈwin/;;
-always;всегда, всё, постоянно;/ˈɔlˌweɪz/;;
-better;лучше, лучший;/ˈbɛtər/;;
-find;находить;/faɪnd/;;
-high;высокий, высоко, высокопоставленный;/haɪ/;;
-little;мало, маленький, понемногу;/ˈlɪtəl/;;
-old;старый, давний, старенький;/oʊld/;;
-since;с, поскольку;/sɪns/;;
-another;другой;/əˈnəðər/;;
-own;собственный, владеть, обладать;/oʊn/;;
-things;вещь, пожитки;/θɪŋz/;;
-under;под;/ˈəndər/;;
-game;кон, дичь, игра;/geɪm/;;
-thing;вещь, штука;/θɪŋ/;;
-give;дать, давать, задать;/gɪv/;;
-place;место, установить, устанавливать;/pleɪs/;;
-school;школа, училище, школьный;/skul/;;
-again;снова, опять, вновь;/əˈgɛn/;;
-next;следующий, очередной, ближайший;/nɛkst/;;
-each;каждый;/iʧ/;;
-without;без;/wɪˈθaʊt/;;
-against;против, о;/əˈgɛnst/;;
-end;конец, закончить, завершение;/ɛnd/;;
-found;создать, создавать, учредить;/faʊnd/;;
-must;нужно, должный, приходиться;/məst/;;
-show;показать, показывать, показ;/ʃoʊ/;;
-feel;чувствовать, почувствовать, ощущать;/fil/;;
-sure;уверенный, беспроигрышный, верный;/ʃʊr/;;
-team;команда, бригада, отряд;/tim/;;
-ever;когда-либо, никогда, когда-нибудь;/ˈɛvər/;;
-keep;сохранить, держать, хранить;/kip/;;
-might;мощь, могущество, мочь;/maɪt/;;
-put;поставить, ставить, положить;/pʊt/;;
-money;деньги, бабки, денежный;/ˈməni/;;
-free;освободить, свободный, бесплатный;/fri/;;
-second;второй, секунда, вторичный;/ˈsɛkənd/;;
-someone;кто-нибудь, кто-либо, некто;/ˈsəmˌwən/;;
-away;прочь, подальше;/əˈweɪ/;;
-left;левый;/lɛft/;;
-number;число, номер;/ˈnəmbər/;;
-city;городской, общегородской;/ˈsɪti/;;
-days;подолгу;/deɪz/;;
-lot;участок, участь, удел;/lɔt/;;
-name;имя, название, назвать;/neɪm/;;
-play;играть, игра, сыграть;/pleɪ/;;
-until;до, доколе;/ənˈtɪl/;;
-company;компания, общество, рота;/ˈkəmpəˌni/;;
-few;мало, горстка;/fju/;;
-let;предоставить, пустить, пускать;/lɛt/;;
-real;настоящий, реал, реальный;/ril/;;
-called;именуемый;/kɔld/;;
-different;иной, другой, разный;/ˈdɪfərənt/;;
-having;имеющий;/ˈhævɪŋ/;;
-set;задавать, набор, обстановка;/sɛt/;;
-thought;мысль, дума, мышление;/θɔt/;;
-done;сваренный;/dən/;;
-getting;добывание;/ˈgɪtɪŋ/;;
-god;бог, господь, боже;/gɑd/;;
-government;правительство, правление, правительственный;/ˈgəvərnmənt/;;
-group;группа, групповой, коллектив;/grup/;;
-looking;уход;/ˈlʊkɪŋ/;;
-public;общественный, публика, государственный;/ˈpəblɪk/;;
-top;верх, вершина, марс;/tɔp/;;
-women;женщина;/ˈwɪmən/;;
-business;дело, бизнес, деловой;/ˈbɪznɪs/;;
-care;забота, осторожность, попечение;/kɛr/;;
-start;начать, старт, отправиться;/stɑrt/;;
-system;система, строй, схема;/ˈsɪstəm/;;
-times;время;/taɪmz/;;
-week;неделя;/wik/;;
-already;уже;/ɔˈrɛdi/;;
-anything;что-нибудь, что-либо;/ˈɛniˌθɪŋ/;;
-case;случай, факт, ящик;/keɪs/;;
-nothing;нечего, ничто, пшик;/ˈnəθɪŋ/;;
-person;человек, лицо, личность;/ˈpərsən/;;
-today;сегодня, теперь, сегодняшний;/təˈdeɪ/;;
-change;изменить, менять, изменение;/ʧeɪnʤ/;;
-enough;достаточно, достаточный;/ɪˈnəf/;;
-everything;весь;/ˈɛvriˌθɪŋ/;;
-full;полным-полно, исполненный, преисполненный;/fʊl/;;
-live;жить, пожить, проживать;/lɪv/;;
-making;создание, изготовление, сочинение;/ˈmeɪkɪŋ/;;
-point;пункт, показать, суть;/pɔɪnt/;;
-read;читать, прочитать, прочесть;/rɛd/;;
-yet;а, ещё;/jɛt/;;
-four;четыре, четверо, вчетвером;/fɔr/;;
-hard;усердно, больно, жёсткий;/hɑrd/;;
-mean;означать, значить, средний;/min/;;
-once;когда-то, раз;/wəns/;;
-support;поддерживать, поддержать, опора;/səˈpɔrt/;;
-tell;сказать, рассказывать, рассказать;/tɛl/;;
-including;включая;/ˌɪnˈkludɪŋ/;;
-music;музыка, ноты;/mˈjuzɪk/;;
-power;власть, сила, мощность;/paʊər/;;
-stop;остановить, прекратить, стоп;/stɑp/;;
-believe;верить, поверить, думать;/bɪˈliv/;;
-call;звать, звонить;/kɔl/;;
-head;глава, голова, головной;/hɛd/;;
-national;национальный, государственный, народный;/ˈnæʃənəl/;;
-white;белый, российский, белок;/waɪt/;;
-far;далеко, гораздо, вдаль;/fɑr/;;
-job;работа, задание, должность;/ʤɑb/;;
-side;сторона, бок, борт;/saɪd/;;
-though;хотя, хоть, однако;/ðoʊ/;;
-try;испытывать, попробовать, испытать;/traɪ/;;
-went;попасть;/wɛnt/;;
-actually;вообще-то, на самом деле, действительно;/ˈæˌkʧuəli/;;
-american;американский, американец;/əˈmɛrɪkən/;;
-later;там, позже, после;/ˈleɪtər/;;
-less;менее, меньше, поменьше;/lɛs/;;
-line;ряд, очередь, линия;/laɪn/;;
-order;приказ, заказ, сан;/ˈɔrdər/;;
-party;партия, команда, вечеринка;/ˈpɑrti/;;
-run;бежать, ход, бегать;/rən/;;
-says;говориться;/sɪz/;;
-service;служба, сервис, обслуживание;/ˈsərvɪs/;;
-country;страна, местность, деревня;/ˈkəntri/;;
-open;открыть, открыто, открытый;/ˈoʊpən/;;
-season;сезон;/ˈsizən/;;
-shit;дерьмо, говно, херня;/ʃɪt/;;
-thank;поблагодарить, благодарить;/θæŋk/;;
-children;ребята, ребятишки;/ˈʧɪldrən/;;
-everyone;каждый, весь;/ˈɛvriˌwən/;;
-general;генерал, общий, генеральный;/ˈʤɛnərəl/;;
-trying;томительный;/traɪɪŋ/;;
-united;единый, объединённый;/juˈnaɪtɪd/;;
-using;через;/ˈjuzɪŋ/;;
-area;площадь, район, районный;/ˈɛriə/;;
-black;чёрный, черно, чернокожий;/blæk/;;
-following;следующий, вслед, последующий;/ˈfɑloʊɪŋ/;;
-law;закон, право;/lɔ/;;
-together;вместе, воедино, сообща;/təˈgɛðər/;;
-war;война;/wɔr/;;
-whole;целый, целиком, цельный;/hoʊl/;;
-car;машина, автомобиль, автомобильный;/kɑr/;;
-face;лицо, личной, лик;/feɪs/;;
-five;пять, пятеро, пяток;/faɪv/;;
-kind;добрый, сорт, милостивый;/kaɪnd/;;
-maybe;наверное, чай;/ˈmeɪbi/;;
-president;президент, председатель;/ˈprɛzɪdənt/;;
-story;история, рассказ, сказание;/ˈstɔri/;;
-working;работа, рабочий, трудовой;/ˈwərkɪŋ/;;
-course;курс;/kɔrs/;;
-health;здоровье, здравие;/hɛlθ/;;
-hope;надежда, надеяться;/hoʊp/;;
-important;важный, большой, крупный;/ˌɪmˈpɔrtənt/;;
-least;наименее, маломальский;/list/;;
-means;средство, возможность;/minz/;;
-news;новость, известие, весть;/nuz/;;
-within;внутри, в;/wɪˈθɪn/;;
-able;умелый;/ˈeɪbəl/;;
-book;книга, книжка, заказать;/bʊk/;;
-information;информация, пропаганда, справка;/ˌɪnˌfɔrˈmeɪʃən/;;
-local;местный, локальный, здешний;/ˈloʊkəl/;;
-oh;а, ой, ох;/oʊ/;;
-post;пост, должность, почта;/poʊst/;;
-thanks;спасибо, благодарность;/θæŋks/;;
-video;видео;/ˈvɪdioʊ/;;
-young;молодой, молоденький;/jəŋ/;;
-ago;назад;/əˈgoʊ/;;
-others;другой;/ˈəðərz/;;
-social;социальный, общественный;/ˈsoʊʃəl/;;
-talk;поговорить, разговаривать, сказать;/tɔk/;;
-court;суд, двор, придворный;/kɔrt/;;
-fact;факт, быль;/fækt/;;
-given;данный, дано;/ˈgɪvɪn/;;
-half;половина, наполовину, вдвое;/hæf/;;
-hand;рука, ручной, вручить;/hænd/;;
-level;уровень, сравнить, сравнивать;/ˈlɛvəl/;;
-mind;ум, разум, голова;/maɪnd/;;
-often;часто, зачастую;/ˈɔfən/;;
-single;единичный, одиночный, холостой;/ˈsɪŋgəl/;;
-become;стать, становиться, превратиться;/bɪˈkəm/;;
-body;тело, корпус, орган;/ˈbɑdi/;;
-coming;приход, предстоящий, приезд;/ˈkəmɪŋ/;;
-control;контроль, контролировать, проверка;/kənˈtroʊl/;;
-death;смерть, гибель, смертный;/dɛθ/;;
-guy;мужик, парень, тип;/gaɪ/;;
-hours;час;/aʊərz/;;
-office;кабинет, офис, бюро;/ˈɔfəs/;;
-pay;платить, заплатить, плата;/peɪ/;;
-problem;проблема, задача, фигня;/ˈprɑbləm/;;
-south;южный, юг, зюйд;/saʊθ/;;
-true;верный, истинный, настоящий;/tru/;;
-almost;почти, практически, почитай;/ˈɔlˌmoʊst/;;
-fuck;блядь, хуй, трахать;/fək/;;
-history;история;/ˈhɪstəri/;;
-known;известный;/noʊn/;;
-large;большой, крупный;/lɑrʤ/;;
-lost;погибший, потерянный, забытый;/lɔst/;;
-room;комната, номер, терем;/rum/;;
-several;ряд, несколькие;/ˈsɛvərəl/;;
-taking;взятие, приём;/ˈteɪkɪŋ/;;
-university;университет, университетский;/ˌjunəˈvərsəti/;;
-win;выиграть, победить, побеждать;/wɪn/;;
-wrong;неправильно, обида, кривой;/rɔŋ/;;
-along;по, по-над, вдоль;/əˈlɔŋ/;;
-anyone;любой, кто-нибудь, кто-либо;/ˈɛniˌwən/;;
-girl;девушка, девочка, девчонка;/gərl/;;
-matter;дело, материя;/ˈmætər/;;
-pretty;довольно, порядком, мило;/ˈprɪti/;;
-air;воздух, воздушный, ария;/ɛr/;;
-bit;кусок, зубок, огрызок;/bɪt/;;
-hit;хит, попадание, бить;/hɪt/;;
-needs;запросы, нуждаемость;/nidz/;;
-nice;мило, приятный, симпатичный;/nis/;;
-playing;игровой, игра, игральный;/pleɪɪŋ/;;
-probably;наверное, похоже, наверно;/ˈprɑbəˌbli/;;
-saying;поговорка, пословица, изречение;/seɪɪŋ/;;
-understand;понять, понимать, постичь;/ˌəndərˈstænd/;;
-yeah;ага;/jæ/;;
-class;класс, ранг, категория;/klæs/;;
-close;плотно, закрывать, закрыть;/kloʊz/;;
-idea;идея, понятие, мысль;/aɪˈdiə/;;
-international;международный, интернационал, интернациональный;/ˌɪnərˈnæʃənɑl/;;
-past;мимо, прошлый, прошедший;/pæst/;;
-possible;возможный, допустимый;/ˈpɑsəbəl/;;
-wanted;угодно;/ˈwɔntɪd/;;
-cause;вызывать, причинить, причинять;/kɔz/;;
-due;взнос, причитающийся, следуемый;/du/;;
-happy;счастливый, благополучный, весёлый;/ˈhæpi/;;
-human;человеческий, людской, человечий;/ˈjumən/;;
-months;подолгу;/mənθs/;;
-move;двигаться, передвигаться, ходить;/muv/;;
-question;вопрос, расспрашивать;/kˈwɛʃən/;;
-series;серия, сериал;/ˈsɪriz/;;
-ask;спросить, спрашивать, пригласить;/æsk/;;
-community;община, сообщество, общность;/kəmˈjunɪti/;;
-data;данные;/ˈdætə/;;
-leave;выйти, уйти, оставить;/liv/;;
-north;северо, север, северный;/nɔrθ/;;
-saw;пила, пилить, поговорка;/sɔ/;;
-special;специальный, особый, особенный;/ˈspɛʃəl/;;
-watch;часы, следить, посмотреть;/wɔʧ/;;
-either;также, любой;/ˈiðər/;;
-fucking;хуй;/ˈfəkɪŋ/;;
-future;будущий, будущность;/fˈjuʧər/;;
-light;свет, огонь, светлый;/laɪt/;;
-low;низкий, низко, тихий;/loʊ/;;
-million;миллион;/ˈmɪljən/;;
-morning;утро, утренний;/ˈmɔrnɪŋ/;;
-police;полиция, полицейский;/pəˈlis/;;
-short;короткий, краткий, небольшой;/ʃɔrt/;;
-stay;остаться, оставаться, пребывание;/steɪ/;;
-taken;снятой, снятый, очарованный;/ˈteɪkən/;;
-age;возраст, период, век;/eɪʤ/;;
-deal;торговать, сделка, нанести;/dil/;;
-rather;скорее, довольно, скорей;/ˈrəðər/;;
-reason;причина, повод, рассуждать;/ˈrizən/;;
-red;красный, рыжий;/rɛd/;;
-report;данные, сообщить, протокол;/rɪˈpɔrt/;;
-soon;сейчас, вскоре, скоро;/sun/;;
-third;третий;/θərd/;;
-turn;тур, поворот, оборот;/tərn/;;
-whether;ли;/ˈwɛðər/;;
-among;среди;/əˈməŋ/;;
-check;проверять, проверить, счёт;/ʧɛk/;;
-development;развитие;/dɪˈvɛləpmənt/;;
-form;форма, класс, образ;/fɔrm/;;
-further;далее, дальше, дальнейший;/ˈfərðər/;;
-heart;сердце, сердечный, дух;/hɑrt/;;
-minutes;протокол;/ˈmɪnəts/;;
-myself;себя;/ˌmaɪˈsɛlf/;;
-services;заслуга;/ˈsərvɪsɪz/;;
-yourself;сам, себя;/ˈjɔrsɛlf/;;
-act;закон, действовать, играть;/ækt/;;
-fire;огонь, пожар, уволить;/faɪər/;;
-fun;забава, потеха, прикол;/fən/;;
-living;проживание;/ˈlɪvɪŋ/;;
-major;майор, важнейший, мажорный;/ˈmeɪʤər/;;
-phone;телефон;/foʊn/;;
-art;искусство;/ɑrt/;;
-behind;за, позади;/bɪˈhaɪnd/;;
-building;строительство, здание, сооружение;/ˈbɪldɪŋ/;;
-market;рынок, майдан, базар;/ˈmɑrkɪt/;;
-near;рядом, около, возле;/nɪr/;;
-plan;план, планировать, замысел;/plæn/;;
-political;политический;/pəˈlɪtɪkəl/;;
-quite;довольно, вполне, довольно-таки;/kwaɪt/;;
-six;шесть, шестеро, шестёрка;/sɪks/;;
-west;запад, западный, вест;/wɛst/;;
-works;объект, творчество, предприятие;/wərks/;;
-available;имеющийся, наличный, доступный;/əˈveɪləbəl/;;
-education;образование, воспитание;/ˌɛʤəˈkeɪʃən/;;
-final;финальный, окончательный, конечный;/ˈfaɪnəl/;;
-former;бывший, первый, прежний;/ˈfɔrmər/;;
-front;первый, фронт, фас;/frənt/;;
-kids;ребята, ребятишки, малышня;/kɪdz/;;
-list;список, реестр, перечень;/lɪst/;;
-ready;готовый, находчивый, ликвидный;/ˈrɛdi/;;
-sometimes;иногда, подчас, часом;/ˈsəmˌtaɪmz/;;
-son;сын, сынок, сынишка;/sən/;;
-bring;привести, принести, приносить;/brɪŋ/;;
-college;колледж, училище, вуз;/ˈkɑlɪʤ/;;
-current;течение, ток, текущий;/ˈkɑrənt/;;
-example;пример, образец;/ɪgˈzæmpəl/;;
-london;лондонский;/ˈləndən/;;
-meet;познакомиться, встретиться, встретить;/mit/;;
-program;программа, программный, программировать;/ˈproʊˌgræm/;;
-type;тип, стать, типовой;/taɪp/;;
-baby;младенец, дитя, малютка;/ˈbeɪbi/;;
-chance;шанс, возможность, случай;/ʧæns/;;
-march;март, поход, марш;/mɑrʧ/;;
-process;процесс, перерабатывать;/ˈprɔˌsɛs/;;
-song;песня, песенка, пение;/sɔŋ/;;
-study;изучение, учить, изучать;/ˈstədi/;;
-word;слово, глагол;/wərd/;;
-across;через;/əˈkrɔs/;;
-action;действие, иск, поступок;/ˈækʃən/;;
-clear;открыть, ясно, открывать;/klɪr/;;
-himself;себя, сам;/hɪmˈsɛlf/;;
-month;месяц, месячник;/mənθ/;;
-outside;вне, снаружи, наружу;/ˈaʊtˈsaɪd/;;
-words;текст;/wərdz/;;
-board;министерство, доска, коллегия;/bɔrd/;;
-cost;стоимость, стоить, себестоимость;/kɔst/;;
-cut;резать, нарезать, разрез;/kət/;;
-field;поле, полевой, поприще;/fild/;;
-main;главный, основной, магистраль;/meɪn/;;
-moment;момент, миг, минута;/ˈmoʊmənt/;;
-road;дорога, рейд, дорожный;/roʊd/;;
-thinking;мышление, мыслящий;/ˈθɪŋkɪŋ/;;
-town;город, городской, городок;/taʊn/;;
-wants;требование;/wɔnts/;;
-department;отдел, департамент, ведомство;/dɪˈpɑrtmənt/;;
-energy;энергия, энергетический, дееспособность;/ˈɛnərʤi/;;
-fight;бороться, борьба, сражаться;/faɪt/;;
-fine;штраф, прекрасный, мелко;/faɪn/;;
-force;заставить, войска, заставлять;/fɔrs/;;
-hear;услышать, слышать, слушать;/hir/;;
-issue;вопрос, выпуск, выдать;/ˈɪʃu/;;
-re;ре;/ri/;;
-rest;отдохнуть, отдых, покой;/rɛst/;;
-running;бег, бегом, слезоточивый;/ˈrənɪŋ/;;
-space;пространство, космос, расстояние;/speɪs/;;
-summer;лето;/ˈsəmər/;;
-term;срок, термин, условие;/tərm/;;
-wife;жена, супруга;/waɪf/;;
-america;америка;/əˈmɛrɪkə/;;
-beautiful;прекрасный, хороший, красивый;/ˈbjutəfəl/;;
-date;дата, число, датировать;/deɪt/;;
-land;страна, суша, земля;/lænd/;;
-miss;мисс, девушка, пропускать;/mɪs/;;
-project;проект, строительство, замысел;/ˈprɑʤɛkt/;;
-sex;секс, пол, половой;/sɛks/;;
-shot;выстрел, снятый, кадр;/ʃɑt/;;
-site;место;/saɪt/;;
-strong;сильный, крепкий, мощный;/strɔŋ/;;
-account;объяснить, описание, отчёт;/əˈkaʊnt/;;
-especially;особенно, сугубо, специально;/əˈspɛʃəli/;;
-eyes;отворачиваться;/aɪz/;;
-include;включать, охватить, зачислить;/ˌɪnˈklud/;;
-june;июнь;/ʤun/;;
-parents;родители;/ˈpɛrənts/;;
-period;период, срок;/ˈpɪriəd/;;
+the;(артикль);/ðə/;Tom asked how much the ticket cost.;Том спросил сколько стоит билет.
+to;к, до;(частица to);/tɪ/;
+and;и;/ənd/;Tom and Mary are expecting a baby.;Том и Мэри ждут ребёнка.
+of;из, о (предлог of);/əv/;You are the tallest of us all.;Ты выше всех нас.
+in;в;/ɪn/;How long will you stay in Boston?;Ты надолго в Бостон?
+is;есть, является;/ɪz/;There is a flower on the table.;На столе цветок.
+for;для, за;/fər/;I've already been married for three years.;Я уже три года замужем.
+that;тот, что;/ðət/;Where did Tom buy that t-shirt?;Где Том купил эту футболку?
+you;ты, вы;/ju/;Did you come from a musical family?;Ты из музыкальной семьи?
+it;оно, это;/ɪt/;It looks like Tom is falling asleep.;Похоже Том засыпает.
+on;на;/ɔn/;Tom was sitting on the couch alone.;Том сидел один на диване.
+with;с;/wɪθ/;I helped my father with the work.;Я помогла отцу с работой.
+this;этот;/ðɪs/;This tree is older than I am.;Это дерево старше чем я.
+was;был, была;/wɑz/;I was fortunate to make his acquaintance.;Мне повезло познакомиться с ним.
+be;быть;/bi/;You shouldn't be afraid of the future.;Не стоит бояться будущего.
+as;как;/ɛz/;Stay as long as you want to.;Оставайся на сколько хочешь.
+are;есть, являются;/ər/;How are you going to do it?;Как ты собираешься сделать это?
+have;иметь;/hæv/;Tom wanted to have lots of children.;Том хотел иметь много детей.
+at;в, у, на;/æt/;Tom is usually at home on sundays.;По воскресеньям Том обычно дома.
+he;он;/hi/;He wants to live in the city.;Он хочет жить в городе.
+not;не;/nɑt/;I was told not to do that.;Мне сказали этого не делать.
+by;у, рядом, посредством;/baɪ/;By the way how old are you.;Кстати сколько вам лет.
+but;но;/bət/;Tom thinks of no one but himself.;Том думает только о себе.
+from;из, от;/frəm/;Tom wiped the sweat from his forehead.;Том вытер пот со лба.
+my;мой;/maɪ/;My dog is smaller than yours is.;Моя собака меньше твоей.
+or;или;/ər/;Do you want to know or not?;Ты хочешь знать или нет?
+we;мы;/wi/;We hired a good lawyer for Tom.;Мы наняли Тому хорошего адвоката.
+an;(артикль);/ən/;My house doesn't have an air conditioner.;В моём доме нет кондиционера.
+your;твой, ваш;/jʊr/;Your remarks are out of place here.;Ваши замечания здесь неуместны.
+all;все, всё;/ɔl/;Tom has answered all of the questions.;Том ответил на все вопросы.
+so;так, поэтому;/soʊ/;Why do you hate Boston so much?;Почему вы так ненавидите Бостон?
+his;его;/hɪz/;Tom was late for his own wedding.;Том опоздал на собственную свадьбу.
+they;они;/ðeɪ/;They say that I'm an old woman.;Меня считают старухой.
+me;мне, меня;/mi/;Is that why you called me here?;Ты поэтому меня сюда позвал?
+if;если;/ɪf/;If you need to leave then leave.;Если вам нужно уходить уходите.
+one;один, раз;/wən/;How much does the blue one cost?;Синяя сколько стоит?
+can;мочь, уметь;/kən/;You can sing if you want to.;Можешь спеть если хочешь.
+will;будет (вспом. глагол);/wɪl/;Tom has lost the will to live.;Том потерял волю к жизни.
+just;просто, только что;/ʤɪst/;Tom just wants to stay at home.;Том просто хочет остаться дома.
+like;нравиться, как;/laɪk/;I knew it would be like this.;Я знал что так будет.
+about;о, около;/əˈbaʊt/;We don't have anything to worry about.;Нам не о чем беспокоиться.
+up;вверх;/əp/;She is used to getting up early.;Она привыкла вставать рано.
+out;вне, наружу;/aʊt/;His story turned out to be true.;Его история оказалась правдой.
+what;что, какой;/wət/;What are you and Tom up to?;Вы что с Томом задумали?
+has;имеет;/həz/;Tom has recently changed his telephone number.;Том недавно сменил номер телефона.
+when;когда;/wɪn/;I'll tell you when I get back.;Я расскажу тебе когда вернусь.
+more;больше, более;/mɔr/;What could be more important than this?;Что может быть важнее этого?
+do;делать;/du/;I don't have to do that now.;Мне необязательно делать это сейчас.
+were;были;/wər/;We were surprised to see Tom there.;Мы удивились увидев там Тома.
+who;кто;/hu/;I'm the one who stole your money.;Это я украл твои деньги.
+it's;это-то;/ɪts/;It's not easy being married to Tom.;Нелегко быть замужем за Томом.
+their;их;/ðɛr/;Tom has thanked everyone for their help.;Том поблагодарил всех за помощь.
+there;там, (есть);/ðɛr/;Is there an aquarium at this zoo?;В этом зоопарке есть аквариум?
+her;её, ей;/hər/;I've known her for a long time.;Я уже давно её знаю.
+which;который, какой;/wɪʧ/;Please tell me which one to take.;Скажи мне пожалуйста какое брать.
+time;время, раз;/taɪm/;I haven't cried in a long time.;Я уже давно не плакал.
+get;получать, становиться;/gɪt/;Tom sent me over to get you.;Том послал меня забрать тебя.
+been;был (причастие be);/bɪn/;I thought the meeting had been canceled.;Я думал собрание отменили.
+would;бы (вспом. глагол);/wʊd/;You promised that you would help me.;Вы обещали что поможете мне.
+she;она;/ʃi/;She doesn't have any enemies at all.;У неё вообще нет врагов.
+new;новый;/nu/;Why do you need a new umbrella?;Зачем тебе нужен новый зонт?
+people;люди;/ˈpipəl/;This book was written by three people.;У этой книги три автора.
+how;как;/haʊ/;How do you usually spend your day?;Как ты обычно проводишь день?
+some;некоторые, несколько;/səm/;I told Tom to get some sleep.;Я сказал Тому немного поспать.
+also;также, тоже;/ˈɔlsoʊ/;Tom is also in love with Mary.;Том тоже влюблён в Мэри.
+them;им, их;/ðɛm/;I'm the only one who knows them.;Я единственный кто знает их.
+now;сейчас;/naʊ/;Do you want to go there now?;Хотите сейчас туда поехать?
+other;другой;/ˈəðər/;We started hugging and kissing each other.;Мы стали обниматься и целоваться.
+its;его, её (о предмете);/ɪts/;Please put it back in its place.;Поставь это пожалуйста на место.
+our;наш;/ɑr/;Tom is in need of our help.;Том нуждается в нашей помощи.
+than;чем;/ðən/;Tom is smarter than Mary isn't he.;Том ведь умнее Мэри.
+only;только;/ˈoʊnli/;He is the only child they have.;Он их единственный ребёнок.
+after;после, спустя, вслед;/ˈæftər/;I go to bed after I study.;Я лягу спать после учёбы.
+first;первый;/fərst/;It's the first time I've heard that.;Впервые слышу.
+him;ему, его;/ɪm/;It's no use asking him for help.;Бесполезно просить его о помощи.
+into;в, внутрь;/ˈɪntu/;The students divided themselves into three groups.;Студенты разделились на три группы.
+know;знать, узнать, уметь;/noʊ/;Do you know what the trouble is?;Ты знаешь что такое трудность?
+see;видеть;/si/;Thank you for coming to see me.;Спасибо что навестил меня.
+two;два;/tu/;Two wrongs do not make a right.;Злом зла не поправишь.
+make;делать, создавать;/meɪk/;He knows how to make a radio.;Он знает как собрать радиоприёмник.
+over;над, через;/ˈoʊvər/;Do you know those people over there?;Вы знаете вон тех людей?
+think;думать, придумать, мыслить;/θɪŋk/;I think you have made a mistake.;Я думаю ты совершил ошибку.
+any;любой, какой-нибудь;/ˈɛni/;I will not see him any more.;Я больше его не увижу.
+then;потом, тогда;/ðɛn/;I feel sad every now and then.;Временами мне грустно.
+could;мог бы;/kʊd/;I wish I could buy a motorcycle.;Хотел бы я купить мотоцикл.
+back;назад, обратно, спина;/bæk/;Please come back as soon as possible.;Возвращайся как можно скорее пожалуйста.
+these;эти;/ðiz/;Why do these kinds of things happen?;Почему такое происходит?
+us;нас, нам;/ˈjuˈɛs/;Do you want us to help you?;Хочешь мы тебе поможем?
+want;потребность, хотеть, захотеть;/wɔnt/;I didn't want to be a burden.;Я не хотел быть обузой.
+because;потому что;/bɪˈkəz/;Tom passed out because of the heat.;Том потерял сознание от жары.
+well;ну, ладно, хорошо;/wɛl/;Tom gets along very well with Mary.;Том прекрасно ладит с Мэри.
+said;сказал;/sɛd/;Tom said that Mary was at home.;Том сказал что Мэри дома.
+way;путь, способ;/weɪ/;We'll find a way to use it.;Мы найдём этому применение.
+most;наиболее, большинство;/moʊst/;Which one do you like the most?;Какой тебе больше всего нравится?
+much;много;/məʧ/;How much did you buy that for?;За сколько ты это купила?
+very;очень;/ˈvɛri/;Tom obviously doesn't like Mary very much.;Том явно недолюбливает Мэри.
+where;где;/wɛr/;Where are you going for the summer?;Куда едешь на лето?
+even;даже;/ˈivɪn/;He is even older than his wife.;Он даже старше своей жены.
+should;следовать, нужно;/ʃʊd/;I'm the one who should do that.;Это мне следует это сделать.
+may;мочь, можно;/meɪ/;May I take a picture of you?;Можно вас сфотографировать?
+here;здесь, тут, вот;/hir/;You'd better wait until Tom gets here.;Тебе лучше подождать здесь Тома.
+really;действительно, уж, так-таки;/ˈrɪli/;You really do need to do that.;Вам действительно нужно это сделать.
+did;делал (прош. от do);/dɪd/;Did you find out who did it?;Ты выяснил кто это сделал?
+right;право, правильно, правый;/raɪt/;It is obvious that he is right.;Очевидно что он прав.
+work;работа, работать, деятельность;/wərk/;Tom used to work for the government.;Том раньше работал на правительство.
+year;год;/jɪr/;This is the best time of year.;Это лучшее время года.
+years;лета;/jɪrz/;How many years have you been married?;Сколько лет ты уже замужем?
+being;нахождение, бытие, творение;/biɪŋ/;I don't like being on my own.;Мне не нравится быть одному.
+too;слишком, также, тоже;/tu/;The coat is too big for Tom.;Пальто Тому велико.
+before;перед, раньше, прежде;/ˌbiˈfɔr/;You have to eat before you go.;Тебе надо поесть перед выходом.
+off;с, прочь;/ɔf/;Why didn't Tom take off his jacket?;Почему Том не снял пиджак?
+why;почему, зачем, отчего;/waɪ/;Why are you afraid to do that?;Почему вы боитесь это делать?
+made;сделал, сделанный;/meɪd/;I've made a mistake in my calculations.;Я допустила ошибку в вычислениях.
+still;ещё, всё-таки, всё;/stɪl/;Do you think Tom is still afraid?;Думаете Том всё ещё боится?
+take;взять, принять, принимать;/teɪk/;Can you take a photo of us?;Вы можете нас сфотографировать?
+got;попасть;/gɑt/;You've got the right to be happy.;Ты имеешь право быть счастливым.
+many;много;/ˈmɛni/;How many countries have you been to?;В скольких странах ты был?
+never;никогда;/ˈnɛvər/;I think he will never come back.;Думаю он никогда не вернётся.
+life;жизнь, существование, быт;/laɪf/;I've been doing that all my life.;Я всю жизнь этим занимаюсь.
+say;сказать, рассказать, слышь;/seɪ/;I didn't know what I should say.;Я не знал что сказать.
+world;мир, свет, всемирный;/wərld/;I want to travel around the world.;Я хочу объехать весь свет.
+down;вниз;/daʊn/;I don't want to let Tom down.;Я не хочу подводить Тома.
+great;великий, большой, гениальный;/greɪt/;I think Tom did a great job.;Думаю Том проделал отличную работу.
+through;через, сквозь, насквозь;/θru/;Tom ran his fingers through his hair.;Том провёл пальцами сквозь волосы.
+last;последний, прошлый, длиться;/læst/;How much did you drink last night?;Сколько ты вчера вечером выпил?
+that's;это-то;/ðæts/;Do you think that's going to happen?;Вы думаете это произойдёт?
+while;когда, пока;/waɪl/;I don't mind waiting for a while.;Я не против немного подождать.
+best;лучший, наилучший;/bɛst/;It's the best job in the world.;Это лучшая работа в мире.
+such;такой;/səʧ/;How dare you say such a thing?;Как вы смеете такое говорить?
+love;любовь, любить, любовный;/ləv/;I think Tom really does love you.;Думаю Том действительно тебя любит.
+home;дом, родной, домашний;/hoʊm/;I didn't want to go back home.;Я не хотел возвращаться домой.
+long;длинный, долго;/lɔŋ/;I haven't laughed in a long time.;Я давно не смеялся.
+look;смотреть, взгляд;/lʊk/;That color doesn't look good on me.;Этот цвет мне не идёт.
+something;что-то, чего-то, что-нибудь;/ˈsəmθɪŋ/;Don't you have something better to do.;Вам больше заняться нечем.
+use;использовать;/juz/;We'll find a way to use it.;Мы найдём ей применение.
+can't;нельзя;/kænt/;I want to leave but I can't.;Хочу уйти но не могу.
+used;отработанный, стреляный, погашенный;/juzd/;I remember how he used to be.;Я помню каким он бывал.
+both;двух, оба;/boʊθ/;Both of the brothers are still living.;Оба брата ещё живы.
+every;каждый, любой;/ˈɛvəri/;I used to swim here every day.;Я плавал здесь каждый день.
+am;есть (я есть);/æm/;I think you know who I am.;Думаю ты знаешь кто я.
+come;приходить;/kəm/;The price of coffee has come down.;Цена на кофе упала.
+part;часть;/pɑrt/;Will you take part in the ceremony?;Вы примете участие в церемонии?
+state;государство, государственный, состояние;/steɪt/;He is content with his present state.;Его устраивает его текущее положение.
+three;три, тройка;/θri/;He is the tallest of the three.;Среди троих он самый высокий.
+around;вокруг, примерно, около;/əraʊnd/;You're not from around here are you.;Вы ведь не местный.
+between;между;/bɪtˈwin/;I see a man between the trees.;Я вижу человека между деревьями.
+always;всегда, всё, постоянно;/ˈɔlˌweɪz/;Why is it that you're always late?;Почему это вы всегда опаздываете?
+better;лучше, лучший;/ˈbɛtər/;I think you'll like this one better.;Думаю это вам больше понравится.
+find;находить;/faɪnd/;You'll find it under the kitchen stove.;Это в кухне под печкой.
+high;высокий, высоко, высокопоставленный;/haɪ/;It's high time you took a vacation.;Тебе давно пора в отпуск.
+little;мало, маленький, понемногу;/ˈlɪtəl/;There is little water in the pond.;В пруду немного воды.
+old;старый, давний, старенький;/oʊld/;The old clock is still in use.;Старые часы всё ещё используются.
+since;с, поскольку;/sɪns/;I've been working here since high school.;Я работаю здесь со школы.
+another;другой;/əˈnəðər/;Do you want another one of these?;Хочешь ещё одно из этих?
+own;собственный, владеть, обладать;/oʊn/;He has a house of his own.;У него есть собственный дом.
+things;вещь, пожитки;/θɪŋz/;He told me good things about you.;Он хорошо о тебе отзывался.
+under;под;/ˈəndər/;The three of you are under arrest.;Вы трое арестованы.
+game;кон, дичь, игра;/geɪm/;What kind of game are you playing?;В какую игру вы играете?
+thing;вещь, штука;/θɪŋ/;That isn't an easy thing to do.;Это непросто сделать.
+give;дать, давать, задать;/gɪv/;I have to give it to Tom.;Мне надо отдать её Тому.
+place;место, установить, устанавливать;/pleɪs/;He acted like he owned the place.;Он вёл себя будто хозяин.
+school;школа, училище, школьный;/skul/;He set fire to the school building.;Он поджёг школу.
+again;снова, опять, вновь;/əˈgɛn/;I didn't expect to see you again.;Не ожидал вас снова увидеть.
+next;следующий, очередной, ближайший;/nɛkst/;What am I supposed to do next?;Что мне дальше делать?
+each;каждый;/iʧ/;When will we see each other again?;Когда мы ещё увидимся?
+without;без;/wɪˈθaʊt/;I promise not to leave without you.;Обещаю без вас не уходить.
+against;против, о;/əˈgɛnst/;I hit my knee against the door.;Я ударился коленом о дверь.
+end;конец, закончить, завершение;/ɛnd/;We're going to stay until the end.;Мы останемся до конца.
+found;создать, создавать, учредить;/faʊnd/;Tom found it hard to make friends.;Тому было трудно заводить друзей.
+must;нужно, должный, приходиться;/məst/;We must not allow this to happen.;Мы не должны этого допустить.
+show;показать, показывать, показ;/ʃoʊ/;What did you want to show me?;Что ты хотел мне показать?
+feel;чувствовать, почувствовать, ощущать;/fil/;I feel very sorry for your sister.;Мне очень жаль твою сестру.
+sure;уверенный, беспроигрышный, верный;/ʃʊr/;I'm not sure that Tom would help.;Не уверен что Том поможет.
+team;команда, бригада, отряд;/tim/;We need to work as a team.;Нам нужно работать как команде.
+ever;когда-либо, никогда, когда-нибудь;/ˈɛvər/;Tom won't ever be able to win.;Том никогда не сможет победить.
+keep;сохранить, держать, хранить;/kip/;Do you keep in touch with Tom?;Ты поддерживаешь связь с Томом?
+might;мощь, могущество, мочь;/maɪt/;I think Tom might change his mind.;Я думаю Том может передумать.
+put;поставить, ставить, положить;/pʊt/;I'll put the flowers in the vase.;Я поставлю цветы в вазу.
+money;деньги, бабки, денежный;/ˈməni/;I think you owe me some money.;Думаю ты должен мне денег.
+free;освободить, свободный, бесплатный;/fri/;You're free to say what you think.;Вы вольны говорить что думаете.
+second;второй, секунда, вторичный;/ˈsɛkənd/;I'll be back in just a second.;Я вернусь через секунду.
+someone;кто-нибудь, кто-либо, некто;/ˈsəmˌwən/;Tom is married to someone else now.;Том сейчас женат на другой.
+away;прочь, подальше;/əˈweɪ/;Tom is going away for a month.;Том уезжает на месяц.
+left;левый;/lɛft/;Tom left his phone in his car.;Том оставил телефон в машине.
+number;число, номер;/ˈnəmbər/;What is the total number of students?;Каково общее число учеников?
+city;городской, общегородской;/ˈsɪti/;I want to go to the city.;Я хочу съездить в город.
+days;подолгу;/deɪz/;He stayed there a couple of days.;Он пробыл там пару дней.
+lot;участок, участь, удел;/lɔt/;A lot of trees were cut down.;Много деревьев было срублено.
+name;имя, название, назвать;/neɪm/;You need to sign your name here.;Вам нужно расписаться здесь.
+play;играть, игра, сыграть;/pleɪ/;What is the most popular play now?;Какая пьеса сейчас самая популярная?
+until;до, доколе;/ənˈtɪl/;Let's wait here until the rain stops.;Давайте подождём пока дождь закончится.
+company;компания, общество, рота;/ˈkəmpəˌni/;I've been asked to quit the company.;Меня попросили уйти из компании.
+few;мало, горстка;/fju/;Only a few people didn't go there.;Лишь немногие не пошли туда.
+let;предоставить, пустить, пускать;/lɛt/;Let me have a talk with Tom.;Позвольте мне поговорить с Томом.
+real;настоящий, реал, реальный;/ril/;Real friendship is more valuable than money.;Настоящая дружба дороже денег.
+called;именуемый;/kɔld/;A doctor was called in right away.;Врача вызвали сразу же.
+different;иной, другой, разный;/ˈdɪfərənt/;Tom is like a different person now.;Том теперь словно другой человек.
+having;имеющий;/ˈhævɪŋ/;Having finished it he went to bed.;Закончив это он лёг спать.
+set;задавать, набор, обстановка;/sɛt/;Tom asked me to set the table.;Том попросил меня накрыть стол.
+thought;мысль, дума, мышление;/θɔt/;Tom thought that you were in Boston.;Том думал ты в бостоне.
+done;сваренный;/dən/;I regret having done such a thing.;Я сожалею что так поступил.
+getting;добывание;/ˈgɪtɪŋ/;Getting rid of bad habits is hard.;Избавиться от плохих привычек трудно.
+god;бог, господь, боже;/gɑd/;To love life is to love god.;Любить жизнь — любить бога.
+government;правительство, правление, правительственный;/ˈgəvərnmənt/;Many people do not trust the government.;Многие люди не доверяют правительству.
+group;группа, групповой, коллектив;/grup/;The group is running on the beach.;Группа бежит по пляжу.
+looking;уход;/ˈlʊkɪŋ/;Is this what you were looking for?;Вы это искали?
+public;общественный, публика, государственный;/ˈpəblɪk/;Tom is used to speaking in public.;Том привык выступать на публике.
+top;верх, вершина, марс;/tɔp/;Put the book on the top shelf.;Положи книгу на верхнюю полку.
+women;женщина;/ˈwɪmən/;I've always been attracted to older women.;Меня всегда привлекали женщины постарше.
+business;дело, бизнес, деловой;/ˈbɪznɪs/;Tom wanted to start his own business.;Том хотел начать свой бизнес.
+care;забота, осторожность, попечение;/kɛr/;You'd better take care of it soon.;Вам лучше этим скоро заняться.
+start;начать, старт, отправиться;/stɑrt/;He suggested we should start at once.;Он посоветовал нам сразу отправиться.
+system;система, строй, схема;/ˈsɪstəm/;Tom explained how the system worked.;Том объяснил как работает система.
+times;время;/taɪmz/;How many times have you gone there?;Сколько раз ты туда ездил?
+week;неделя;/wik/;What day of the week is it?;Какой это день недели?
+already;уже;/ɔˈrɛdi/;Tom has already promised to do that.;Том уже пообещал это сделать.
+anything;что-нибудь, что-либо;/ˈɛniˌθɪŋ/;I can do anything I want to.;Я могу делать что хочу.
+case;случай, факт, ящик;/keɪs/;I hope that is not the case.;Надеюсь это не тот случай.
+nothing;нечего, ничто, пшик;/ˈnəθɪŋ/;We have nothing to be afraid of.;Нам нечего бояться.
+person;человек, лицо, личность;/ˈpərsən/;Tom was the first person to arrive.;Том был первым прибывшим.
+today;сегодня, теперь, сегодняшний;/təˈdeɪ/;Tom is in a bad mood today.;Том сегодня в плохом настроении.
+change;изменить, менять, изменение;/ʧeɪnʤ/;The doctor advised a change of air.;Врач порекомендовал смену обстановки.
+enough;достаточно, достаточный;/ɪˈnəf/;There won't be enough food for everyone.;Еды на всех не хватит.
+everything;весь;/ˈɛvriˌθɪŋ/;Do I have to do everything myself?;Мне всё делать самому?
+full;полным-полно, исполненный, преисполненный;/fʊl/;He carried a bag full of apples.;Он нёс сумку полную яблок.
+live;жить, пожить, проживать;/lɪv/;I live in the suburbs of Boston.;Я живу в пригороде бостона.
+making;создание, изготовление, сочинение;/ˈmeɪkɪŋ/;Making friends is easy when you're young.;В молодости заводить друзей легко.
+point;пункт, показать, суть;/pɔɪnt/;I think I got my point across.;Думаю я донёс свою мысль.
+read;читать, прочитать, прочесть;/rɛd/;Tom didn't want to read a book.;Том не хотел читать книгу.
+yet;а, ещё;/jɛt/;Have you talked to the doctors yet?;Ты уже говорил с врачами?
+four;четыре, четверо, вчетвером;/fɔr/;Tom left at four in the morning.;Том уехал в четыре утра.
+hard;усердно, больно, жёсткий;/hɑrd/;Tom has a hard time making friends.;Том с трудом заводит друзей.
+mean;означать, значить, средний;/min/;I didn't mean to hurt your feelings.;Я не хотел вас обидеть.
+once;когда-то, раз;/wəns/;I visited him once in a while.;Я посещал его иногда.
+support;поддерживать, поддержать, опора;/səˈpɔrt/;Tom thanked the team for their support.;Том поблагодарил команду за поддержку.
+tell;сказать, рассказывать, рассказать;/tɛl/;Tell me what I have to do.;Скажите что мне надо делать.
+including;включая;/ˌɪnˈkludɪŋ/;There are six people including him.;Здесь шесть человек включая его.
+music;музыка, ноты;/mˈjuzɪk/;I like to listen to good music.;Я люблю слушать хорошую музыку.
+power;власть, сила, мощность;/paʊər/;Mary believes in the power of love.;Мэри верит в силу любви.
+stop;остановить, прекратить, стоп;/stɑp/;I need to stop reading the news.;Мне нужно перестать читать новости.
+believe;верить, поверить, думать;/bɪˈliv/;It's hard to believe that's a coincidence.;Трудно поверить что это совпадение.
+call;звать, звонить;/kɔl/;Tom said that he'd call Mary back.;Том сказал что перезвонит Мэри.
+head;глава, голова, головной;/hɛd/;He laid his head on the pillow.;Он положил голову на подушку.
+national;национальный, государственный, народный;/ˈnæʃənəl/;Hunting is not allowed in national parks.;В национальных парках охота запрещена.
+white;белый, российский, белок;/waɪt/;My mother made me a white dress.;Мать сшила мне белое платье.
+far;далеко, гораздо, вдаль;/fɑr/;Is it far from here to Boston?;До бостона далеко?
+job;работа, задание, должность;/ʤɑb/;How has the internet changed your job?;Как интернет изменил вашу работу?
+side;сторона, бок, борт;/saɪd/;Tom told his side of the story.;Том рассказал свою интерпретацию событий.
+though;хотя, хоть, однако;/ðoʊ/;It looks as though it may rain.;Кажется будет дождь.
+try;испытывать, попробовать, испытать;/traɪ/;I'd also like to have a try.;Я бы тоже хотел попробовать.
+went;попасть;/wɛnt/;We went back down into the cellar.;Мы снова спустились в подвал.
+actually;вообще-то, на самом деле, действительно;/ˈæˌkʧuəli/;Do you actually feel sorry for Tom?;Тебе уже жаль Тома?
+american;американский, американец;/əˈmɛrɪkən/;The war had united the American people.;Война объединила американский народ.
+later;там, позже, после;/ˈleɪtər/;I didn't realize it until much later.;Я долго не осознавала этого.
+less;менее, меньше, поменьше;/lɛs/;There is less time than I thought.;Времени меньше чем я думал.
+line;ряд, очередь, линия;/laɪn/;You're giving me the same old line.;Опять завела старую песню.
+order;приказ, заказ, сан;/ˈɔrdər/;His room is always out of order.;В его комнате постоянно беспорядок.
+party;партия, команда, вечеринка;/ˈpɑrti/;Tom was invited to a beach party.;Тома пригласили на пляжную вечеринку.
+run;бежать, ход, бегать;/rən/;My pen has run out of ink.;У моей ручки кончились чернила.
+says;говориться;/sɪz/;Tom says that he plans to win.;Том говорит что планирует выиграть.
+service;служба, сервис, обслуживание;/ˈsərvɪs/;I want to complain about the service.;Я хочу пожаловаться на обслуживание.
+country;страна, местность, деревня;/ˈkəntri/;Do people drink tea in your country.;В твоей стране пьют чай.
+open;открыть, открыто, открытый;/ˈoʊpən/;How did you get the door open?;Как вам удалось открыть дверь?
+season;сезон;/ˈsizən/;When will the rainy season be over?;Когда закончится сезон дождей?
+thank;поблагодарить, благодарить;/θæŋk/;Thank you very much for your invitation.;Большое спасибо вам за приглашение.
+children;ребята, ребятишки;/ˈʧɪldrən/;He is teaching Spanish to the children.;Он преподаёт детям испанский язык.
+everyone;каждый, весь;/ˈɛvriˌwən/;You stay here everyone else go outside.;Ты оставайся здесь остальные выходят.
+general;генерал, общий, генеральный;/ˈʤɛnərəl/;The mayor addressed the general public.;Мэр обратился к общественности.
+trying;томительный;/traɪɪŋ/;I'm trying to get my children back.;Я пытаюсь вернуть моих детей.
+united;единый, объединённый;/juˈnaɪtɪd/;The united states is a large country.;Сша - большая страна.
+using;через;/ˈjuzɪŋ/;Tom washes his hair without using shampoo.;Том моет голову без шампуня.
+area;площадь, район, районный;/ˈɛriə/;This is not my area of expertise.;Это не моя специализация.
+black;чёрный, черно, чернокожий;/blæk/;Tom is wearing a black shirt today.;Том сегодня в чёрной рубашке.
+following;следующий, вслед, последующий;/ˈfɑloʊɪŋ/;This took place on the following day.;Это случилось на следующий день.
+law;закон, право;/lɔ/;To obey the law is everyone's duty.;Подчиняться законам — обязанность каждого.
+together;вместе, воедино, сообща;/təˈgɛðər/;Tom is trying to keep it together.;Том пытается не падать духом.
+war;война;/wɔr/;Tom lost his son in the war.;Том потерял сына на войне.
+whole;целый, целиком, цельный;/hoʊl/;Tom has been crying the whole day.;Том весь день плачет.
+car;машина, автомобиль, автомобильный;/kɑr/;He doesn't have to wash the car.;Ему не надо мыть машину.
+face;лицо, личной, лик;/feɪs/;Tom covered his face with his hands.;Том закрыл лицо руками.
+five;пять, пятеро, пяток;/faɪv/;His youngest son is five years old.;Его младшему сыну пять лет.
+kind;добрый, сорт, милостивый;/kaɪnd/;I don't read that kind of book.;Я таких книг не читаю.
+maybe;наверное, чай;/ˈmeɪbi/;Maybe Tom and I are both mistaken.;Мы с Томом оба ошибаемся.
+president;президент, председатель;/ˈprɛzɪdənt/;He is the president in name only.;Он президент только номинально.
+story;история, рассказ, сказание;/ˈstɔri/;I want to hear the whole story.;Я хочу услышать историю целиком.
+working;работа, рабочий, трудовой;/ˈwərkɪŋ/;Are you still working as a waiter?;Ты всё ещё работаешь официантом?
+course;курс;/kɔrs/;Of course Tom loves his own children.;Конечно Том любит собственных детей.
+health;здоровье, здравие;/hɛlθ/;Eating fish is good for your health.;Употребление рыбы полезно для здоровья.
+hope;надежда, надеяться;/hoʊp/;I hope that she will help me.;Я надеюсь она мне поможет.
+important;важный, большой, крупный;/ˌɪmˈpɔrtənt/;It's very important to get enough rest.;Это очень важно хорошо отдохнуть.
+least;наименее, маломальский;/list/;I was surprised to say the least.;Я был мягко говоря удивлён.
+means;средство, возможность;/minz/;I don't know what that means.;Не знаю что это значит.
+news;новость, известие, весть;/nuz/;I am glad to hear the news.;Я рада слышать эти известия.
+within;внутри, в;/wɪˈθɪn/;I'll be back within an hour.;Я вернусь в течение часа.
+able;умелый;/ˈeɪbəl/;Tom won't be able to work tomorrow.;Том не сможет завтра работать.
+book;книга, книжка, заказать;/bʊk/;Tom put the book on the shelf.;Том положил книгу на полку.
+information;информация, пропаганда, справка;/ˌɪnˌfɔrˈmeɪʃən/;He refused to give them the information.;Он отказался предоставить им информацию.
+local;местный, локальный, здешний;/ˈloʊkəl/;This painting is by a local artist.;Это картина местного художника.
+oh;а, ой, ох;/oʊ/;Oh no my house is on fire.;О нет мой дом полыхает.
+post;пост, должность, почта;/poʊst/;What time does the post office close?;Во сколько почта закрывается?
+thanks;спасибо, благодарность;/θæŋks/;Thanks to you I arrived on time.;Благодаря тебе я приехала вовремя.
+video;видео;/ˈvɪdioʊ/;I will make a video for you.;Я сделаю для тебя видео.
+young;молодой, молоденький;/jəŋ/;We were so young at that time.;Мы были тогда так молоды.
+ago;назад;/əˈgoʊ/;How many years ago did that happen?;Сколько лет назад это было?
+others;другой;/ˈəðərz/;She is always finding fault with others.;Она постоянно ко всем придирается.
+social;социальный, общественный;/ˈsoʊʃəl/;The group tried to solve social problems.;Группа пыталась решить социальные проблемы.
+talk;поговорить, разговаривать, сказать;/tɔk/;Do we have to talk about this?;Мы должны об этом говорить?
+court;суд, двор, придворный;/kɔrt/;Tom was summoned to appear in court.;Тома вызвали в суд.
+fact;факт, быль;/fækt/;Do you know it for a fact?;Вы уверены что это факт?
+given;данный, дано;/ˈgɪvɪn/;Each of them was given a prize.;Каждый из них удостоился награды.
+half;половина, наполовину, вдвое;/hæf/;A third is less than a half.;Треть меньше половины.
+hand;рука, ручной, вручить;/hænd/;I have a dictionary in my hand.;У меня в руке словарь.
+level;уровень, сравнить, сравнивать;/ˈlɛvəl/;The level of the lake dropped.;Уровень воды в озере упал.
+mind;ум, разум, голова;/maɪnd/;Have you finally made up your mind?;Вы наконец приняли решение?
+often;часто, зачастую;/ˈɔfən/;Tom has started doing that more often.;Том стал делать это чаще.
+single;единичный, одиночный, холостой;/ˈsɪŋgəl/;I'm a single mother of three children.;Я одинокая мать троих детей.
+become;стать, становиться, превратиться;/bɪˈkəm/;Tom definitely wants to become a doctor.;Том явно хочет стать врачом.
+body;тело, корпус, орган;/ˈbɑdi/;It's your body take care of it.;Это твоё тело береги его.
+coming;приход, предстоящий, приезд;/ˈkəmɪŋ/;Thank you for coming to see me.;Спасибо что пришла меня повидать.
+control;контроль, контролировать, проверка;/kənˈtroʊl/;I have no control over what happens.;Я никак не контролирую происходящее.
+death;смерть, гибель, смертный;/dɛθ/;Do you believe in life after death?;Вы верите в загробную жизнь?
+guy;мужик, парень, тип;/gaɪ/;Do you know the guy next door?;Ты знаешь соседского парня?
+hours;час;/aʊərz/;Tom had to wait for three hours.;Тому пришлось прождать три часа.
+office;кабинет, офис, бюро;/ˈɔfəs/;We arrived at the office on time.;Мы приехали в офис вовремя.
+pay;платить, заплатить, плата;/peɪ/;Tom is going to pay for this.;Том за это заплатит.
+problem;проблема, задача, фигня;/ˈprɑbləm/;This problem can't be solved with money.;Эту проблему деньгами не решить.
+south;южный, юг, зюйд;/saʊθ/;We traveled through the south of France.;Мы путешествовали по югу франции.
+true;верный, истинный, настоящий;/tru/;What they told you is not true?;Они сказали вам неправду?
+almost;почти, практически, почитай;/ˈɔlˌmoʊst/;Tom almost got hit by a car.;Тома чуть не сбила машина.
+history;история;/ˈhɪstəri/;The history of rome is very interesting.;История рима очень интересна.
+known;известный;/noʊn/;I have known him a long time.;Я его давно знаю.
+large;большой, крупный;/lɑrʤ/;He will come into a large fortune.;Он унаследует большое состояние.
+lost;погибший, потерянный, забытый;/lɔst/;I lost my way in the forest.;Я заблудилась в лесу.
+room;комната, номер, терем;/rum/;I ordered them to leave the room.;Я приказал им покинуть комнату.
+several;ряд, несколькие;/ˈsɛvərəl/;Tom has asked Mary out several times.;Том спросил Мэри несколько раз.
+taking;взятие, приём;/ˈteɪkɪŋ/;My brother loves taking pictures of mountains.;Мой брат любит фотографировать горы.
+university;университет, университетский;/ˌjunəˈvərsəti/;Are you thinking of going to university?;Думаешь поступать в университет?
+win;выиграть, победить, побеждать;/wɪn/;Tom doesn't know who's going to win.;Том не знает кто победит.
+wrong;неправильно, обида, кривой;/rɔŋ/;It would've been wrong to do that.;Было бы неправильно так поступить.
+along;по, по-над, вдоль;/əˈlɔŋ/;Tom doesn't get along with his parents.;Том не ладит с родителями.
+anyone;любой, кто-нибудь, кто-либо;/ˈɛniˌwən/;Tom didn't have anyone to help him.;Тому некому было помочь.
+girl;девушка, девочка, девчонка;/gərl/;Are you afraid of a little girl?;Вы боитесь маленькой девочки?
+matter;дело, материя;/ˈmætər/;It doesn't matter to me who wins.;Мне не важно кто выиграет.
+pretty;довольно, порядком, мило;/ˈprɪti/;You know Boston pretty well don't you.;Вы ведь неплохо знаете Бостон.
+air;воздух, воздушный, ария;/ɛr/;The air is fresh in the morning.;По утрам воздух свежий.
+bit;кусок, зубок, огрызок;/bɪt/;My father is a bit old fashioned.;Мой отец немного старомоден.
+hit;хит, попадание, бить;/hɪt/;Tom wasn't the one who hit me.;Меня не Том ударил.
+needs;запросы, нуждаемость;/nidz/;Tell me what needs to be done.;Скажите мне что нужно сделать.
+nice;мило, приятный, симпатичный;/nis/;Tom seemed like a very nice man.;Том казался очень приятным человеком.
+playing;игровой, игра, игральный;/pleɪɪŋ/;My son is playing in the rain.;Мой сын играет под дождём.
+probably;наверное, похоже, наверно;/ˈprɑbəˌbli/;Tom probably didn't mean to do that.;Том наверное не хотел.
+saying;поговорка, пословица, изречение;/seɪɪŋ/;Are you saying there's still a chance?;Ты говоришь шанс ещё есть?
+understand;понять, понимать, постичь;/ˌəndərˈstænd/;I don't understand how to do it.;Не понимаю как это делать.
+yeah;ага;/jæ/;Yeah that's what I'll do.;Ага я так и сделаю.
+class;класс, ранг, категория;/klæs/;How many boys are in this class?;Сколько в этом классе мальчиков?
+close;плотно, закрывать, закрыть;/kloʊz/;Tom asked me to close the door.;Том попросил меня закрыть дверь.
+idea;идея, понятие, мысль;/aɪˈdiə/;I have some idea of what happened.;Кажется я догадываюсь что произошло.
+international;международный, интернационал, интернациональный;/ˌɪnərˈnæʃənɑl/;English is often considered an international language.;Английский часто считают международным языком.
+past;мимо, прошлый, прошедший;/pæst/;I don't often think about the past.;Я редко думаю о прошлом.
+possible;возможный, допустимый;/ˈpɑsəbəl/;You'd better start as soon as possible.;Лучше начни как можно скорее.
+wanted;угодно;/ˈwɔntɪd/;I just wanted to let you know.;Я просто хотел вам сообщить.
+cause;вызывать, причинить, причинять;/kɔz/;What was the cause of the explosion?;Что было причиной взрыва?
+due;взнос, причитающийся, следуемый;/du/;When is the ship due to arrive?;Когда должно прибыть это судно?
+happy;счастливый, благополучный, весёлый;/ˈhæpi/;It is difficult to make him happy.;Сложно сделать его счастливым.
+human;человеческий, людской, человечий;/ˈjumən/;How much is a human life worth?;Сколько стоит человеческая жизнь?
+months;подолгу;/mənθs/;How many months ago did that happen?;Сколько месяцев назад это произошло?
+move;двигаться, передвигаться, ходить;/muv/;Tom has decided to move to Boston.;Том решил переехать в Бостон.
+question;вопрос, расспрашивать;/kˈwɛʃən/;I wanted to ask you a question.;Я хотела задать тебе вопрос.
+series;серия, сериал;/ˈsɪriz/;They gave a series of concerts.;Они дали серию концертов.
+ask;спросить, спрашивать, пригласить;/æsk/;Should we ask Tom to do that?;Попросить Тома это сделать?
+community;община, сообщество, общность;/kəmˈjunɪti/;This is an international community.;Это международное сообщество.
+data;данные;/ˈdætə/;I hope this data is wrong.;Надеюсь эти данные ошибочны.
+leave;выйти, уйти, оставить;/liv/;You want to leave here don't you.;Вы хотите отсюда уехать да.
+north;северо, север, северный;/nɔrθ/;The north star is very easy to find.;Отыскать полярную звезду очень легко.
+saw;пила, пилить, поговорка;/sɔ/;I was impressed with what I saw.;Я был впечатлён увиденным.
+special;специальный, особый, особенный;/ˈspɛʃəl/;Today is a very special day.;Сегодня очень особенный день.
+watch;часы, следить, посмотреть;/wɔʧ/;Watch out there's a big hole there.;Берегись там большая яма.
+either;также, любой;/ˈiðər/;Either Tom is lying or Mary is.;Или Том врёт или мария.
+future;будущий, будущность;/fˈjuʧər/;You shouldn't be afraid of the future.;Не надо бояться будущего.
+light;свет, огонь, светлый;/laɪt/;Why did you switch the light off?;Зачем ты выключила свет?
+low;низкий, низко, тихий;/loʊ/;We looked for it high and low.;Мы искали это повсюду.
+million;миллион;/ˈmɪljən/;There are nine million bicycles in beijing.;В пекине девять миллионов велосипедов.
+morning;утро, утренний;/ˈmɔrnɪŋ/;I'm sorry I was late this morning.;Простите что утром опоздал.
+police;полиция, полицейский;/pəˈlis/;Tom is going to call the police.;Том собирается позвонить в полицию.
+short;короткий, краткий, небольшой;/ʃɔrt/;We need to take a short break.;Нам надо взять короткий перерыв.
+stay;остаться, оставаться, пребывание;/steɪ/;I asked Tom to stay at home.;Я попросил Тома остаться дома.
+taken;снятой, снятый, очарованный;/ˈteɪkən/;My daughter was taken away from me.;Дочь у меня забрали.
+age;возраст, период, век;/eɪʤ/;He is the same age as me.;Он мой ровесник.
+deal;торговать, сделка, нанести;/dil/;He has a great deal of experience.;У него большой опыт.
+rather;скорее, довольно, скорей;/ˈrəðər/;These items are rather hard to obtain.;Эти вещи довольно трудно достать.
+reason;причина, повод, рассуждать;/ˈrizən/;That's the reason we have to fight.;Вот почему мы должны бороться.
+red;красный, рыжий;/rɛd/;I've always wanted a red sports car.;Я всегда хотел красный спорткар.
+report;данные, сообщить, протокол;/rɪˈpɔrt/;Was she able to write a report?;Она смогла написать отчёт?
+soon;сейчас, вскоре, скоро;/sun/;How soon am I going to die?;Когда я умру?
+third;третий;/θərd/;Tom is the third man in line.;Том третий в ряду.
+turn;тур, поворот, оборот;/tərn/;Tom forgot to turn off the stove.;Том забыл выключить плиту.
+whether;ли;/ˈwɛðər/;I wonder whether Tom will be late.;Интересно опоздает ли Том.
+among;среди;/əˈməŋ/;The beatles are popular among young people.;Битлз популярны среди молодых людей.
+check;проверять, проверить, счёт;/ʧɛk/;How often do you check your email?;Как часто ты проверяешь почту?
+development;развитие;/dɪˈvɛləpmənt/;I think that that's a positive development.;Думаю что это положительное развитие.
+form;форма, класс, образ;/fɔrm/;Tom helped Mary fill out the form.;Том помог Мэри заполнить анкету.
+further;далее, дальше, дальнейший;/ˈfərðər/;The store is closed until further notice.;Магазин закрыт до дальнейшего уведомления.
+heart;сердце, сердечный, дух;/hɑrt/;She loved him with all her heart.;Она любила его всем сердцем.
+minutes;протокол;/ˈmɪnəts/;We'll have to wait a few minutes.;Нам придётся несколько минут подождать.
+myself;себя;/ˌmaɪˈsɛlf/;I have to do it by myself.;Я должен сделать это сам.
+services;заслуга;/ˈsərvɪsɪz/;Your services are no longer required.;Ваши услуги больше не требуются.
+yourself;сам, себя;/ˈjɔrsɛlf/;You need to learn to protect yourself.;Тебе нужно научиться себя защищать.
+act;закон, действовать, играть;/ækt/;Don't act like a know-it-all.;Не строй из себя всезнайку.
+fire;огонь, пожар, уволить;/faɪər/;Tom managed to put out the fire.;Тому удалось потушить огонь.
+fun;забава, потеха, прикол;/fən/;My sister always makes fun of me.;Моя сестра постоянно меня высмеивает.
+living;проживание;/ˈlɪvɪŋ/;Tom has been living here three years.;Том живёт здесь три года.
+major;майор, важнейший, мажорный;/ˈmeɪʤər/;This piece is in a major key.;Эта вещь написана в мажоре.
+phone;телефон;/foʊn/;I'd like to make a phone call.;Я хотел бы позвонить.
+art;искусство;/ɑrt/;His garden is a work of art.;Его сад - произведение искусства.
+behind;за, позади;/bɪˈhaɪnd/;Don't forget to wash behind your ears.;Не забудь помыть за ушами.
+building;строительство, здание, сооружение;/ˈbɪldɪŋ/;He parked his car behind the building.;Он припарковал машину за зданием.
+market;рынок, майдан, базар;/ˈmɑrkɪt/;When did Tom go to the market?;Когда Том ходил на рынок?
+near;рядом, около, возле;/nɪr/;Are there any Chinese restaurants near here?;Поблизости есть китайские рестораны?
+plan;план, планировать, замысел;/plæn/;Do you plan to rent a car?;Ты планируешь взять напрокат машину?
+political;политический;/pəˈlɪtɪkəl/;They formed a new political party.;Они сформировали новую политическую партию.
+quite;довольно, вполне, довольно-таки;/kwaɪt/;It's going to be quite hot today.;Сегодня будет довольно жарко.
+six;шесть, шестеро, шестёрка;/sɪks/;I always get up at six-thirty.;Я всегда встаю в полседьмого.
+west;запад, западный, вест;/wɛst/;The wind is blowing from the west.;Дует западный ветер.
+works;объект, творчество, предприятие;/wərks/;Tom no longer works as a teacher.;Том больше не работает учителем.
+available;имеющийся, наличный, доступный;/əˈveɪləbəl/;The only room available is a double.;Имеется только двухместный номер.
+education;образование, воспитание;/ˌɛʤəˈkeɪʃən/;She devoted her life to education.;Она посвятила свою жизнь образованию.
+final;финальный, окончательный, конечный;/ˈfaɪnəl/;Tom failed to pass the final exam.;Том не сдал итоговый экзамен.
+former;бывший, первый, прежний;/ˈfɔrmər/;Kyoto was the former capital of Japan.;Киото - бывшая столица японии.
+front;первый, фронт, фас;/frənt/;Tom wants to sit in the front.;Том хочет сидеть впереди.
+kids;ребята, ребятишки, малышня;/kɪdz/;Tom is very worried about the kids.;Том очень беспокоится за детей.
+list;список, реестр, перечень;/lɪst/;You gave Tom the list didn't you.;Вы ведь дали Тому список.
+ready;готовый, находчивый, ликвидный;/ˈrɛdi/;Tom said he was ready to go.;Том сказал что готов идти.
+sometimes;иногда, подчас, часом;/ˈsəmˌtaɪmz/;Sometimes it's necessary to tell the truth.;Иногда необходимо сказать правду.
+son;сын, сынок, сынишка;/sən/;Tom carried his son on his back.;Том нёс сына на закорках.
+bring;привести, принести, приносить;/brɪŋ/;This coin will bring you good luck.;Эта монета принесёт вам удачу.
+college;колледж, училище, вуз;/ˈkɑlɪʤ/;What did you major in at college?;Кто ты по образованию?
+current;течение, ток, текущий;/ˈkɑrənt/;Let's try to swim against the current.;Давайте попробуем плыть против течения.
+example;пример, образец;/ɪgˈzæmpəl/;I have to set a good example.;Я должен привести хороший пример.
+london;лондонский;/ˈləndən/;He lived in the center of London.;Он жил в центре лондона.
+meet;познакомиться, встретиться, встретить;/mit/;I had hoped to meet you there.;Я надеялся встретить тебя там.
+program;программа, программный, программировать;/ˈproʊˌgræm/;I want to learn how to program.;Я хочу научиться программировать.
+type;тип, стать, типовой;/taɪp/;This is a new type of car.;Это новый тип автомобиля.
+baby;младенец, дитя, малютка;/ˈbeɪbi/;The baby fell asleep in the cradle.;Ребенок уснул в колыбели.
+chance;шанс, возможность, случай;/ʧæns/;There is no chance of rain today.;Сегодня не может быть дождя.
+march;март, поход, марш;/mɑrʧ/;Tom will be thirty in march.;Тому в марте исполнится тридцать.
+process;процесс, перерабатывать;/ˈprɔˌsɛs/;Tom is in the process of moving.;Том находится в процессе переезда.
+song;песня, песенка, пение;/sɔŋ/;He began to play an old song.;Он начал играть старую песню.
+study;изучение, учить, изучать;/ˈstədi/;I have to study for the exam.;Мне надо готовиться к экзамену.
+word;слово, глагол;/wərd/;You will keep your word won't you.;Вы ведь сдержите слово.
+across;через;/əˈkrɔs/;Tom tried to swim across the river.;Том пытался переплыть реку.
+action;действие, иск, поступок;/ˈækʃən/;The first scene has a lot of action.;Первая сцена очень динамична.
+clear;открыть, ясно, открывать;/klɪr/;I'm not making myself clear am I.;Я непонятно объясняю да.
+himself;себя, сам;/hɪmˈsɛlf/;Did Tom really go there by himself?;Том правда туда один ходил?
+month;месяц, месячник;/mənθ/;We see each other once a month.;Мы видимся раз в месяц.
+outside;вне, снаружи, наружу;/ˈaʊtˈsaɪd/;The children should go outside and play.;Дети должны пойти поиграть снаружи.
+words;текст;/wərdz/;How many French words do you know?;Сколько французских слов вы знаете?
+board;министерство, доска, коллегия;/bɔrd/;Tom is on board the ship.;Том на борту корабля.
+cost;стоимость, стоить, себестоимость;/kɔst/;Repairs will cost a lot of money.;Ремонт будет стоить уйму денег.
+cut;резать, нарезать, разрез;/kət/;Where did you get your hair cut?;Где ты стриглась?
+field;поле, полевой, поприще;/fild/;Farmers are busy working in the field.;Фермеры заняты работой в поле.
+main;главный, основной, магистраль;/meɪn/;The main thing is to tell the truth.;Главное - говорить правду.
+moment;момент, миг, минута;/ˈmoʊmənt/;Tom was here just a moment ago.;Том только что был здесь.
+road;дорога, рейд, дорожный;/roʊd/;Let's get this show on the road.;Поехали.
+thinking;мышление, мыслящий;/ˈθɪŋkɪŋ/;Are you seriously thinking about not going?;Ты действительно собираешься не идти?
+town;город, городской, городок;/taʊn/;Tom was born in a small town.;Том родился в небольшом городке.
+wants;требование;/wɔnts/;She wants to go out with him.;Она хочет с ним встречаться.
+department;отдел, департамент, ведомство;/dɪˈpɑrtmənt/;Tom is the head of my department.;Том — начальник моего отдела.
+energy;энергия, энергетический, дееспособность;/ˈɛnərʤi/;Tom certainly is full of energy today.;Том сегодня явно полон сил.
+fight;бороться, борьба, сражаться;/faɪt/;It was Tom who started the fight.;Это Том начал драку.
+fine;штраф, прекрасный, мелко;/faɪn/;The day turned out to be fine.;День выдался хорошим.
+force;заставить, войска, заставлять;/fɔrs/;Don't force us to do that.;Не заставляйте нас это делать.
+hear;услышать, слышать, слушать;/hir/;I hear you are good at cooking.;Я слышал ты хорошо готовишь.
+issue;вопрос, выпуск, выдать;/ˈɪʃu/;This is a very serious issue.;Это очень серьёзная проблема.
+re;ре;/ri/;He was re-elected six years later.;Через шесть лет его переизбрали.
+rest;отдохнуть, отдых, покой;/rɛst/;You know the rest of the story.;Остальное ты знаешь.
+running;бег, бегом, слезоточивый;/ˈrənɪŋ/;Tom is running a little behind schedule.;Том немного отстаёт от графика.
+space;пространство, космос, расстояние;/speɪs/;I need a little more space.;Мне нужно немного больше пространства.
+summer;лето;/ˈsəmər/;Eggs go bad quickly in the summer.;Летом яйца быстро протухают.
+term;срок, термин, условие;/tərm/;The second term came to an end.;Второй семестр подошёл к концу.
+wife;жена, супруга;/waɪf/;She will make him a good wife.;Она будет ему хорошей женой.
+america;америка;/əˈmɛrɪkə/;He was in America at that time.;Он тогда был в америке.
+beautiful;прекрасный, хороший, красивый;/ˈbjutəfəl/;The roses in my garden are beautiful.;Розы в моём саду прекрасны.
+date;дата, число, датировать;/deɪt/;He asked me out on a date.;Он позвал меня на свидание.
+land;страна, суша, земля;/lænd/;The plane will land in an hour.;Самолёт приземлится через час.
+miss;мисс, девушка, пропускать;/mɪs/;Tom is going to miss his flight.;Том на самолёт опоздает.
+project;проект, строительство, замысел;/ˈprɑʤɛkt/;Tom wants to talk about the project.;Том хочет поговорить о проекте.
+sex;секс, пол, половой;/sɛks/;Mary has a lot of sex appeal.;Мэри очень соблазнительная женщина.
+shot;выстрел, снятый, кадр;/ʃɑt/;Would you like a shot of tequila?;Хотите рюмку текилы?
+site;место;/saɪt/;We're updating the site.;Мы обновляем сайт.
+strong;сильный, крепкий, мощный;/strɔŋ/;You are twice as strong as me.;Ты вдвое сильнее меня.
+account;объяснить, описание, отчёт;/əˈkaʊnt/;You have to take that into account.;Вам надо это учесть.
+especially;особенно, сугубо, специально;/əˈspɛʃəli/;We liked the food especially the fish.;Еда нам понравилась особенно рыба.
+eyes;отворачиваться;/aɪz/;It's right in front of your eyes.;Он прямо перед твоими глазами.
+include;включать, охватить, зачислить;/ˌɪnˈklud/;Don't forget to include me in the count.;Не забудьте посчитать меня.
+june;июнь;/ʤun/;There's a lot of rain in June.;В июне много дождей.
+parents;родители;/ˈpɛrənts/;Both my parents are at home now.;Мои родители сейчас оба дома.
+period;период, срок;/ˈpɪriəd/;Look at the period!;Посмотри на период!

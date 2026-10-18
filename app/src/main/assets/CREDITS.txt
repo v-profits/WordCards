@@ -1,0 +1,4 @@
+Данные приложения:
+- Переводы: OpenRussian.org, лицензия CC BY-SA 4.0 (https://creativecommons.org/licenses/by-sa/4.0/)
+- Примеры предложений: Tatoeba.org, лицензия CC BY 2.0 FR
+- Частотность слов: wordfreq; транскрипция: CMU Pronouncing Dictionary

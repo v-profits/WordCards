@@ -98,6 +98,15 @@ fun SettingsScreen(vm: SettingsViewModel = viewModel()) {
             msg?.let { Text(it, color = MaterialTheme.colorScheme.primary) }
         }
 
+        Section("Источники данных") {
+            Text(
+                "Переводы слов: OpenRussian.org (CC BY-SA 4.0).\n" +
+                    "Примеры предложений: Tatoeba.org (CC BY 2.0 FR); часть примеров для редких слов — простые шаблонные фразы.\n" +
+                    "Частотность: wordfreq. Транскрипция: CMU Pronouncing Dictionary.",
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
         OutlinedButton(onClick = { confirmReset = true }, modifier = Modifier.fillMaxWidth()) {
             Text("Сбросить весь прогресс")
         }

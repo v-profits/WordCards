@@ -1,6 +1,7 @@
 package com.example.wordcards.data
 
 import android.content.Context
+import androidx.room.withTransaction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
@@ -15,17 +16,27 @@ object CsvParser {
             .mapNotNull { line ->
                 val p = line.split(';').map { it.trim() }
                 if (p.size < 2 || p[0].isEmpty() || p[1].isEmpty()) null
-                else Word(
-                    en = p[0], ru = p[1],
-                    transcription = p.getOrElse(2) { "" },
-                    exampleEn = p.getOrElse(3) { "" },
-                    exampleRu = p.getOrElse(4) { "" },
-                    level = level
-                )
+                else {
+                    val ee = p.getOrElse(3) { "" }
+                    val er = p.getOrElse(4) { "" }
+                    // Пример с нецензурной лексикой не сохраняем
+                    val badExample = Profanity.isBad(ee) || Profanity.isBad(er)
+                    Word(
+                        en = p[0], ru = p[1],
+                        transcription = p.getOrElse(2) { "" },
+                        exampleEn = if (badExample) "" else ee,
+                        exampleRu = if (badExample) "" else er,
+                        level = level
+                    )
+                }
             }
+            // Слова и переводы с нецензурной лексикой пропускаем
+            .filterNot { Profanity.isBad(it.en) || Profanity.isBad(it.ru) }
 }
 
-class Repository(private val ctx: Context, db: AppDatabase) {
+class Repository(private val ctx: Context, private val db: AppDatabase) {
+    init { Profanity.load(ctx) }
+
     val words = db.words()
     val stats = db.stats()
 
@@ -41,17 +52,30 @@ class Repository(private val ctx: Context, db: AppDatabase) {
      */
     suspend fun seedIfNeeded() = withContext(Dispatchers.IO) {
         val prefs = ctx.getSharedPreferences("dict", Context.MODE_PRIVATE)
-        if (prefs.getInt("version", 0) >= DICT_VERSION) return@withContext
+        val old = prefs.getInt("version", 0)
+        if (old >= DICT_VERSION) return@withContext
         seeding.value = true
         try {
             for (level in 1..6) {
                 val text = ctx.assets.open("words_$level.csv").bufferedReader().use { it.readText() }
-                words.insertAll(CsvParser.parse(text, level))
+                val parsed = CsvParser.parse(text, level)
+                words.insertAll(parsed)
+                // Обновление с прошлой версии: добавляем примеры предложений уже имеющимся словам
+                if (old > 0) db.withTransaction {
+                    parsed.forEach { words.setExamples(it.en, it.ru, it.transcription, it.exampleEn, it.exampleRu) }
+                }
             }
+            // Обновление с прошлой версии: убираем нецензурные слова из базы
+            if (old > 0) removeProfane()
             prefs.edit().putInt("version", DICT_VERSION).apply()
         } finally {
             seeding.value = false
         }
+    }
+
+    private suspend fun removeProfane() {
+        words.all().filter { Profanity.isBad(it.en) || Profanity.isBad(it.ru) }
+            .map { it.id }.chunked(500).forEach { words.deleteByIds(it) }
     }
 
     /** Импорт пользовательского CSV в выбранный уровень. Возвращает число добавленных слов. */
@@ -82,13 +106,15 @@ class Repository(private val ctx: Context, db: AppDatabase) {
 
     /** Неправильные варианты для режима «Выбор»: сначала того же уровня. */
     suspend fun distractors(w: Word, n: Int): List<Word> {
-        val same = words.distractors(w.id, w.level, n)
+        // Лишний запас на случай, если часть кандидатов отсеется фильтром
+        fun clean(l: List<Word>) = l.filterNot { Profanity.isBad(it.en) || Profanity.isBad(it.ru) }
+        val same = clean(words.distractors(w.id, w.level, n + 3))
         if (same.size >= n) return same
-        return (same + words.distractorsAny(w.id, n)).distinctBy { it.id }
+        return (same + clean(words.distractorsAny(w.id, n + 3))).distinctBy { it.id }
     }
 
     companion object {
-        const val DICT_VERSION = 2
+        const val DICT_VERSION = 3
 
         /** Серия дней подряд с занятиями (сегодня может быть ещё не засчитан). */
         fun streak(stats: List<DailyStat>): Int {

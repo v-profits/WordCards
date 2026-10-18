@@ -51,6 +51,16 @@ interface WordDao {
     )
     suspend fun hard(level: Int, limit: Int): List<Word>
 
+    @Query("SELECT * FROM words")
+    suspend fun all(): List<Word>
+
+    @Query("DELETE FROM words WHERE id IN (:ids)")
+    suspend fun deleteByIds(ids: List<Long>)
+
+    /** Обновление транскрипции и примера у уже существующих слов (при обновлении словаря). */
+    @Query("UPDATE words SET transcription = :tr, exampleEn = :ee, exampleRu = :er WHERE en = :en AND ru = :ru")
+    suspend fun setExamples(en: String, ru: String, tr: String, ee: String, er: String)
+
     @Update
     suspend fun update(word: Word)
 

@@ -167,11 +167,30 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
         val s = _ui.value
         val c = s.card ?: return
         if (s.verdict != Verdict.NONE || s.typed.isBlank()) return
-        // Допускаем любой из переводов, перечисленных через запятую
-        val variants = s.expected.split(',', ';', '/').map(::norm).filter { it.isNotEmpty() } + norm(s.expected)
-        val ok = norm(s.typed) in variants
+        val ok = matches(s.typed, s.expected)
         _ui.update { it.copy(verdict = if (ok) Verdict.CORRECT else Verdict.WRONG) }
         if (c.reverse && cfg.autoSpeak) a.speaker.speak(c.word.en)
+    }
+
+    /** Допускаем любой из переводов, перечисленных через запятую. */
+    private fun matches(input: String, expected: String): Boolean {
+        val variants = expected.split(',', ';', '/').map(::norm).filter { it.isNotEmpty() } + norm(expected)
+        return norm(input) in variants
+    }
+
+    /**
+     * Результат голосового ввода. Берём самый вероятный вариант распознавания;
+     * он ЗАМЕНЯЕТ прежний текст (набранный или продиктованный ранее) до нажатия «Проверить».
+     */
+    fun setVoiceResults(list: List<String>) {
+        if (_ui.value.verdict != Verdict.NONE) return
+        val text = list.firstOrNull()?.trim().orEmpty()
+        if (text.isNotEmpty()) _ui.update { it.copy(typed = text) }
+    }
+
+    /** Озвучить предложение-пример. */
+    fun speakExample() {
+        _ui.value.card?.word?.exampleEn?.takeIf { it.isNotBlank() }?.let { a.speaker.speak(it) }
     }
 
     /** Нормализация: регистр, «ё» → «е», без знаков препинания и лишних пробелов. */

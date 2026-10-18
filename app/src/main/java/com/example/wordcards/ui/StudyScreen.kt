@@ -1,5 +1,11 @@
 package com.example.wordcards.ui
 
+import android.app.Activity
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.speech.RecognizerIntent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
@@ -11,6 +17,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -116,9 +123,16 @@ private fun CardsBody(ui: StudyUi, vm: StudyViewModel) {
         ) { FlipCard(front, back, ui.flipped, onClick = { vm.flip() }) }
 
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            IconButton(onClick = { vm.speak() }) { Icon(Icons.AutoMirrored.Filled.VolumeUp, "Озвучить") }
+            IconButton(onClick = { vm.speak() }) { Icon(Icons.AutoMirrored.Filled.VolumeUp, "Озвучить слово") }
+            if (ui.flipped && w.exampleEn.isNotBlank()) {
+                TextButton(onClick = { vm.speakExample() }) {
+                    Icon(Icons.AutoMirrored.Filled.VolumeUp, null, Modifier.size(18.dp))
+                    Spacer(Modifier.width(4.dp))
+                    Text("Предложение")
+                }
+            }
             Spacer(Modifier.weight(1f))
-            TextButton(onClick = { vm.markKnown() }) { Text("Я уже знаю это слово") }
+            TextButton(onClick = { vm.markKnown() }) { Text("Уже знаю") }
         }
         if (!ui.flipped) {
             Button(onClick = { vm.flip() }, modifier = Modifier.fillMaxWidth()) { Text("Показать ответ") }
@@ -203,9 +217,7 @@ private fun ChoiceBody(ui: StudyUi, vm: StudyViewModel) {
             ) { Text(opt, Modifier.padding(vertical = 6.dp), textAlign = TextAlign.Center) }
         }
         if (answered) {
-            val ex = examples(c.word)
-            if (ex.isNotBlank()) Text(ex, style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth())
+            ExampleView(c.word) { vm.speakExample() }
             Button(onClick = { vm.continueAfter() }, modifier = Modifier.fillMaxWidth()) { Text("Далее") }
         }
     }
@@ -231,6 +243,26 @@ private fun TypingBody(ui: StudyUi, vm: StudyViewModel) {
     val c = ui.card ?: return
     val answered = ui.verdict != Verdict.NONE
     val english = vm.mode == StudyMode.LISTEN || c.reverse
+
+    // Голосовой ввод через системное распознавание речи (разрешение на микрофон не требуется)
+    var voiceError by remember { mutableStateOf<String?>(null) }
+    val speechLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
+        if (res.resultCode == Activity.RESULT_OK) {
+            vm.setVoiceResults(res.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).orEmpty())
+        }
+    }
+    val startVoice: () -> Unit = {
+        voiceError = null
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            // Язык распознавания совпадает с языком ожидаемого ответа
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, if (english) "en-US" else "ru-RU")
+            putExtra(RecognizerIntent.EXTRA_PROMPT, if (english) "Say the word in English" else "Скажите перевод по-русски")
+            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
+        }
+        try { speechLauncher.launch(intent) }
+        catch (e: ActivityNotFoundException) { voiceError = "Голосовой ввод недоступен на этом устройстве" }
+    }
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -250,10 +282,16 @@ private fun TypingBody(ui: StudyUi, vm: StudyViewModel) {
         OutlinedTextField(
             value = ui.typed, onValueChange = vm::setTyped, enabled = !answered, singleLine = true,
             label = { Text(if (english) "Ответ по-английски" else "Ответ по-русски") },
+            trailingIcon = {
+                IconButton(onClick = startVoice, enabled = !answered) {
+                    Icon(Icons.Default.Mic, "Голосовой ввод")
+                }
+            },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { vm.check() }),
             modifier = Modifier.fillMaxWidth()
         )
+        voiceError?.let { Text(it, color = Red, style = MaterialTheme.typography.bodySmall) }
         if (ui.hint && !answered)
             Text("Подсказка: начинается на «${ui.expected.first()}», букв: ${ui.expected.length}")
         if (answered) {
@@ -261,8 +299,7 @@ private fun TypingBody(ui: StudyUi, vm: StudyViewModel) {
             Text(if (ok) "Верно! ✅" else "Неверно ❌", color = if (ok) Green else Red,
                 style = MaterialTheme.typography.titleMedium)
             Text("Правильный ответ: ${ui.expected}")
-            val ex = examples(c.word)
-            if (ex.isNotBlank()) Text(ex, style = MaterialTheme.typography.bodyMedium)
+            ExampleView(c.word) { vm.speakExample() }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             if (!answered) {
@@ -273,6 +310,22 @@ private fun TypingBody(ui: StudyUi, vm: StudyViewModel) {
             } else {
                 Button(onClick = { vm.continueAfter() }, modifier = Modifier.fillMaxWidth()) { Text("Далее") }
             }
+        }
+    }
+}
+
+/** Пример предложения с переводом и кнопкой озвучивания. */
+@Composable
+private fun ExampleView(w: Word, onSpeak: () -> Unit) {
+    if (w.exampleEn.isBlank()) return
+    Card(Modifier.fillMaxWidth()) {
+        Row(Modifier.padding(start = 16.dp, top = 8.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text(w.exampleEn, style = MaterialTheme.typography.bodyLarge)
+                if (w.exampleRu.isNotBlank())
+                    Text(w.exampleRu, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.outline)
+            }
+            IconButton(onClick = onSpeak) { Icon(Icons.AutoMirrored.Filled.VolumeUp, "Озвучить предложение") }
         }
     }
 }
