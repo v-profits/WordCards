@@ -21,11 +21,13 @@ import java.time.LocalDate
 
 /** Главный экран: серия, цель дня, выбор режима и уровни. */
 @Composable
-fun HomeScreen(vm: HomeViewModel = viewModel(), onStart: (Int, StudyMode) -> Unit) {
+fun HomeScreen(vm: HomeViewModel = viewModel(), onStart: (Int, StudyMode, SessionKind) -> Unit) {
     val levels by vm.levels.collectAsState()
     val recent by vm.recent.collectAsState()
     val st by vm.settings.collectAsState()
+    val seeding by vm.seeding.collectAsState()
     var mode by rememberSaveable { mutableStateOf(StudyMode.CARDS) }
+    var kind by rememberSaveable { mutableStateOf(SessionKind.LEARN) }
 
     val reviewedToday = recent.firstOrNull { it.date == LocalDate.now().toString() }?.reviewed ?: 0
     val streak = Repository.streak(recent)
@@ -54,10 +56,28 @@ fun HomeScreen(vm: HomeViewModel = viewModel(), onStart: (Int, StudyMode) -> Uni
                 }
             }
         }
+        if (seeding) item {
+            Card(Modifier.fillMaxWidth()) {
+                Column(Modifier.padding(16.dp)) {
+                    Text("Загружаем словарь (≈19 000 слов)… Это бывает только один раз.")
+                    LinearProgressIndicator(Modifier.fillMaxWidth().padding(top = 8.dp))
+                }
+            }
+        }
         item {
-            Button(onClick = { onStart(0, mode) }, modifier = Modifier.fillMaxWidth()) {
+            Button(onClick = { onStart(0, mode, kind) }, modifier = Modifier.fillMaxWidth()) {
                 Text("Начать занятие (все уровни)")
             }
+        }
+        item {
+            Text("Что делаем", style = MaterialTheme.typography.titleSmall)
+            Spacer(Modifier.height(6.dp))
+            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                SessionKind.entries.forEach { k ->
+                    FilterChip(selected = kind == k, onClick = { kind = k }, label = { Text(k.title) })
+                }
+            }
+            Text(kind.hint, style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 4.dp))
         }
         item {
             Text("Режим тренировки", style = MaterialTheme.typography.titleSmall)
@@ -69,7 +89,7 @@ fun HomeScreen(vm: HomeViewModel = viewModel(), onStart: (Int, StudyMode) -> Uni
             }
         }
         items(Levels.all, key = { it.id }) { info ->
-            LevelCard(info, levels.firstOrNull { it.level == info.id }) { onStart(info.id, mode) }
+            LevelCard(info, levels.firstOrNull { it.level == info.id }) { onStart(info.id, mode, kind) }
         }
     }
 }

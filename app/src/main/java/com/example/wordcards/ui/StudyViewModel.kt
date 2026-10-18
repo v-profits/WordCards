@@ -21,6 +21,14 @@ enum class StudyMode(val title: String) {
     LISTEN("Аудио")      // слушаем слово и пишем его по-английски
 }
 
+/** Что именно делаем на занятии. */
+enum class SessionKind(val title: String, val hint: String) {
+    LEARN("Учить + повторять", "Слова по графику и новые слова"),
+    DUE("Только по графику", "Только то, что пора повторить"),
+    PRACTICE("Пройденное", "Тренировка уже изученных слов (расписание не меняется)"),
+    HARD("Сложные", "Слова, в которых вы ошибались")
+}
+
 enum class Verdict { NONE, CORRECT, WRONG }
 
 /** Карточка в очереди. reverse = true: вопрос на русском, ответ на английском. */
@@ -54,6 +62,11 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
     val mode: StudyMode = runCatching { StudyMode.valueOf(handle.get<String>("mode") ?: "") }
         .getOrDefault(StudyMode.CARDS)
 
+    val kind: SessionKind = runCatching { SessionKind.valueOf(handle.get<String>("kind") ?: "") }
+        .getOrDefault(SessionKind.LEARN)
+    /** Тренировка: ответы не меняют интервалы повторения. */
+    private val cram get() = kind == SessionKind.PRACTICE || kind == SessionKind.HARD
+
     private val queue = ArrayDeque<StudyCard>()
     private val _ui = MutableStateFlow(StudyUi())
     val ui = _ui.asStateFlow()
@@ -63,12 +76,19 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
         viewModelScope.launch {
             cfg = a.settings.flow.first()
             val now = System.currentTimeMillis()
-            // Дневной лимит новых слов с учётом уже изученных сегодня
-            val today = repo.stats.get(repo.today())
-            val newLimit = (cfg.newPerDay - (today?.newLearned ?: 0)).coerceAtLeast(0)
-            val due = repo.words.due(level, now, 200)
-            val fresh = repo.words.fresh(level, newLimit)
-            (due + fresh).forEach { queue.addLast(makeCard(it)) }
+            val list: List<Word> = when (kind) {
+                SessionKind.LEARN -> {
+                    // newPerDay == 0 — «без лимита»: за одну сессию берём пачку по 100 слов
+                    val today = repo.stats.get(repo.today())
+                    val newLimit = if (cfg.newPerDay == 0) 100
+                    else (cfg.newPerDay - (today?.newLearned ?: 0)).coerceAtLeast(0)
+                    repo.words.due(level, now, 200) + repo.words.fresh(level, newLimit)
+                }
+                SessionKind.DUE -> repo.words.due(level, now, 300)
+                SessionKind.PRACTICE -> repo.words.learned(level, 30)
+                SessionKind.HARD -> repo.words.hard(level, 30)
+            }
+            list.forEach { queue.addLast(makeCard(it)) }
             _ui.value = StudyUi(loading = false, total = queue.size)
             next()
         }
@@ -94,7 +114,7 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
             it.copy(
                 card = c, flipped = false, options = emptyList(), selected = null,
                 typed = "", hint = false, expected = expected, verdict = Verdict.NONE,
-                intervals = Grade.entries.associateWith { g -> Srs.label(c.word, g) }
+                intervals = if (cram) emptyMap() else Grade.entries.associateWith { g -> Srs.label(c.word, g) }
             )
         }
         if (mode == StudyMode.CHOICE) viewModelScope.launch {
@@ -172,17 +192,45 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
     private fun applyGrade(g: Grade) {
         val c = _ui.value.card ?: return
         viewModelScope.launch {
-            val updated = Srs.schedule(c.word, g, System.currentTimeMillis())
-            repo.saveReview(c.word, updated, g != Grade.AGAIN)
-            // Если слово осталось «в изучении» — вернём его в очередь через несколько карточек
-            val requeue = updated.state == 1
-            if (requeue) queue.add(minOf(3, queue.size), makeCard(updated))
+            val requeue: Boolean
+            val nextWord: Word
+            if (cram) {
+                // Тренировка: считаем только статистику; ошибки/«трудно» повторяем в этой же сессии
+                repo.saveStatOnly(g != Grade.AGAIN)
+                requeue = g == Grade.AGAIN || g == Grade.HARD
+                nextWord = c.word
+            } else {
+                val updated = Srs.schedule(c.word, g, System.currentTimeMillis())
+                repo.saveReview(c.word, updated, g != Grade.AGAIN)
+                // Слово осталось «в изучении» — вернём его в очередь через несколько карточек
+                requeue = updated.state == 1
+                nextWord = updated
+            }
+            if (requeue) queue.add(minOf(3, queue.size), makeCard(nextWord))
             _ui.update {
                 it.copy(
                     done = it.done + if (requeue) 0 else 1,
                     correct = it.correct + if (g != Grade.AGAIN) 1 else 0
                 )
             }
+            next()
+        }
+    }
+
+    /** Можно ли после завершения предложить «ещё». */
+    val canMore: Boolean get() = kind == SessionKind.LEARN || kind == SessionKind.PRACTICE
+
+    /** «Учить ещё»: новая пачка слов сверх дневного лимита / ещё одна тренировка. */
+    fun more() {
+        viewModelScope.launch {
+            val list = when (kind) {
+                SessionKind.LEARN -> repo.words.fresh(level, 10)
+                SessionKind.PRACTICE -> repo.words.learned(level, 30)
+                else -> emptyList()
+            }
+            if (list.isEmpty()) return@launch
+            list.forEach { queue.addLast(makeCard(it)) }
+            _ui.update { it.copy(finished = false, total = it.done + queue.size) }
             next()
         }
     }

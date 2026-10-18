@@ -50,7 +50,13 @@ fun SettingsScreen(vm: SettingsViewModel = viewModel()) {
         }
 
         Section("Нагрузка") {
-            SliderRow("Новых слов в день", s.newPerDay, 5..50, 5) { vm.setNewPerDay(it) }
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text("Без дневного лимита новых слов", Modifier.weight(1f))
+                Switch(checked = s.newPerDay == 0, onCheckedChange = { vm.setNewPerDay(if (it) 0 else 10) })
+            }
+            if (s.newPerDay != 0) SliderRow("Новых слов в день", s.newPerDay, 5..100, 5) { vm.setNewPerDay(it) }
+            else Text("Новые слова идут пачками по 100 за занятие — учите сколько хотите.",
+                style = MaterialTheme.typography.bodySmall)
             SliderRow("Цель дня (ответов)", s.dailyGoal, 10..100, 10) { vm.setDailyGoal(it) }
         }
 

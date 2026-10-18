@@ -432,6 +432,178 @@ public final class WordDao_Impl implements WordDao {
   }
 
   @Override
+  public Object learned(final int level, final int limit,
+      final Continuation<? super List<Word>> $completion) {
+    final String _sql = "SELECT * FROM words WHERE (state = 2 OR known = 1)\n"
+            + "           AND (? = 0 OR level = ?) ORDER BY RANDOM() LIMIT ?";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 3);
+    int _argIndex = 1;
+    _statement.bindLong(_argIndex, level);
+    _argIndex = 2;
+    _statement.bindLong(_argIndex, level);
+    _argIndex = 3;
+    _statement.bindLong(_argIndex, limit);
+    final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
+    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<List<Word>>() {
+      @Override
+      @NonNull
+      public List<Word> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfEn = CursorUtil.getColumnIndexOrThrow(_cursor, "en");
+          final int _cursorIndexOfRu = CursorUtil.getColumnIndexOrThrow(_cursor, "ru");
+          final int _cursorIndexOfTranscription = CursorUtil.getColumnIndexOrThrow(_cursor, "transcription");
+          final int _cursorIndexOfExampleEn = CursorUtil.getColumnIndexOrThrow(_cursor, "exampleEn");
+          final int _cursorIndexOfExampleRu = CursorUtil.getColumnIndexOrThrow(_cursor, "exampleRu");
+          final int _cursorIndexOfLevel = CursorUtil.getColumnIndexOrThrow(_cursor, "level");
+          final int _cursorIndexOfState = CursorUtil.getColumnIndexOrThrow(_cursor, "state");
+          final int _cursorIndexOfEase = CursorUtil.getColumnIndexOrThrow(_cursor, "ease");
+          final int _cursorIndexOfIntervalDays = CursorUtil.getColumnIndexOrThrow(_cursor, "intervalDays");
+          final int _cursorIndexOfReps = CursorUtil.getColumnIndexOrThrow(_cursor, "reps");
+          final int _cursorIndexOfLapses = CursorUtil.getColumnIndexOrThrow(_cursor, "lapses");
+          final int _cursorIndexOfDue = CursorUtil.getColumnIndexOrThrow(_cursor, "due");
+          final int _cursorIndexOfFavorite = CursorUtil.getColumnIndexOrThrow(_cursor, "favorite");
+          final int _cursorIndexOfKnown = CursorUtil.getColumnIndexOrThrow(_cursor, "known");
+          final int _cursorIndexOfLastReviewed = CursorUtil.getColumnIndexOrThrow(_cursor, "lastReviewed");
+          final List<Word> _result = new ArrayList<Word>(_cursor.getCount());
+          while (_cursor.moveToNext()) {
+            final Word _item;
+            final long _tmpId;
+            _tmpId = _cursor.getLong(_cursorIndexOfId);
+            final String _tmpEn;
+            _tmpEn = _cursor.getString(_cursorIndexOfEn);
+            final String _tmpRu;
+            _tmpRu = _cursor.getString(_cursorIndexOfRu);
+            final String _tmpTranscription;
+            _tmpTranscription = _cursor.getString(_cursorIndexOfTranscription);
+            final String _tmpExampleEn;
+            _tmpExampleEn = _cursor.getString(_cursorIndexOfExampleEn);
+            final String _tmpExampleRu;
+            _tmpExampleRu = _cursor.getString(_cursorIndexOfExampleRu);
+            final int _tmpLevel;
+            _tmpLevel = _cursor.getInt(_cursorIndexOfLevel);
+            final int _tmpState;
+            _tmpState = _cursor.getInt(_cursorIndexOfState);
+            final double _tmpEase;
+            _tmpEase = _cursor.getDouble(_cursorIndexOfEase);
+            final int _tmpIntervalDays;
+            _tmpIntervalDays = _cursor.getInt(_cursorIndexOfIntervalDays);
+            final int _tmpReps;
+            _tmpReps = _cursor.getInt(_cursorIndexOfReps);
+            final int _tmpLapses;
+            _tmpLapses = _cursor.getInt(_cursorIndexOfLapses);
+            final long _tmpDue;
+            _tmpDue = _cursor.getLong(_cursorIndexOfDue);
+            final boolean _tmpFavorite;
+            final int _tmp;
+            _tmp = _cursor.getInt(_cursorIndexOfFavorite);
+            _tmpFavorite = _tmp != 0;
+            final boolean _tmpKnown;
+            final int _tmp_1;
+            _tmp_1 = _cursor.getInt(_cursorIndexOfKnown);
+            _tmpKnown = _tmp_1 != 0;
+            final long _tmpLastReviewed;
+            _tmpLastReviewed = _cursor.getLong(_cursorIndexOfLastReviewed);
+            _item = new Word(_tmpId,_tmpEn,_tmpRu,_tmpTranscription,_tmpExampleEn,_tmpExampleRu,_tmpLevel,_tmpState,_tmpEase,_tmpIntervalDays,_tmpReps,_tmpLapses,_tmpDue,_tmpFavorite,_tmpKnown,_tmpLastReviewed);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+          _statement.release();
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
+  public Object hard(final int level, final int limit,
+      final Continuation<? super List<Word>> $completion) {
+    final String _sql = "SELECT * FROM words WHERE known = 0 AND state > 0 AND (lapses > 0 OR ease < 2.3)\n"
+            + "           AND (? = 0 OR level = ?) ORDER BY lapses DESC, ease LIMIT ?";
+    final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 3);
+    int _argIndex = 1;
+    _statement.bindLong(_argIndex, level);
+    _argIndex = 2;
+    _statement.bindLong(_argIndex, level);
+    _argIndex = 3;
+    _statement.bindLong(_argIndex, limit);
+    final CancellationSignal _cancellationSignal = DBUtil.createCancellationSignal();
+    return CoroutinesRoom.execute(__db, false, _cancellationSignal, new Callable<List<Word>>() {
+      @Override
+      @NonNull
+      public List<Word> call() throws Exception {
+        final Cursor _cursor = DBUtil.query(__db, _statement, false, null);
+        try {
+          final int _cursorIndexOfId = CursorUtil.getColumnIndexOrThrow(_cursor, "id");
+          final int _cursorIndexOfEn = CursorUtil.getColumnIndexOrThrow(_cursor, "en");
+          final int _cursorIndexOfRu = CursorUtil.getColumnIndexOrThrow(_cursor, "ru");
+          final int _cursorIndexOfTranscription = CursorUtil.getColumnIndexOrThrow(_cursor, "transcription");
+          final int _cursorIndexOfExampleEn = CursorUtil.getColumnIndexOrThrow(_cursor, "exampleEn");
+          final int _cursorIndexOfExampleRu = CursorUtil.getColumnIndexOrThrow(_cursor, "exampleRu");
+          final int _cursorIndexOfLevel = CursorUtil.getColumnIndexOrThrow(_cursor, "level");
+          final int _cursorIndexOfState = CursorUtil.getColumnIndexOrThrow(_cursor, "state");
+          final int _cursorIndexOfEase = CursorUtil.getColumnIndexOrThrow(_cursor, "ease");
+          final int _cursorIndexOfIntervalDays = CursorUtil.getColumnIndexOrThrow(_cursor, "intervalDays");
+          final int _cursorIndexOfReps = CursorUtil.getColumnIndexOrThrow(_cursor, "reps");
+          final int _cursorIndexOfLapses = CursorUtil.getColumnIndexOrThrow(_cursor, "lapses");
+          final int _cursorIndexOfDue = CursorUtil.getColumnIndexOrThrow(_cursor, "due");
+          final int _cursorIndexOfFavorite = CursorUtil.getColumnIndexOrThrow(_cursor, "favorite");
+          final int _cursorIndexOfKnown = CursorUtil.getColumnIndexOrThrow(_cursor, "known");
+          final int _cursorIndexOfLastReviewed = CursorUtil.getColumnIndexOrThrow(_cursor, "lastReviewed");
+          final List<Word> _result = new ArrayList<Word>(_cursor.getCount());
+          while (_cursor.moveToNext()) {
+            final Word _item;
+            final long _tmpId;
+            _tmpId = _cursor.getLong(_cursorIndexOfId);
+            final String _tmpEn;
+            _tmpEn = _cursor.getString(_cursorIndexOfEn);
+            final String _tmpRu;
+            _tmpRu = _cursor.getString(_cursorIndexOfRu);
+            final String _tmpTranscription;
+            _tmpTranscription = _cursor.getString(_cursorIndexOfTranscription);
+            final String _tmpExampleEn;
+            _tmpExampleEn = _cursor.getString(_cursorIndexOfExampleEn);
+            final String _tmpExampleRu;
+            _tmpExampleRu = _cursor.getString(_cursorIndexOfExampleRu);
+            final int _tmpLevel;
+            _tmpLevel = _cursor.getInt(_cursorIndexOfLevel);
+            final int _tmpState;
+            _tmpState = _cursor.getInt(_cursorIndexOfState);
+            final double _tmpEase;
+            _tmpEase = _cursor.getDouble(_cursorIndexOfEase);
+            final int _tmpIntervalDays;
+            _tmpIntervalDays = _cursor.getInt(_cursorIndexOfIntervalDays);
+            final int _tmpReps;
+            _tmpReps = _cursor.getInt(_cursorIndexOfReps);
+            final int _tmpLapses;
+            _tmpLapses = _cursor.getInt(_cursorIndexOfLapses);
+            final long _tmpDue;
+            _tmpDue = _cursor.getLong(_cursorIndexOfDue);
+            final boolean _tmpFavorite;
+            final int _tmp;
+            _tmp = _cursor.getInt(_cursorIndexOfFavorite);
+            _tmpFavorite = _tmp != 0;
+            final boolean _tmpKnown;
+            final int _tmp_1;
+            _tmp_1 = _cursor.getInt(_cursorIndexOfKnown);
+            _tmpKnown = _tmp_1 != 0;
+            final long _tmpLastReviewed;
+            _tmpLastReviewed = _cursor.getLong(_cursorIndexOfLastReviewed);
+            _item = new Word(_tmpId,_tmpEn,_tmpRu,_tmpTranscription,_tmpExampleEn,_tmpExampleRu,_tmpLevel,_tmpState,_tmpEase,_tmpIntervalDays,_tmpReps,_tmpLapses,_tmpDue,_tmpFavorite,_tmpKnown,_tmpLastReviewed);
+            _result.add(_item);
+          }
+          return _result;
+        } finally {
+          _cursor.close();
+          _statement.release();
+        }
+      }
+    }, $completion);
+  }
+
+  @Override
   public Object distractors(final long id, final int level, final int n,
       final Continuation<? super List<Word>> $completion) {
     final String _sql = "SELECT * FROM words WHERE id != ? AND level = ? ORDER BY RANDOM() LIMIT ?";
@@ -604,7 +776,7 @@ public final class WordDao_Impl implements WordDao {
     final String _sql = "SELECT * FROM words WHERE (? = 0 OR level = ?)\n"
             + "           AND (? = 0 OR favorite = 1)\n"
             + "           AND (en LIKE '%' || ? || '%' OR ru LIKE '%' || ? || '%')\n"
-            + "           ORDER BY level, id";
+            + "           ORDER BY level, id LIMIT 2000";
     final RoomSQLiteQuery _statement = RoomSQLiteQuery.acquire(_sql, 5);
     int _argIndex = 1;
     _statement.bindLong(_argIndex, level);

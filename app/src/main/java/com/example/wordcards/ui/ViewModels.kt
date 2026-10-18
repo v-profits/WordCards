@@ -22,6 +22,7 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     val settings = a.settings.flow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AppSettings())
+    val seeding = a.repo.seeding
 }
 
 /** Список слов с поиском и фильтрами. */

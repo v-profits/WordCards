@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:2:1-27:12
-INJECTED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:2:1-27:12
-INJECTED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:2:1-27:12
-INJECTED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:2:1-27:12
+ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:2:1-29:12
 MERGED from [androidx.navigation:navigation-common:2.8.0] C:\Users\user\.gradle\caches\8.9\transforms\e3dfdf3c13af7f29957fd160badac768\transformed\navigation-common-2.8.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-runtime:2.8.0] C:\Users\user\.gradle\caches\8.9\transforms\b1f11159f0eba99dab7bcc62c654470b\transformed\navigation-runtime-2.8.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.navigation:navigation-common-ktx:2.8.0] C:\Users\user\.gradle\caches\8.9\transforms\ec1812c2fa4e556848c376591f861e95\transformed\navigation-common-ktx-2.8.0\AndroidManifest.xml:2:1-7:12
@@ -109,8 +109,8 @@ ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:9:13-72
 	android:name
 		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:9:21-69
 application
-ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:13:5-26:19
-INJECTED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:13:5-26:19
+ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:13:5-28:19
+INJECTED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:13:5-28:19
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\user\.gradle\caches\8.9\transforms\8cea0a62b7b9453b49cc126ac642dada\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.12.0] C:\Users\user\.gradle\caches\8.9\transforms\8cea0a62b7b9453b49cc126ac642dada\transformed\material-1.12.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\user\.gradle\caches\8.9\transforms\9fe2647f31b2c1ddaef0e5ae5fa08915\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
@@ -136,29 +136,33 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\user\.gradle\cache
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] C:\Users\user\.gradle\caches\8.9\transforms\b25bb1e9ac97f1c1ac6c4059c8926107\transformed\core-1.13.1\AndroidManifest.xml:28:18-86
 	android:label
-		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:16:9-41
+		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:18:9-41
+	android:roundIcon
+		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:17:9-54
+	android:icon
+		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:16:9-43
 	android:allowBackup
 		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:15:9-35
 	android:theme
-		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:17:9-47
+		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:19:9-47
 	android:name
 		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:14:9-32
 activity#com.example.wordcards.MainActivity
-ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:18:9-25:20
+ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:20:9-27:20
 	android:exported
-		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:20:13-36
+		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:22:13-36
 	android:name
-		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:19:13-41
+		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:21:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:21:13-24:29
+ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:23:13-26:29
 action#android.intent.action.MAIN
-ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:22:17-69
+ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:24:17-69
 	android:name
-		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:22:25-66
+		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:24:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:23:17-77
+ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:25:17-77
 	android:name
-		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:23:27-74
+		ADDED from C:\android_\WordCards\app\src\main\AndroidManifest.xml:25:27-74
 uses-sdk
 INJECTED from C:\android_\WordCards\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\android_\WordCards\app\src\main\AndroidManifest.xml

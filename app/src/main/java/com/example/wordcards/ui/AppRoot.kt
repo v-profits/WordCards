@@ -54,16 +54,17 @@ fun AppRoot() {
     ) { pad ->
         NavHost(nav, startDestination = "home", modifier = Modifier.padding(pad)) {
             composable("home") {
-                HomeScreen { level, mode -> nav.navigate("study/$level/${mode.name}") }
+                HomeScreen { level, mode, kind -> nav.navigate("study/$level/${mode.name}/${kind.name}") }
             }
             composable("words") { WordsScreen() }
             composable("stats") { StatsScreen() }
             composable("settings") { SettingsScreen() }
             composable(
-                "study/{level}/{mode}",
+                "study/{level}/{mode}/{kind}",
                 arguments = listOf(
                     navArgument("level") { type = NavType.IntType },
-                    navArgument("mode") { type = NavType.StringType }
+                    navArgument("mode") { type = NavType.StringType },
+                    navArgument("kind") { type = NavType.StringType }
                 )
             ) { StudyScreen(onExit = { nav.popBackStack() }) }
         }

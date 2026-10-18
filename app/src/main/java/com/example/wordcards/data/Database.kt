@@ -37,6 +37,20 @@ interface WordDao {
     )
     suspend fun fresh(level: Int, limit: Int): List<Word>
 
+    /** Уже изученные слова в случайном порядке — для тренировки без изменения расписания. */
+    @Query(
+        """SELECT * FROM words WHERE (state = 2 OR known = 1)
+           AND (:level = 0 OR level = :level) ORDER BY RANDOM() LIMIT :limit"""
+    )
+    suspend fun learned(level: Int, limit: Int): List<Word>
+
+    /** Сложные слова: были ошибки или низкая лёгкость. */
+    @Query(
+        """SELECT * FROM words WHERE known = 0 AND state > 0 AND (lapses > 0 OR ease < 2.3)
+           AND (:level = 0 OR level = :level) ORDER BY lapses DESC, ease LIMIT :limit"""
+    )
+    suspend fun hard(level: Int, limit: Int): List<Word>
+
     @Update
     suspend fun update(word: Word)
 
@@ -50,7 +64,7 @@ interface WordDao {
         """SELECT * FROM words WHERE (:level = 0 OR level = :level)
            AND (:fav = 0 OR favorite = 1)
            AND (en LIKE '%' || :q || '%' OR ru LIKE '%' || :q || '%')
-           ORDER BY level, id"""
+           ORDER BY level, id LIMIT 2000"""
     )
     fun search(q: String, level: Int, fav: Int): Flow<List<Word>>
 

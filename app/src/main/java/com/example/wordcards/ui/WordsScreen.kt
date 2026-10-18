@@ -48,7 +48,7 @@ fun WordsScreen(vm: WordsViewModel = viewModel()) {
             }
             FilterChip(selected = fav, onClick = { vm.favOnly.value = !fav }, label = { Text("★ Избранное") })
         }
-        Text("Слов: ${words.size}", Modifier.padding(16.dp, 8.dp), style = MaterialTheme.typography.labelMedium)
+        Text(if (words.size >= 2000) "Показано 2000 — уточните поиск или уровень" else "Слов: ${words.size}", Modifier.padding(16.dp, 8.dp), style = MaterialTheme.typography.labelMedium)
         LazyColumn(Modifier.fillMaxSize()) {
             items(words, key = { it.id }) { w ->
                 WordRow(w, onSpeak = { speaker.speak(w.en) },

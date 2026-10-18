@@ -25,7 +25,7 @@ class WordApp : Application() {
         settings = SettingsStore(this)
         speaker = Speaker(this)
         Reminder.createChannel(this)
-        appScope.launch { repo.seedIfEmpty() }
+        appScope.launch { repo.seedIfNeeded() }
     }
 }
 

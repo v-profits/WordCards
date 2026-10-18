@@ -2,6 +2,7 @@ package com.example.wordcards.data
 
 import android.content.Context
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 
@@ -30,13 +31,26 @@ class Repository(private val ctx: Context, db: AppDatabase) {
 
     fun today(): String = LocalDate.now().toString()
 
-    /** При первом запуске загружаем встроенные словари из assets. */
-    suspend fun seedIfEmpty() = withContext(Dispatchers.IO) {
-        if (words.count() == 0) {
-            for (level in 1..5) {
+    /** true, пока идёт первичная загрузка словаря (около 19 тыс. слов). */
+    val seeding = MutableStateFlow(false)
+
+    /**
+     * Загружает встроенные словари из assets. Версия словаря хранится в настройках:
+     * при обновлении приложения с новым словарём недостающие слова просто добавятся
+     * (дубликаты игнорируются, прогресс изученных слов не теряется).
+     */
+    suspend fun seedIfNeeded() = withContext(Dispatchers.IO) {
+        val prefs = ctx.getSharedPreferences("dict", Context.MODE_PRIVATE)
+        if (prefs.getInt("version", 0) >= DICT_VERSION) return@withContext
+        seeding.value = true
+        try {
+            for (level in 1..6) {
                 val text = ctx.assets.open("words_$level.csv").bufferedReader().use { it.readText() }
                 words.insertAll(CsvParser.parse(text, level))
             }
+            prefs.edit().putInt("version", DICT_VERSION).apply()
+        } finally {
+            seeding.value = false
         }
     }
 
@@ -59,6 +73,13 @@ class Repository(private val ctx: Context, db: AppDatabase) {
         )
     }
 
+    /** Тренировка: учитываем только дневную статистику, расписание слова не меняем. */
+    suspend fun saveStatOnly(correct: Boolean) {
+        val d = today()
+        val s = stats.get(d) ?: DailyStat(d)
+        stats.upsert(s.copy(reviewed = s.reviewed + 1, correct = s.correct + if (correct) 1 else 0))
+    }
+
     /** Неправильные варианты для режима «Выбор»: сначала того же уровня. */
     suspend fun distractors(w: Word, n: Int): List<Word> {
         val same = words.distractors(w.id, w.level, n)
@@ -67,6 +88,8 @@ class Repository(private val ctx: Context, db: AppDatabase) {
     }
 
     companion object {
+        const val DICT_VERSION = 2
+
         /** Серия дней подряд с занятиями (сегодня может быть ещё не засчитан). */
         fun streak(stats: List<DailyStat>): Int {
             val days = stats.filter { it.reviewed > 0 }.map { it.date }.toSet()

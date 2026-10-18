@@ -53,7 +53,7 @@ fun StudyScreen(vm: StudyViewModel = viewModel(), onExit: () -> Unit) {
         Spacer(Modifier.height(12.dp))
         when {
             ui.loading -> Box(Modifier.fillMaxSize(), Alignment.Center) { CircularProgressIndicator() }
-            ui.finished -> FinishView(ui, onExit)
+            ui.finished -> FinishView(ui, vm.kind, vm.canMore, onExit) { vm.more() }
             else -> when (vm.mode) {
                 StudyMode.CARDS -> CardsBody(ui, vm)
                 StudyMode.CHOICE -> ChoiceBody(ui, vm)
@@ -64,16 +64,27 @@ fun StudyScreen(vm: StudyViewModel = viewModel(), onExit: () -> Unit) {
 }
 
 @Composable
-private fun FinishView(ui: StudyUi, onExit: () -> Unit) {
+private fun FinishView(ui: StudyUi, kind: SessionKind, canMore: Boolean, onExit: () -> Unit, onMore: () -> Unit) {
     Column(Modifier.fillMaxSize(), Arrangement.Center, Alignment.CenterHorizontally) {
-        Text(if (ui.total == 0) "На сегодня всё! 🎉" else "Занятие завершено 🎉",
+        Text(if (ui.total == 0) "Пока всё! 🎉" else "Занятие завершено 🎉",
             style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center)
         Spacer(Modifier.height(8.dp))
-        if (ui.total == 0) Text("Нет слов к повторению и достигнут дневной лимит новых.",
-            textAlign = TextAlign.Center)
-        else Text("Слов: ${ui.total} · верных ответов: ${ui.correct}")
+        if (ui.total == 0) Text(
+            when (kind) {
+                SessionKind.LEARN -> "Повторять пока нечего, а дневной лимит новых слов выполнен."
+                SessionKind.DUE -> "Сейчас нет слов, которые пора повторять."
+                SessionKind.PRACTICE -> "Пока нет изученных слов для тренировки."
+                SessionKind.HARD -> "Сложных слов нет — отлично!"
+            }, textAlign = TextAlign.Center
+        ) else Text("Слов: ${ui.total} · верных ответов: ${ui.correct}")
         Spacer(Modifier.height(24.dp))
-        Button(onClick = onExit) { Text("Готово") }
+        if (canMore) {
+            Button(onClick = onMore) {
+                Text(if (kind == SessionKind.LEARN) "Учить ещё 10 новых слов" else "Ещё тренировка")
+            }
+            Spacer(Modifier.height(8.dp))
+        }
+        OutlinedButton(onClick = onExit) { Text("Готово") }
     }
 }
 
