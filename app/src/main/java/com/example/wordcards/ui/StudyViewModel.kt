@@ -1,9 +1,11 @@
 package com.example.wordcards.ui
 
 import android.app.Application
+import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.example.wordcards.R
 import com.example.wordcards.WordApp
 import com.example.wordcards.data.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,28 +15,35 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-/** Режимы тренировки. */
-enum class StudyMode(val title: String) {
-    CARDS("Карточки"),   // переворот + самооценка (как в Anki)
-    CHOICE("Выбор"),     // 4 варианта ответа (как в Duolingo/Quizlet)
-    TYPING("Ввод"),      // ввод перевода с клавиатуры
-    LISTEN("Аудио")      // слушаем слово и пишем его по-английски
+/** Режимы тренировки (названия и подсказки — в строковых ресурсах). */
+enum class StudyMode(@StringRes val title: Int, @StringRes val hint: Int) {
+    CARDS(R.string.mode_cards, R.string.mode_cards_hint),     // переворот + самооценка (как в Anki)
+    CHOICE(R.string.mode_choice, R.string.mode_choice_hint),  // 4 варианта ответа
+    TYPING(R.string.mode_typing, R.string.mode_typing_hint),  // ввод ответа (клавиатура или голос)
+    LISTEN(R.string.mode_listen, R.string.mode_listen_hint)   // слушаем слово и пишем его
 }
 
 /** Что именно делаем на занятии. */
-enum class SessionKind(val title: String, val hint: String) {
-    LEARN("Учить + повторять", "Слова по графику и новые слова"),
-    DUE("Только по графику", "Только то, что пора повторить"),
-    PRACTICE("Пройденное", "Тренировка уже изученных слов (расписание не меняется)"),
-    HARD("Сложные", "Слова, в которых вы ошибались")
+enum class SessionKind(@StringRes val title: Int, @StringRes val hint: Int) {
+    LEARN(R.string.kind_learn, R.string.kind_learn_hint),
+    DUE(R.string.kind_due, R.string.kind_due_hint),
+    PRACTICE(R.string.kind_practice, R.string.kind_practice_hint),
+    HARD(R.string.kind_hard, R.string.kind_hard_hint)
 }
 
 enum class Verdict { NONE, CORRECT, WRONG }
 
-/** Карточка в очереди. reverse = true: вопрос на русском, ответ на английском. */
-data class StudyCard(val word: Word, val reverse: Boolean) {
-    val question get() = if (reverse) word.ru else word.en
-    val answer get() = if (reverse) word.en else word.ru
+/**
+ * Карточка в очереди. reverse = false: вопрос на изучаемом языке, ответ на родном;
+ * reverse = true: вопрос на родном, ответ на изучаемом.
+ */
+data class StudyCard(val word: Word, val reverse: Boolean, val learn: LearnLang) {
+    val target get() = word.target(learn)
+    val native get() = word.native(learn)
+    val question get() = if (reverse) native else target
+    val answer get() = if (reverse) target else native
+    /** Язык ожидаемого ответа (для подписи поля и распознавания речи). */
+    val answerLang get() = if (reverse) learn else learn.other()
 }
 
 data class StudyUi(
@@ -46,12 +55,13 @@ data class StudyUi(
     val typed: String = "",
     val hint: Boolean = false,
     val expected: String = "",
+    val answerLang: LearnLang = LearnLang.EN,
     val verdict: Verdict = Verdict.NONE,
     val done: Int = 0,
     val total: Int = 0,
     val correct: Int = 0,
     val finished: Boolean = false,
-    val intervals: Map<Grade, String> = emptyMap()
+    val intervals: Map<Grade, Interval> = emptyMap()
 )
 
 class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewModel(app) {
@@ -96,11 +106,11 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
 
     private fun makeCard(w: Word): StudyCard {
         val reverse = if (mode == StudyMode.LISTEN) false else when (cfg.direction) {
-            Direction.EN_RU -> false
-            Direction.RU_EN -> true
+            Direction.FORWARD -> false
+            Direction.BACKWARD -> true
             Direction.MIXED -> Random.nextBoolean()
         }
-        return StudyCard(w, reverse)
+        return StudyCard(w, reverse, cfg.learning)
     }
 
     private fun next() {
@@ -109,31 +119,33 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
             _ui.update { it.copy(card = null, finished = true) }
             return
         }
-        val expected = if (mode == StudyMode.LISTEN) c.word.en else c.answer
+        // В режиме «Аудио» пишем услышанное слово на изучаемом языке
+        val expected = if (mode == StudyMode.LISTEN) c.target else c.answer
+        val ansLang = if (mode == StudyMode.LISTEN) c.learn else c.answerLang
         _ui.update {
             it.copy(
                 card = c, flipped = false, options = emptyList(), selected = null,
-                typed = "", hint = false, expected = expected, verdict = Verdict.NONE,
-                intervals = if (cram) emptyMap() else Grade.entries.associateWith { g -> Srs.label(c.word, g) }
+                typed = "", hint = false, expected = expected, answerLang = ansLang, verdict = Verdict.NONE,
+                intervals = if (cram) emptyMap() else Grade.entries.associateWith { g -> Srs.interval(c.word, g) }
             )
         }
         if (mode == StudyMode.CHOICE) viewModelScope.launch {
             val wrong = repo.distractors(c.word, 5)
-                .map { if (c.reverse) it.en else it.ru }
+                .map { if (c.reverse) it.target(c.learn) else it.native(c.learn) }
                 .filter { it != c.answer }.distinct().take(3)
             val opts = (wrong + c.answer).shuffled()
             _ui.update { if (it.card == c) it.copy(options = opts) else it }
         }
-        if (mode == StudyMode.LISTEN || (cfg.autoSpeak && !c.reverse)) a.speaker.speak(c.word.en)
+        if (mode == StudyMode.LISTEN || (cfg.autoSpeak && !c.reverse)) a.speaker.speak(c.target, c.learn)
     }
 
-    fun speak() { _ui.value.card?.let { a.speaker.speak(it.word.en) } }
+    fun speak() { _ui.value.card?.let { a.speaker.speak(it.target, it.learn) } }
 
     // ---------- Режим «Карточки» ----------
     fun flip() {
         val s = _ui.value
         val c = s.card ?: return
-        if (!s.flipped && c.reverse && cfg.autoSpeak) a.speaker.speak(c.word.en)
+        if (!s.flipped && c.reverse && cfg.autoSpeak) a.speaker.speak(c.target, c.learn)
         _ui.update { it.copy(flipped = !it.flipped) }
     }
 
@@ -156,7 +168,7 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
         if (s.verdict != Verdict.NONE) return
         val ok = option == c.answer
         _ui.update { it.copy(selected = option, verdict = if (ok) Verdict.CORRECT else Verdict.WRONG) }
-        if (c.reverse && cfg.autoSpeak) a.speaker.speak(c.word.en)
+        if (c.reverse && cfg.autoSpeak) a.speaker.speak(c.target, c.learn)
     }
 
     // ---------- Режимы «Ввод» и «Аудио» ----------
@@ -169,7 +181,7 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
         if (s.verdict != Verdict.NONE || s.typed.isBlank()) return
         val ok = matches(s.typed, s.expected)
         _ui.update { it.copy(verdict = if (ok) Verdict.CORRECT else Verdict.WRONG) }
-        if (c.reverse && cfg.autoSpeak) a.speaker.speak(c.word.en)
+        if (c.reverse && cfg.autoSpeak) a.speaker.speak(c.target, c.learn)
     }
 
     /** Допускаем любой из переводов, перечисленных через запятую. */
@@ -190,7 +202,8 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
 
     /** Озвучить предложение-пример. */
     fun speakExample() {
-        _ui.value.card?.word?.exampleEn?.takeIf { it.isNotBlank() }?.let { a.speaker.speak(it) }
+        val c = _ui.value.card ?: return
+        c.word.targetExample(c.learn).takeIf { it.isNotBlank() }?.let { a.speaker.speak(it, c.learn) }
     }
 
     /** Нормализация: регистр, «ё» → «е», без знаков препинания и лишних пробелов. */

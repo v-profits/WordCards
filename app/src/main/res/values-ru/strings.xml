@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Русские строки. Ключи те же, что в values/strings.xml -->
+<resources>
+    <string name="app_name">Карточки слов</string>
+
+    <string name="tab_home">Главная</string>
+    <string name="tab_words">Слова</string>
+    <string name="tab_stats">Статистика</string>
+    <string name="tab_settings">Настройки</string>
+
+    <string name="close">Закрыть</string>
+    <string name="done">Готово</string>
+    <string name="next">Далее</string>
+    <string name="cancel">Отмена</string>
+    <string name="reset">Сбросить</string>
+    <string name="back">Назад</string>
+    <string name="lang_name_en">Английский</string>
+    <string name="lang_name_ru">Русский</string>
+    <string name="lang_in_en">по-английски</string>
+    <string name="lang_in_ru">по-русски</string>
+
+    <string name="level_1_title">Начальный</string>
+    <string name="level_1_desc">Ядро языка: ~500 самых частотных слов</string>
+    <string name="level_2_title">Элементарный</string>
+    <string name="level_2_desc">Бытовое общение: слова ~500–1500 по частотности</string>
+    <string name="level_3_title">Средний</string>
+    <string name="level_3_desc">Свободные темы: слова ~1500–3500</string>
+    <string name="level_4_title">Выше среднего</string>
+    <string name="level_4_desc">Работа, учёба, медиа: слова ~3500–7000</string>
+    <string name="level_5_title">Продвинутый</string>
+    <string name="level_5_desc">Книги и статьи: слова ~7000–12000</string>
+    <string name="level_6_title">Эксперт</string>
+    <string name="level_6_desc">Редкая и книжная лексика: слова 12000+</string>
+
+    <string name="mode_cards">Карточки</string>
+    <string name="mode_cards_hint">Переверните карточку и оцените, насколько хорошо вы вспомнили слово.</string>
+    <string name="mode_choice">Выбор</string>
+    <string name="mode_choice_hint">Выберите правильный ответ из четырёх.</string>
+    <string name="mode_typing">Ввод</string>
+    <string name="mode_typing_hint">Введите ответ с клавиатуры или продиктуйте в микрофон.</string>
+    <string name="mode_listen">Аудио</string>
+    <string name="mode_listen_hint">Послушайте слово и напишите его (клавиатура или микрофон).</string>
+
+    <string name="kind_learn">Учить + повторять</string>
+    <string name="kind_learn_hint">Сначала слова, которые пора повторить, затем новые.</string>
+    <string name="kind_due">Только по графику</string>
+    <string name="kind_due_hint">Только то, что сейчас запланировано к повторению.</string>
+    <string name="kind_practice">Пройденное</string>
+    <string name="kind_practice_hint">Дополнительная тренировка выученных слов. Расписание повторений не меняется.</string>
+    <string name="kind_hard">Сложные</string>
+    <string name="kind_hard_hint">Слова, в которых вы часто ошибались. Расписание повторений не меняется.</string>
+
+    <string name="home_help">Как это работает</string>
+    <string name="home_studying">Вы изучаете: %1$s</string>
+    <string name="home_streak">Серия: %1$d дн.</string>
+    <string name="home_goal">Цель дня: %1$d из %2$d ответов</string>
+    <string name="home_due_now">К повторению сейчас: %1$d</string>
+    <string name="home_loading">Загружаем словарь (≈19 000 слов)… Это бывает только один раз.</string>
+    <string name="home_start">Начать занятие (все уровни)</string>
+    <string name="home_order_limited">Порядок в занятии: 1) слова, которые пора повторить, 2) новые слова (до %1$d в день). Нажмите на уровень ниже, чтобы заниматься только им.</string>
+    <string name="home_order_unlimited">Порядок в занятии: 1) слова, которые пора повторить, 2) новые слова (без дневного лимита). Нажмите на уровень ниже, чтобы заниматься только им.</string>
+    <string name="home_what">Что делаем</string>
+    <string name="home_mode">Режим тренировки</string>
+    <string name="level_progress">Выучено %1$d из %2$d · новых %3$d</string>
+
+    <string name="study_show_answer">Показать ответ</string>
+    <string name="study_known">Уже знаю</string>
+    <string name="study_speak_word">Озвучить слово</string>
+    <string name="study_speak_sentence">Предложение</string>
+    <string name="study_speak_sentence_cd">Озвучить предложение</string>
+    <string name="study_swipe_hint">Свайп вправо — знаю · влево — не знаю</string>
+    <string name="grade_again">Снова</string>
+    <string name="grade_hard">Трудно</string>
+    <string name="grade_good">Хорошо</string>
+    <string name="grade_easy">Легко</string>
+    <string name="study_listen_prompt">Послушайте и напишите услышанное слово</string>
+    <string name="study_listen_cd">Прослушать</string>
+    <string name="study_answer_label">Ответ %1$s</string>
+    <string name="study_mic">Голосовой ввод</string>
+    <string name="study_mic_unavailable">Голосовой ввод недоступен на этом устройстве</string>
+    <string name="study_mic_prompt_en">Скажите слово по-английски</string>
+    <string name="study_mic_prompt_ru">Скажите слово по-русски</string>
+    <string name="study_hint_btn">Подсказка</string>
+    <string name="study_check">Проверить</string>
+    <string name="study_hint_text">Подсказка: начинается на «%1$s», букв: %2$d</string>
+    <string name="study_correct">Верно! ✅</string>
+    <string name="study_wrong">Неверно ❌</string>
+    <string name="study_right_answer">Правильный ответ: %1$s</string>
+    <string name="finish_done_title">Занятие завершено 🎉</string>
+    <string name="finish_empty_title">Пока всё! 🎉</string>
+    <string name="finish_stats">Слов: %1$d · верных ответов: %2$d</string>
+    <string name="finish_empty_learn">Повторять пока нечего, а дневной лимит новых слов выполнен.</string>
+    <string name="finish_empty_due">Сейчас нет слов, которые пора повторять.</string>
+    <string name="finish_empty_practice">Пока нет изученных слов для тренировки.</string>
+    <string name="finish_empty_hard">Сложных слов нет — отлично!</string>
+    <string name="finish_more_learn">Учить ещё 10 новых слов</string>
+    <string name="finish_more_practice">Ещё тренировка</string>
+
+    <string name="words_search">Поиск слова</string>
+    <string name="words_all">Все</string>
+    <string name="words_fav">★ Избранное</string>
+    <string name="words_count">Слов: %1$d</string>
+    <string name="words_limit">Показано 2000 — уточните поиск или уровень</string>
+    <string name="words_hint">Нажмите на предложение, чтобы его услышать · ★ избранное · ✓ отметить как «знаю» (слово исключается из обучения)</string>
+    <string name="words_cd_speak">Озвучить</string>
+    <string name="words_cd_fav">Избранное</string>
+    <string name="words_cd_known">Знаю</string>
+
+    <string name="stats_title">Статистика</string>
+    <string name="stats_learned">выучено</string>
+    <string name="stats_streak">дней подряд</string>
+    <string name="stats_total">ответов всего</string>
+    <string name="stats_accuracy">точность</string>
+    <string name="stats_chart">Ответов за 7 дней</string>
+
+    <string name="settings_title">Настройки</string>
+    <string name="set_help">Как работает приложение</string>
+    <string name="set_lang_title">Язык интерфейса</string>
+    <string name="set_lang_system">Системный</string>
+    <string name="set_learn_title">Что я изучаю</string>
+    <string name="set_learn_desc">Выберите язык, который хотите выучить. Его слова озвучиваются, и именно их нужно запоминать.</string>
+    <string name="set_learn_en">Английский (я говорю по-русски)</string>
+    <string name="set_learn_ru">Русский (я говорю по-английски)</string>
+    <string name="set_dir_title">Направление карточек</string>
+    <string name="set_dir_desc">Слева от стрелки — то, что вы видите, справа — то, что нужно ответить.</string>
+    <string name="dir_pair">%1$s → %2$s</string>
+    <string name="dir_mixed">Вперемешку</string>
+    <string name="set_load_title">Нагрузка</string>
+    <string name="set_unlimited">Без дневного лимита новых слов</string>
+    <string name="set_unlimited_desc">Новые слова идут пачками по 100 за занятие — учите сколько хотите.</string>
+    <string name="set_new_per_day">Новых слов в день: %1$d</string>
+    <string name="set_goal">Цель дня (ответов): %1$d</string>
+    <string name="set_sound_title">Звук и тема</string>
+    <string name="set_autospeak">Автоозвучка слов</string>
+    <string name="theme_system">Системная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="set_reminder_title">Напоминание</string>
+    <string name="set_reminder">Ежедневное напоминание</string>
+    <string name="set_reminder_hour">Время (час): %1$d</string>
+    <string name="set_import_title">Свои слова (импорт CSV)</string>
+    <string name="set_import_desc">Файл UTF-8, одна строка = одно слово:\nenglish;русский;транскрипция;пример EN;пример RU\nОбязательны только первые два поля. Строки, начинающиеся с #, игнорируются.</string>
+    <string name="set_import_btn">Выбрать файл и добавить в уровень</string>
+    <string name="set_sources_title">Источники данных</string>
+    <string name="set_sources_text">Переводы слов: OpenRussian.org (CC BY-SA 4.0).\nПримеры предложений: Tatoeba.org (CC BY 2.0 FR); для редких слов часть примеров — простые шаблонные фразы.\nЧастотность: wordfreq. Транскрипция: CMU Pronouncing Dictionary.</string>
+    <string name="set_reset">Сбросить весь прогресс</string>
+    <string name="set_reset_title">Сбросить прогресс?</string>
+    <string name="set_reset_text">Все слова вернутся в состояние «новые». Статистика дней сохранится.</string>
+    <string name="msg_imported">Добавлено новых слов: %1$d</string>
+    <string name="msg_read_failed">Не удалось прочитать файл</string>
+    <string name="msg_reset_done">Прогресс сброшен</string>
+    <string name="tts_missing">Голос для этого языка не установлен. Установите его в настройках Android → Синтез речи.</string>
+
+    <string name="notif_channel">Напоминания</string>
+    <string name="notif_due">Слов к повторению: %1$d. Займёт пару минут!</string>
+    <string name="notif_new">Время выучить новые слова!</string>
+
+    <string name="help_title">Как это работает</string>
+    <string name="help_1_t">Идея</string>
+    <string name="help_1_b">Приложение использует интервальные повторения. Слово, на которое вы ответили хорошо, возвращается всё позже и позже (через 10 минут, 1 день, 4 дня, недели, месяцы). Забытое слово возвращается скоро. Так вы тратите время только на слова, которые вот-вот забудутся.</string>
+    <string name="help_2_t">Уровни</string>
+    <string name="help_2_b">Слова отсортированы по частотности в живой речи. Первый уровень — ~500 самых частотных слов, дальше идут A2, B1, B2, C1 и C2 со всё более редкими словами. Нескольких тысяч слов уровней A1–B2 уже достаточно для повседневного общения. Начните с первого уровня и поднимайтесь выше.</string>
+    <string name="help_3_t">Что появляется в занятии и в каком порядке</string>
+    <string name="help_3_b">1) Сначала идут слова, которые пора повторить: вы их уже видели, и пришло время их повторить.\n2) Затем новые слова, до вашего дневного лимита (Настройки → Нагрузка).\nНеверный ответ возвращает слово в это же занятие через несколько карточек, пока вы не ответите правильно. Полоса прогресса считает слова, а не попытки.</string>
+    <string name="help_4_t">Типы занятий (Главная → Что делаем)</string>
+    <string name="help_4_b">• Учить + повторять — обычный режим: сначала слова к повторению, потом новые.\n• Только по графику — повторяете то, что запланировано, без новых слов.\n• Пройденное — дополнительная тренировка уже выученных слов в случайном порядке. Расписание не меняется, поэтому режим безопасен для подготовки перед поездкой или экзаменом.\n• Сложные — слова, в которых вы ошибались чаще всего. Расписание тоже не меняется.</string>
+    <string name="help_5_t">Режимы тренировки</string>
+    <string name="help_5_b">• Карточки — вы видите слово, пытаетесь вспомнить перевод, нажимаете «Показать ответ» и оцениваете себя.\n• Выбор — выберите правильный перевод из четырёх.\n• Ввод — наберите перевод или нажмите на микрофон и скажите его. Новая диктовка заменяет прежний текст, пока вы не нажали «Проверить».\n• Аудио — вы слышите слово и пишете его. Хорошо тренирует произношение и написание.</string>
+    <string name="help_6_t">Кнопки на карточке</string>
+    <string name="help_6_b">• Показать ответ — переворачивает карточку (можно просто нажать на карточку).\n• Снова / Трудно / Хорошо / Легко — насколько хорошо вы вспомнили слово. Время под кнопкой показывает, когда слово вернётся: «Снова» — скоро (около 10 минут), «Легко» — намного позже. Отвечайте честно: расписание подстраивается под вас.\n• Свайп — после переворота смахните вправо, если знали слово, и влево, если не знали.\n• Значок динамика — озвучивает слово. «Предложение» озвучивает пример, чтобы вы услышали слово в живой речи.\n• Уже знаю — навсегда убирает слово из обучения.</string>
+    <string name="help_7_t">Вкладка «Слова»</string>
+    <string name="help_7_b">Просмотр и поиск по всем словам. Нажмите на пример предложения, чтобы его услышать. ★ добавляет слово в избранное; ✓ отмечает его как известное — оно больше не будет появляться в занятиях.</string>
+    <string name="help_8_t">Цель, серия и лимит</string>
+    <string name="help_8_b">Цель дня — число ответов, к которому вы стремитесь каждый день. Серия считает дни подряд, в которые был хотя бы один ответ. Дневной лимит новых слов защищает от перегрузки: его можно отключить в настройках или нажать «Учить ещё 10 новых слов» в конце занятия.</string>
+    <string name="help_9_t">Языки</string>
+    <string name="help_9_b">Язык интерфейса и язык, который вы изучаете, — две отдельные настройки. Русскоговорящие изучают английский, англоговорящие — русский. Слова изучаемого языка озвучиваются и распознаются голосом. «Настройки → Направление карточек» выбирает, что вы видите первым: изучаемый язык, свой язык или вперемешку. Для озвучки и голосового ввода нужен голос Android для этого языка (если ничего не слышно, установите его в настройках Android).</string>
+    <string name="help_10_t">Советы</string>
+    <string name="help_10_b">Понемногу каждый день лучше, чем много раз в неделю. Сначала делайте повторения. Не бойтесь нажимать «Снова» — так приложение понимает, что вам нужно.</string>
+
+    <!-- Интервалы под кнопками оценки -->
+    <string name="unit_min">%1$d мин</string>
+    <string name="unit_day">%1$d дн.</string>
+    <string name="unit_month">%1$d мес.</string>
+</resources>

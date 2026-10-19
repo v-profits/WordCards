@@ -1,7 +1,7 @@
 package com.example.wordcards
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.collectAsState
@@ -9,7 +9,7 @@ import com.example.wordcards.data.AppSettings
 import com.example.wordcards.ui.AppRoot
 import com.example.wordcards.ui.WordCardsTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val app = application as WordApp

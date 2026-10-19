@@ -13,8 +13,8 @@ android {
         applicationId = "com.example.wordcards"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.2"
+        versionCode = 3
+        versionName = "1.3"
     }
     buildTypes {
         release { isMinifyEnabled = false }
@@ -37,6 +37,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.8.0")
     // Архитектура
     implementation("androidx.core:core-ktx:1.13.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")   // смена языка интерфейса
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.5")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.5")
     // База данных

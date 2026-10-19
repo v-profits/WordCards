@@ -13,6 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
+import com.example.wordcards.R
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -32,21 +35,22 @@ fun StatsScreen(vm: HomeViewModel = viewModel()) {
     val totalReviewed = recent.sumOf { it.reviewed }
     val accuracy = if (totalReviewed == 0) 0 else recent.sumOf { it.correct } * 100 / totalReviewed
     val barColor = MaterialTheme.colorScheme.primary
+    val locale = LocalConfiguration.current.locales[0]   // дни недели на языке интерфейса
 
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text("Статистика", style = MaterialTheme.typography.headlineSmall)
+        Text(stringResource(R.string.stats_title), style = MaterialTheme.typography.headlineSmall)
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Tile("${levels.sumOf { it.learned }}/${levels.sumOf { it.total }}", "выучено")
-            Tile("${Repository.streak(recent)}", "дней подряд")
+            Tile("${levels.sumOf { it.learned }}/${levels.sumOf { it.total }}", stringResource(R.string.stats_learned))
+            Tile("${Repository.streak(recent)}", stringResource(R.string.stats_streak))
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Tile("$totalReviewed", "ответов всего")
-            Tile("$accuracy%", "точность")
+            Tile("$totalReviewed", stringResource(R.string.stats_total))
+            Tile("$accuracy%", stringResource(R.string.stats_accuracy))
         }
         Card(Modifier.fillMaxWidth()) {
             Column(Modifier.padding(16.dp)) {
-                Text("Ответов за 7 дней", style = MaterialTheme.typography.titleMedium)
+                Text(stringResource(R.string.stats_chart), style = MaterialTheme.typography.titleMedium)
                 Spacer(Modifier.height(12.dp))
                 Canvas(Modifier.fillMaxWidth().height(140.dp)) {
                     val max = (values.maxOrNull() ?: 1).coerceAtLeast(1)
@@ -64,7 +68,7 @@ fun StatsScreen(vm: HomeViewModel = viewModel()) {
                 Row(Modifier.fillMaxWidth()) {
                     days.forEachIndexed { i, d ->
                         Text(
-                            d.dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, Locale("ru")),
+                            d.dayOfWeek.getDisplayName(java.time.format.TextStyle.SHORT, locale),
                             Modifier.weight(1f), textAlign = TextAlign.Center,
                             style = MaterialTheme.typography.labelSmall
                         )

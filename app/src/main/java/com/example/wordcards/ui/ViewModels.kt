@@ -4,6 +4,9 @@ import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.annotation.StringRes
+import com.example.wordcards.AppLang
+import com.example.wordcards.R
 import com.example.wordcards.Reminder
 import com.example.wordcards.WordApp
 import com.example.wordcards.data.*
@@ -12,6 +15,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+/** Сообщение для интерфейса: строковый ресурс + необязательное число (чтобы текст брался на текущем языке). */
+data class UiMsg(@StringRes val res: Int, val arg: Int? = null)
 
 /** Главный экран и статистика. */
 class HomeViewModel(app: Application) : AndroidViewModel(app) {
@@ -49,9 +55,12 @@ class SettingsViewModel(app: Application) : AndroidViewModel(app) {
     private val a = app as WordApp
     val settings = a.settings.flow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AppSettings())
-    val message = MutableStateFlow<String?>(null)
+    val message = MutableStateFlow<UiMsg?>(null)
 
+    fun setLearning(l: LearnLang) = viewModelScope.launch { a.settings.setLearning(l) }
     fun setDirection(d: Direction) = viewModelScope.launch { a.settings.setDirection(d) }
+    /** Язык интерфейса: "" — системный, "en", "ru". */
+    fun setLanguage(tag: String) = AppLang.set(a, tag)
     fun setNewPerDay(v: Int) = viewModelScope.launch { a.settings.setNewPerDay(v) }
     fun setDailyGoal(v: Int) = viewModelScope.launch { a.settings.setDailyGoal(v) }
     fun setAutoSpeak(v: Boolean) = viewModelScope.launch { a.settings.setAutoSpeak(v) }
@@ -67,12 +76,12 @@ class SettingsViewModel(app: Application) : AndroidViewModel(app) {
             runCatching { a.contentResolver.openInputStream(uri)?.bufferedReader()?.use { it.readText() } }
                 .getOrNull()
         }
-        message.value = if (text == null) "Не удалось прочитать файл"
-        else "Добавлено новых слов: ${a.repo.import(text, level)}"
+        message.value = if (text == null) UiMsg(R.string.msg_read_failed)
+        else UiMsg(R.string.msg_imported, a.repo.import(text, level))
     }
 
     fun resetProgress() = viewModelScope.launch {
         a.repo.words.resetProgress(0)
-        message.value = "Прогресс сброшен"
+        message.value = UiMsg(R.string.msg_reset_done)
     }
 }

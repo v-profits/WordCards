@@ -1,3 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Английские строки (язык по умолчанию). Русский перевод: values-ru/strings.xml -->
 <resources>
-    <string name="app_name">Карточки слов</string>
+    <string name="app_name">Word Cards</string>
+
+    <!-- Приветствие при первом запуске: намеренно двуязычное -->
+    <string name="welcome_title" translatable="false">Welcome! / Добро пожаловать!</string>
+    <string name="welcome_text" translatable="false">Choose your language / Выберите ваш язык</string>
+    <string name="welcome_ru" translatable="false">Я говорю по-русски — учу английский</string>
+    <string name="welcome_en" translatable="false">I speak English — I am learning Russian</string>
+    <string name="set_lang_en" translatable="false">English</string>
+    <string name="set_lang_ru" translatable="false">Русский</string>
+
+    <!-- Вкладки -->
+    <string name="tab_home">Home</string>
+    <string name="tab_words">Words</string>
+    <string name="tab_stats">Stats</string>
+    <string name="tab_settings">Settings</string>
+
+    <!-- Общее -->
+    <string name="close">Close</string>
+    <string name="done">Done</string>
+    <string name="next">Next</string>
+    <string name="cancel">Cancel</string>
+    <string name="reset">Reset</string>
+    <string name="back">Back</string>
+    <string name="lang_name_en">English</string>
+    <string name="lang_name_ru">Russian</string>
+    <string name="lang_in_en">in English</string>
+    <string name="lang_in_ru">in Russian</string>
+
+    <!-- Уровни -->
+    <string name="level_1_title">Beginner</string>
+    <string name="level_1_desc">The core of the language: the ~500 most frequent words</string>
+    <string name="level_2_title">Elementary</string>
+    <string name="level_2_desc">Everyday talk: words ranked ~500–1500 by frequency</string>
+    <string name="level_3_title">Intermediate</string>
+    <string name="level_3_desc">Free conversation: words ~1500–3500</string>
+    <string name="level_4_title">Upper-intermediate</string>
+    <string name="level_4_desc">Work, study, media: words ~3500–7000</string>
+    <string name="level_5_title">Advanced</string>
+    <string name="level_5_desc">Books and articles: words ~7000–12000</string>
+    <string name="level_6_title">Expert</string>
+    <string name="level_6_desc">Rare and literary vocabulary: words 12000+</string>
+
+    <!-- Режимы тренировки -->
+    <string name="mode_cards">Cards</string>
+    <string name="mode_cards_hint">Flip the card, then rate how well you remembered it.</string>
+    <string name="mode_choice">Choice</string>
+    <string name="mode_choice_hint">Pick the right answer out of four.</string>
+    <string name="mode_typing">Typing</string>
+    <string name="mode_typing_hint">Type the answer or dictate it with the microphone.</string>
+    <string name="mode_listen">Listening</string>
+    <string name="mode_listen_hint">Listen to the word and write it down (keyboard or microphone).</string>
+
+    <!-- Типы занятий -->
+    <string name="kind_learn">Learn + review</string>
+    <string name="kind_learn_hint">Words that are due for review come first, then new words.</string>
+    <string name="kind_due">Due only</string>
+    <string name="kind_due_hint">Only what is scheduled for review right now.</string>
+    <string name="kind_practice">Practice</string>
+    <string name="kind_practice_hint">Extra practice of learned words. Does not change the review schedule.</string>
+    <string name="kind_hard">Hard words</string>
+    <string name="kind_hard_hint">Words you often got wrong. Does not change the review schedule.</string>
+
+    <!-- Главный экран -->
+    <string name="home_help">How it works</string>
+    <string name="home_studying">You are learning: %1$s</string>
+    <string name="home_streak">Streak: %1$d days</string>
+    <string name="home_goal">Daily goal: %1$d of %2$d answers</string>
+    <string name="home_due_now">Due for review now: %1$d</string>
+    <string name="home_loading">Loading the dictionary (≈19,000 words)… This happens only once.</string>
+    <string name="home_start">Start session (all levels)</string>
+    <string name="home_order_limited">Order in a session: 1) words due for review, 2) new words (up to %1$d per day). Tap a level below to study only that level.</string>
+    <string name="home_order_unlimited">Order in a session: 1) words due for review, 2) new words (no daily limit). Tap a level below to study only that level.</string>
+    <string name="home_what">What to do</string>
+    <string name="home_mode">Practice mode</string>
+    <string name="level_progress">Learned %1$d of %2$d · new %3$d</string>
+
+    <!-- Занятие -->
+    <string name="study_show_answer">Show answer</string>
+    <string name="study_known">Already know</string>
+    <string name="study_speak_word">Pronounce the word</string>
+    <string name="study_speak_sentence">Sentence</string>
+    <string name="study_speak_sentence_cd">Pronounce the sentence</string>
+    <string name="study_swipe_hint">Swipe right = I know it · swipe left = I don\'t</string>
+    <string name="grade_again">Again</string>
+    <string name="grade_hard">Hard</string>
+    <string name="grade_good">Good</string>
+    <string name="grade_easy">Easy</string>
+    <string name="study_listen_prompt">Listen and write the word you hear</string>
+    <string name="study_listen_cd">Listen</string>
+    <string name="study_answer_label">Answer %1$s</string>
+    <string name="study_mic">Voice input</string>
+    <string name="study_mic_unavailable">Voice input is not available on this device</string>
+    <string name="study_mic_prompt_en">Say the word in English</string>
+    <string name="study_mic_prompt_ru">Say the word in Russian</string>
+    <string name="study_hint_btn">Hint</string>
+    <string name="study_check">Check</string>
+    <string name="study_hint_text">Hint: starts with “%1$s”, %2$d letters</string>
+    <string name="study_correct">Correct! ✅</string>
+    <string name="study_wrong">Wrong ❌</string>
+    <string name="study_right_answer">Correct answer: %1$s</string>
+    <string name="finish_done_title">Session complete 🎉</string>
+    <string name="finish_empty_title">Nothing more for now! 🎉</string>
+    <string name="finish_stats">Words: %1$d · correct answers: %2$d</string>
+    <string name="finish_empty_learn">Nothing is due and today\'s limit of new words is reached.</string>
+    <string name="finish_empty_due">No words are due for review right now.</string>
+    <string name="finish_empty_practice">No learned words to practice yet.</string>
+    <string name="finish_empty_hard">No hard words — great!</string>
+    <string name="finish_more_learn">Learn 10 more new words</string>
+    <string name="finish_more_practice">Practice again</string>
+
+    <!-- Слова -->
+    <string name="words_search">Search a word</string>
+    <string name="words_all">All</string>
+    <string name="words_fav">★ Favorites</string>
+    <string name="words_count">Words: %1$d</string>
+    <string name="words_limit">Showing 2000 — refine your search or level</string>
+    <string name="words_hint">Tap a sentence to hear it · ★ favorite · ✓ mark as known (the word is removed from learning)</string>
+    <string name="words_cd_speak">Pronounce</string>
+    <string name="words_cd_fav">Favorite</string>
+    <string name="words_cd_known">Known</string>
+
+    <!-- Статистика -->
+    <string name="stats_title">Statistics</string>
+    <string name="stats_learned">learned</string>
+    <string name="stats_streak">days in a row</string>
+    <string name="stats_total">answers in total</string>
+    <string name="stats_accuracy">accuracy</string>
+    <string name="stats_chart">Answers over 7 days</string>
+
+    <!-- Настройки -->
+    <string name="settings_title">Settings</string>
+    <string name="set_help">How the app works</string>
+    <string name="set_lang_title">Interface language</string>
+    <string name="set_lang_system">System</string>
+    <string name="set_learn_title">What I am learning</string>
+    <string name="set_learn_desc">Pick the language you want to learn. Its words are pronounced aloud and are the ones you need to remember.</string>
+    <string name="set_learn_en">English (I speak Russian)</string>
+    <string name="set_learn_ru">Russian (I speak English)</string>
+    <string name="set_dir_title">Card direction</string>
+    <string name="set_dir_desc">Left of the arrow is what you see, right of the arrow is what you answer.</string>
+    <string name="dir_pair">%1$s → %2$s</string>
+    <string name="dir_mixed">Mixed</string>
+    <string name="set_load_title">Workload</string>
+    <string name="set_unlimited">No daily limit of new words</string>
+    <string name="set_unlimited_desc">New words come in batches of 100 per session — learn as many as you like.</string>
+    <string name="set_new_per_day">New words per day: %1$d</string>
+    <string name="set_goal">Daily goal (answers): %1$d</string>
+    <string name="set_sound_title">Sound and theme</string>
+    <string name="set_autospeak">Pronounce words automatically</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="set_reminder_title">Reminder</string>
+    <string name="set_reminder">Daily reminder</string>
+    <string name="set_reminder_hour">Time (hour): %1$d</string>
+    <string name="set_import_title">My own words (CSV import)</string>
+    <string name="set_import_desc">UTF-8 file, one line = one word:\nenglish;русский;transcription;example EN;example RU\nOnly the first two fields are required. Lines starting with # are ignored.</string>
+    <string name="set_import_btn">Choose a file and add to the level</string>
+    <string name="set_sources_title">Data sources</string>
+    <string name="set_sources_text">Word translations: OpenRussian.org (CC BY-SA 4.0).\nExample sentences: Tatoeba.org (CC BY 2.0 FR); for rare words some examples are simple template phrases.\nFrequency: wordfreq. Transcription: CMU Pronouncing Dictionary.</string>
+    <string name="set_reset">Reset all progress</string>
+    <string name="set_reset_title">Reset progress?</string>
+    <string name="set_reset_text">All words will become new again. Daily statistics are kept.</string>
+    <string name="msg_imported">New words added: %1$d</string>
+    <string name="msg_read_failed">Could not read the file</string>
+    <string name="msg_reset_done">Progress reset</string>
+    <string name="tts_missing">The voice for this language is not installed. Install it in Android settings → Text-to-speech.</string>
+
+    <!-- Уведомления -->
+    <string name="notif_channel">Reminders</string>
+    <string name="notif_due">Words to review: %1$d. It takes just a couple of minutes!</string>
+    <string name="notif_new">Time to learn new words!</string>
+
+    <!-- Справка -->
+    <string name="help_title">How it works</string>
+    <string name="help_1_t">The idea</string>
+    <string name="help_1_b">The app uses spaced repetition. A word you answered well comes back later and later (10 minutes, 1 day, 4 days, weeks, months). A word you forgot comes back soon. This way you spend time only on words that are about to fade from memory.</string>
+    <string name="help_2_t">Levels</string>
+    <string name="help_2_b">Words are sorted by how common they are in real speech. The first level holds the ~500 most frequent words; the next ones (A2, B1, B2, C1, C2) hold rarer and rarer words. A few thousand words from levels A1–B2 are already enough for everyday conversation. Start with A1 and move up.</string>
+    <string name="help_3_t">What appears in a session, and in what order</string>
+    <string name="help_3_b">1) First come the words that are due for review: you have already met them and it is time to repeat them.\n2) Then come new words, up to your daily limit (Settings → Workload).\nA wrong answer returns the word to the same session a few cards later, until you get it right. The progress bar counts words, not attempts.</string>
+    <string name="help_4_t">Session types (Home → What to do)</string>
+    <string name="help_4_b">• Learn + review — the normal mode: due words first, then new ones.\n• Due only — repeat what is scheduled, without new words.\n• Practice — extra training on words you have already learned, in random order. It does not change the schedule, so it is safe for cramming before a trip or an exam.\n• Hard words — the words you got wrong most often. Also does not change the schedule.</string>
+    <string name="help_5_t">Practice modes</string>
+    <string name="help_5_b">• Cards — you see a word; try to recall the translation, tap “Show answer”, then rate yourself.\n• Choice — pick the right translation out of four.\n• Typing — type the translation, or tap the microphone and say it. A new dictation replaces the previous text until you press “Check”.\n• Listening — you hear the word and write it down. Great for pronunciation and spelling.</string>
+    <string name="help_6_t">The buttons on a card</string>
+    <string name="help_6_b">• Show answer — flips the card (tapping the card works too).\n• Again / Hard / Good / Easy — how well you remembered the word. The time under each button shows when the word will return: Again = soon (about 10 minutes), Easy = much later. Be honest: the schedule adapts to you.\n• Swipe — after flipping, swipe right if you knew the word, left if you did not.\n• Speaker icon — pronounces the word. “Sentence” pronounces the example sentence, so you can hear the word in real speech.\n• Already know — removes the word from learning for good.</string>
+    <string name="help_7_t">The Words tab</string>
+    <string name="help_7_b">Browse and search all words. Tap an example sentence to hear it. ★ adds a word to favorites; ✓ marks it as known — it will no longer appear in sessions.</string>
+    <string name="help_8_t">Goal, streak and limit</string>
+    <string name="help_8_b">The daily goal is the number of answers you aim for each day. The streak counts the days in a row with at least one answer. The daily limit of new words protects you from overload: you can switch it off in Settings, or tap “Learn 10 more new words” at the end of a session.</string>
+    <string name="help_9_t">Languages</string>
+    <string name="help_9_b">The interface language and the language you are learning are two separate settings. Russian speakers learn English; English speakers learn Russian. The words of the language you are learning are pronounced aloud and recognized by voice. Settings → Card direction chooses whether you see the learned language first, your own language first, or a mix. Pronunciation and voice input need the Android voice for that language (install it in Android settings if you hear nothing).</string>
+    <string name="help_10_t">Tips</string>
+    <string name="help_10_b">A little every day beats a lot once a week. Do the reviews first. Do not be afraid of “Again” — that is how the app learns what you need.</string>
+
+    <!-- Интервалы под кнопками оценки -->
+    <string name="unit_min">%1$d min</string>
+    <string name="unit_day">%1$d d</string>
+    <string name="unit_month">%1$d mo</string>
 </resources>

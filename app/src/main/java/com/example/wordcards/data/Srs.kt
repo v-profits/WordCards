@@ -60,14 +60,17 @@ object Srs {
         )
     }
 
-    /** Подпись под кнопкой: через сколько карточка вернётся («10 мин», «3 дн.»). */
-    fun label(w: Word, g: Grade): String {
+    /** Через сколько карточка вернётся: число и единица (текст подставляет интерфейс на нужном языке). */
+    fun interval(w: Word, g: Grade): Interval {
         val delta = schedule(w, g, 0L).due
         val minutes = delta / MIN
         return when {
-            minutes < 60 -> "$minutes мин"
-            delta < 30 * DAY -> "${delta / DAY} дн."
-            else -> "${delta / (30 * DAY)} мес."
+            minutes < 60 -> Interval(IntervalUnit.MIN, minutes)
+            delta < 30 * DAY -> Interval(IntervalUnit.DAY, delta / DAY)
+            else -> Interval(IntervalUnit.MONTH, delta / (30 * DAY))
         }
     }
 }
+
+enum class IntervalUnit { MIN, DAY, MONTH }
+data class Interval(val unit: IntervalUnit, val n: Long)

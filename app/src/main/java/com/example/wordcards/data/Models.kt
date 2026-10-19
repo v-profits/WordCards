@@ -1,8 +1,10 @@
 package com.example.wordcards.data
 
+import androidx.annotation.StringRes
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.example.wordcards.R
 
 /** Слово/карточка вместе с состоянием интервального повторения. */
 @Entity(
@@ -51,18 +53,25 @@ data class LevelStat(
     val fresh: Int
 )
 
-/** Описание уровня сложности. */
-data class LevelInfo(val id: Int, val code: String, val title: String, val desc: String)
+/** Описание уровня сложности (тексты — в строковых ресурсах, чтобы переводились). */
+data class LevelInfo(val id: Int, val code: String, @StringRes val title: Int, @StringRes val desc: Int)
 
 object Levels {
-    // Уровни построены по частотности слов в английском языке
+    // Уровни построены по частотности слов
     val all = listOf(
-        LevelInfo(1, "A1", "Начальный", "Ядро языка: ~500 самых частотных слов"),
-        LevelInfo(2, "A2", "Элементарный", "Бытовое общение: слова ~500–1500 по частотности"),
-        LevelInfo(3, "B1", "Средний", "Свободные темы: слова ~1500–3500"),
-        LevelInfo(4, "B2", "Выше среднего", "Работа, учёба, медиа: слова ~3500–7000"),
-        LevelInfo(5, "C1", "Продвинутый", "Книги и статьи: слова ~7000–12000"),
-        LevelInfo(6, "C2", "Эксперт", "Редкая и книжная лексика: слова 12000+")
+        LevelInfo(1, "A1", R.string.level_1_title, R.string.level_1_desc),
+        LevelInfo(2, "A2", R.string.level_2_title, R.string.level_2_desc),
+        LevelInfo(3, "B1", R.string.level_3_title, R.string.level_3_desc),
+        LevelInfo(4, "B2", R.string.level_4_title, R.string.level_4_desc),
+        LevelInfo(5, "C1", R.string.level_5_title, R.string.level_5_desc),
+        LevelInfo(6, "C2", R.string.level_6_title, R.string.level_6_desc)
     )
     fun get(id: Int) = all.firstOrNull { it.id == id }
 }
+
+// Слово хранится как пара en/ru. «Изучаемый» язык (target) — тот, который человек учит,
+// «родной» (native) — второй. Эти помощники скрывают разницу между режимами EN и RU.
+fun Word.target(l: LearnLang) = if (l == LearnLang.EN) en else ru
+fun Word.native(l: LearnLang) = if (l == LearnLang.EN) ru else en
+fun Word.targetExample(l: LearnLang) = if (l == LearnLang.EN) exampleEn else exampleRu
+fun Word.nativeExample(l: LearnLang) = if (l == LearnLang.EN) exampleRu else exampleEn

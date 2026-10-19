@@ -19,7 +19,7 @@ object Reminder {
 
     fun createChannel(ctx: Context) {
         if (Build.VERSION.SDK_INT >= 26) {
-            val ch = NotificationChannel(CHANNEL, "Напоминания", NotificationManager.IMPORTANCE_DEFAULT)
+            val ch = NotificationChannel(CHANNEL, ctx.getString(R.string.notif_channel), NotificationManager.IMPORTANCE_DEFAULT)
             ctx.getSystemService(NotificationManager::class.java).createNotificationChannel(ch)
         }
     }
@@ -45,15 +45,16 @@ class ReminderWorker(ctx: Context, p: WorkerParameters) : CoroutineWorker(ctx, p
     override suspend fun doWork(): Result {
         val app = applicationContext as WordApp
         val due = app.repo.words.due(0, System.currentTimeMillis(), 1000).size
-        val text = if (due > 0) "Слов к повторению: $due. Займёт пару минут!"
-        else "Время выучить новые слова!"
+        // Текст на выбранном в приложении языке
+        val lc = AppLang.context(app)
+        val text = if (due > 0) lc.getString(R.string.notif_due, due) else lc.getString(R.string.notif_new)
         val open = PendingIntent.getActivity(
             app, 0, Intent(app, MainActivity::class.java),
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val n = NotificationCompat.Builder(app, Reminder.CHANNEL)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setContentTitle("Карточки слов")
+            .setContentTitle(lc.getString(R.string.app_name))
             .setContentText(text)
             .setContentIntent(open)
             .setAutoCancel(true)
