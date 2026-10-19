@@ -4,6 +4,7 @@ import android.Manifest
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -12,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.wordcards.AppLang
@@ -57,30 +59,17 @@ fun SettingsScreen(vm: SettingsViewModel = viewModel(), onHelp: () -> Unit) {
 
         Section(stringResource(R.string.set_learn_title)) {
             Text(stringResource(R.string.set_learn_desc), style = MaterialTheme.typography.bodySmall)
-            ChipRow {
-                FilterChip(selected = s.learning == LearnLang.EN, onClick = { vm.setLearning(LearnLang.EN) },
-                    label = { Text(stringResource(R.string.set_learn_en)) })
-            }
-            ChipRow {
-                FilterChip(selected = s.learning == LearnLang.RU, onClick = { vm.setLearning(LearnLang.RU) },
-                    label = { Text(stringResource(R.string.set_learn_ru)) })
-            }
+            WideChip(s.learning == LearnLang.EN, stringResource(R.string.set_learn_en)) { vm.setLearning(LearnLang.EN) }
+            WideChip(s.learning == LearnLang.RU, stringResource(R.string.set_learn_ru)) { vm.setLearning(LearnLang.RU) }
         }
 
         Section(stringResource(R.string.set_dir_title)) {
             Text(stringResource(R.string.set_dir_desc), style = MaterialTheme.typography.bodySmall)
             val target = langName(s.learning)
             val native = langName(s.learning.other())
-            ChipRow {
-                FilterChip(selected = s.direction == Direction.FORWARD, onClick = { vm.setDirection(Direction.FORWARD) },
-                    label = { Text(stringResource(R.string.dir_pair, target, native)) })
-                FilterChip(selected = s.direction == Direction.BACKWARD, onClick = { vm.setDirection(Direction.BACKWARD) },
-                    label = { Text(stringResource(R.string.dir_pair, native, target)) })
-            }
-            ChipRow {
-                FilterChip(selected = s.direction == Direction.MIXED, onClick = { vm.setDirection(Direction.MIXED) },
-                    label = { Text(stringResource(R.string.dir_mixed)) })
-            }
+            WideChip(s.direction == Direction.FORWARD, stringResource(R.string.dir_pair, target, native)) { vm.setDirection(Direction.FORWARD) }
+            WideChip(s.direction == Direction.BACKWARD, stringResource(R.string.dir_pair, native, target)) { vm.setDirection(Direction.BACKWARD) }
+            WideChip(s.direction == Direction.MIXED, stringResource(R.string.dir_mixed)) { vm.setDirection(Direction.MIXED) }
         }
 
         Section(stringResource(R.string.set_load_title)) {
@@ -118,12 +107,18 @@ fun SettingsScreen(vm: SettingsViewModel = viewModel(), onHelp: () -> Unit) {
 
         Section(stringResource(R.string.set_import_title)) {
             Text(stringResource(R.string.set_import_desc), style = MaterialTheme.typography.bodySmall)
-            ChipRow {
+            // Ряд уровней не помещается в экран — его можно листать свайпом
+            Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Levels.all.forEach { l ->
                     FilterChip(selected = importLevel == l.id, onClick = { importLevel = l.id }, label = { Text(l.code) })
                 }
             }
-            Button(onClick = { picker.launch(arrayOf("*/*")) }) { Text(stringResource(R.string.set_import_btn)) }
+            // Кнопка на всю ширину блока, минимальные боковые отступы, надпись по центру
+            Button(
+                onClick = { picker.launch(arrayOf("*/*")) },
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(horizontal = 4.dp, vertical = 10.dp)
+            ) { Text(stringResource(R.string.set_import_btn), textAlign = TextAlign.Center) }
             msg?.let { m ->
                 Text(
                     if (m.arg != null) stringResource(m.res, m.arg) else stringResource(m.res),
@@ -165,6 +160,12 @@ private fun Section(title: String, content: @Composable ColumnScope.() -> Unit) 
 @Composable
 private fun ChipRow(content: @Composable RowScope.() -> Unit) {
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), content = content)
+}
+
+/** Чип на всю ширину строки — такие чипы идут друг под другом. */
+@Composable
+private fun WideChip(selected: Boolean, text: String, onClick: () -> Unit) {
+    FilterChip(selected = selected, onClick = onClick, label = { Text(text) }, modifier = Modifier.fillMaxWidth())
 }
 
 /** Ползунок с локальным значением; в настройки пишем только при отпускании. label(v) — подпись с числом. */

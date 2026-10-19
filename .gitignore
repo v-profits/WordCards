@@ -12,3 +12,4 @@ captures/
 .DS_Store
 # Временные данные сборки словаря
 tools/data/
+__pycache__/

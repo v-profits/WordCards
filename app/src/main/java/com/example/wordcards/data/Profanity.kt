@@ -34,7 +34,7 @@ object Profanity {
     /** true, если в тексте есть нецензурное слово (английское или русское). */
     fun isBad(text: String): Boolean {
         if (text.isBlank()) return false
-        val low = text.lowercase().replace('ё', 'е')
+        val low = text.replace("\u0301", "").lowercase().replace('ё', 'е')
         if (enToken.findAll(low).any { it.value in en }) return true
         return ruToken.findAll(low).any { t -> ru.any { it.matches(t.value) } }
     }

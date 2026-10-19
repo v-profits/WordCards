@@ -335,7 +335,7 @@ private fun TypingBody(ui: StudyUi, vm: StudyViewModel) {
         )
         voiceError?.let { Text(it, color = Red, style = MaterialTheme.typography.bodySmall) }
         if (ui.hint && !answered)
-            Text(stringResource(R.string.study_hint_text, ui.expected.take(1), ui.expected.length))
+            Text(stringResource(R.string.study_hint_text, ui.expected.take(1), ui.expected.count { it.isLetter() }))
         if (answered) {
             val ok = ui.verdict == Verdict.CORRECT
             Text(

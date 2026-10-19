@@ -57,9 +57,16 @@ interface WordDao {
     @Query("DELETE FROM words WHERE id IN (:ids)")
     suspend fun deleteByIds(ids: List<Long>)
 
-    /** Обновление транскрипции и примера у уже существующих слов (при обновлении словаря). */
-    @Query("UPDATE words SET transcription = :tr, exampleEn = :ee, exampleRu = :er WHERE en = :en AND ru = :ru")
-    suspend fun setExamples(en: String, ru: String, tr: String, ee: String, er: String)
+    /**
+     * Обновление существующего слова при обновлении словаря (примеры, транскрипция, ударения).
+     * Слово ищем по английскому и по русскому тексту БЕЗ знаков ударения, поэтому прогресс
+     * изучения (интервалы, избранное, «знаю») сохраняется.
+     */
+    @Query(
+        """UPDATE words SET ru = :ru, transcription = :tr, exampleEn = :ee, exampleRu = :er
+           WHERE en = :en AND REPLACE(ru, char(769), '') = :ruPlain"""
+    )
+    suspend fun refreshWord(en: String, ru: String, ruPlain: String, tr: String, ee: String, er: String)
 
     @Update
     suspend fun update(word: Word)
@@ -73,7 +80,7 @@ interface WordDao {
     @Query(
         """SELECT * FROM words WHERE (:level = 0 OR level = :level)
            AND (:fav = 0 OR favorite = 1)
-           AND (en LIKE '%' || :q || '%' OR ru LIKE '%' || :q || '%')
+           AND (en LIKE '%' || :q || '%' OR REPLACE(ru, char(769), '') LIKE '%' || :q || '%')
            ORDER BY level, id LIMIT 2000"""
     )
     fun search(q: String, level: Int, fav: Int): Flow<List<Word>>

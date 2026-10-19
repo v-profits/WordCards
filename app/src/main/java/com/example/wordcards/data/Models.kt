@@ -71,7 +71,13 @@ object Levels {
 
 // Слово хранится как пара en/ru. «Изучаемый» язык (target) — тот, который человек учит,
 // «родной» (native) — второй. Эти помощники скрывают разницу между режимами EN и RU.
+//
+// В русских текстах хранятся знаки ударения (U+0301). Показываем их только тем, кто изучает
+// русский (target = русский); для русскоговорящих они были бы лишним шумом.
+const val ACUTE = "\u0301"
+fun String.noStress() = replace(ACUTE, "")
+
 fun Word.target(l: LearnLang) = if (l == LearnLang.EN) en else ru
-fun Word.native(l: LearnLang) = if (l == LearnLang.EN) ru else en
+fun Word.native(l: LearnLang) = if (l == LearnLang.EN) ru.noStress() else en
 fun Word.targetExample(l: LearnLang) = if (l == LearnLang.EN) exampleEn else exampleRu
-fun Word.nativeExample(l: LearnLang) = if (l == LearnLang.EN) exampleRu else exampleEn
+fun Word.nativeExample(l: LearnLang) = if (l == LearnLang.EN) exampleRu.noStress() else exampleEn

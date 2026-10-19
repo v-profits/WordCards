@@ -59,11 +59,14 @@ class Repository(private val ctx: Context, private val db: AppDatabase) {
             for (level in 1..6) {
                 val text = ctx.assets.open("words_$level.csv").bufferedReader().use { it.readText() }
                 val parsed = CsvParser.parse(text, level)
-                words.insertAll(parsed)
-                // Обновление с прошлой версии: добавляем примеры предложений уже имеющимся словам
+                // Обновление с прошлой версии: сначала обновляем уже имеющиеся слова
+                // (примеры, ударения), затем добавляем недостающие
                 if (old > 0) db.withTransaction {
-                    parsed.forEach { words.setExamples(it.en, it.ru, it.transcription, it.exampleEn, it.exampleRu) }
+                    parsed.forEach {
+                        words.refreshWord(it.en, it.ru, it.ru.replace("\u0301", ""), it.transcription, it.exampleEn, it.exampleRu)
+                    }
                 }
+                words.insertAll(parsed)
             }
             // Обновление с прошлой версии: убираем нецензурные слова из базы
             if (old > 0) removeProfane()
@@ -114,7 +117,7 @@ class Repository(private val ctx: Context, private val db: AppDatabase) {
     }
 
     companion object {
-        const val DICT_VERSION = 3
+        const val DICT_VERSION = 4
 
         /** Серия дней подряд с занятиями (сегодня может быть ещё не засчитан). */
         fun streak(stats: List<DailyStat>): Int {

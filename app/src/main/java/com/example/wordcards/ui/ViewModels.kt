@@ -39,7 +39,8 @@ class WordsViewModel(app: Application) : AndroidViewModel(app) {
     val level = MutableStateFlow(0)
     val favOnly = MutableStateFlow(false)
 
-    val words = combine(query, level, favOnly) { q, l, f -> Triple(q.trim(), l, f) }
+    // Запрос приводим к нижнему регистру: SQLite сравнивает кириллицу с учётом регистра
+    val words = combine(query, level, favOnly) { q, l, f -> Triple(q.trim().lowercase(), l, f) }
         .flatMapLatest { (q, l, f) -> repo.words.search(q, l, if (f) 1 else 0) }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 

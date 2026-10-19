@@ -95,12 +95,13 @@ class Speaker(private val ctx: Context) {
 
     fun speak(text: String, lang: LearnLang) {
         if (!ready || text.isBlank()) return
+        val clean = text.replace("\u0301", "")   // знаки ударения не озвучиваем
         val locale = if (lang == LearnLang.EN) Locale.US else Locale("ru", "RU")
         val r = tts.setLanguage(locale)
         if (r == TextToSpeech.LANG_MISSING_DATA || r == TextToSpeech.LANG_NOT_SUPPORTED) {
             Toast.makeText(AppLang.context(ctx), R.string.tts_missing, Toast.LENGTH_LONG).show()
             return
         }
-        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "word")
+        tts.speak(clean, TextToSpeech.QUEUE_FLUSH, null, "word")
     }
 }

@@ -172,6 +172,24 @@ for lvl, (_, rows) in levels.items():
         if t: r[3], r[4] = t; tmpl += 1
 print('шаблонных предложений добавлено:', tmpl)
 
+# ---------- 4c. Знаки ударения (U+0301) в русских словах и предложениях ----------
+# Нужны тем, кто изучает русский. В приложении показываются только при изучении русского,
+# а при поиске, проверке ответов и озвучке игнорируются.
+import accents
+accents.load()
+n_tr = n_ex = 0
+for lvl, (_, rows) in levels.items():
+    for r in rows:
+        parts = [x.strip() for x in r[1].split(',') if x.strip()]
+        new = [accents.accent_translation(p, r[0].lower()) for p in parts]
+        if new != parts: n_tr += 1
+        r[1] = ', '.join(new)
+        if r[4]:
+            e = accents.accent_text(r[4])
+            if e != r[4]: n_ex += 1
+            r[4] = e
+print(f'ударения: переводов с отметкой {n_tr}, русских предложений с отметкой {n_ex}')
+
 # ---------- 5. Запись ----------
 total = covered = 0
 for lvl, (head, rows) in levels.items():
