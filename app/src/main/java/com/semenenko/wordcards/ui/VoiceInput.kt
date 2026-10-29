@@ -1,181 +1,92 @@
 package com.semenenko.wordcards.ui
 
-import android.Manifest
 import android.app.Activity
 import android.content.ActivityNotFoundException
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Bundle
-import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
-import android.speech.SpeechRecognizer
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
 import com.semenenko.wordcards.R
 
 /**
- * Голосовой ввод. Язык распознавания задаётся явно (en-US или ru-RU) — он всегда совпадает
- * с языком ожидаемого ответа, поэтому работает и для английского, и для русского.
+ * Голосовой ввод через всплывающее окно Google с микрофоном (системное окно распознавания речи).
  *
- * Порядок работы:
- *  1) распознаватель Google (если установлен) — на телефонах с «фирменным» распознаванием
- *     производителя оно часто не понимает английский и отвечает «Не слышно»;
- *  2) распознаватель по умолчанию;
- *  3) системное окно голосового ввода — если прямой вызов недоступен.
- * Все ошибки показываются понятным текстом с названием языка распознавания.
+ * Язык распознавания всегда совпадает с языком ожидаемого ответа: en-US для английского и
+ * ru-RU для русского. Google в разных версиях читает язык из разных параметров, поэтому
+ * язык передаётся несколькими способами сразу, а второй язык добавляется как дополнительный.
  */
 class VoiceInput(private val ctx: Context) {
-    /** Идёт прослушивание. */
-    var listening by mutableStateOf(false)
-        private set
-    /** Сообщение об ошибке для пользователя. */
+    /** Сообщение для пользователя (причина, если распознавание не удалось). */
     var message by mutableStateOf<String?>(null)
 
     var langTag = "en-US"
+    var otherTag = "ru-RU"
     var langName = ""
     var prompt = ""
-    var onText: (String) -> Unit = {}
-    var requestPermission: () -> Unit = {}
-    var launchSystemDialog: (Intent) -> Unit = {}
+    var launchDialog: (Intent) -> Unit = {}
 
-    private var recognizer: SpeechRecognizer? = null
-    private var useGoogle = true
-
-    /** Нажатие на микрофон: начать или остановить прослушивание. */
-    fun start() {
-        message = null
-        if (listening) { recognizer?.stopListening(); return }
-        if (ContextCompat.checkSelfPermission(ctx, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            requestPermission(); return
-        }
-        begin()
-    }
-
-    fun begin() {
-        message = null
-        destroyRecognizer()
-        val r = createRecognizer()
-        if (r == null) { fallbackToDialog(); return }
-        recognizer = r
-        r.setRecognitionListener(listener)
-        listening = true
-        r.startListening(recognizerIntent())
-    }
-
-    /** Отмена при смене карточки или уходе с экрана. */
-    fun cancel() {
-        recognizer?.cancel()
-        destroyRecognizer()
-        listening = false
-        message = null
-    }
-
-    fun release() { destroyRecognizer(); listening = false }
-
-    private fun recognizerIntent() = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
+    private fun intent(): Intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        // Основной язык — тот, на котором ожидается ответ
         putExtra(RecognizerIntent.EXTRA_LANGUAGE, langTag)
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, langTag)
+        putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, false)
+        // Второй язык как дополнительный: если распознаватель «слушает» не тот язык, он всё равно поймёт
+        putExtra("android.speech.extra.EXTRA_ADDITIONAL_LANGUAGES", arrayOf(otherTag))
+        putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, false)
         putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
-        putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
         putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, ctx.packageName)
         putExtra(RecognizerIntent.EXTRA_PROMPT, prompt)
     }
 
-    private fun googleInstalled() =
-        try { ctx.packageManager.getPackageInfo(GOOGLE_PKG, 0); true } catch (e: Exception) { false }
-
-    private fun createRecognizer(): SpeechRecognizer? {
-        if (useGoogle && googleInstalled()) {
-            try {
-                return SpeechRecognizer.createSpeechRecognizer(ctx, ComponentName(GOOGLE_PKG, GOOGLE_SERVICE))
-            } catch (e: Exception) { /* пробуем распознаватель по умолчанию */ }
-        }
-        return if (SpeechRecognizer.isRecognitionAvailable(ctx)) SpeechRecognizer.createSpeechRecognizer(ctx) else null
-    }
-
-    private fun destroyRecognizer() {
-        try { recognizer?.destroy() } catch (e: Exception) { }
-        recognizer = null
-    }
-
-    private fun fallbackToDialog() {
-        try { launchSystemDialog(recognizerIntent()) }
-        catch (e: ActivityNotFoundException) { message = ctx.getString(R.string.study_mic_unavailable) }
-    }
-
-    private fun firstResult(b: Bundle?) =
-        b?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull()?.takeIf { it.isNotBlank() }
-
-    private val listener = object : RecognitionListener {
-        override fun onReadyForSpeech(params: Bundle?) {}
-        override fun onBeginningOfSpeech() {}
-        override fun onRmsChanged(rmsdB: Float) {}
-        override fun onBufferReceived(buffer: ByteArray?) {}
-        override fun onEndOfSpeech() {}
-        override fun onEvent(eventType: Int, params: Bundle?) {}
-        // Промежуточный результат сразу заменяет текст в поле — как и итоговый
-        override fun onPartialResults(partialResults: Bundle?) { firstResult(partialResults)?.let(onText) }
-        override fun onResults(results: Bundle?) {
-            listening = false
-            firstResult(results)?.let(onText)
-            destroyRecognizer()
-        }
-        override fun onError(error: Int) {
-            listening = false
-            destroyRecognizer()
-            handleError(error)
+    /** Нажатие на микрофон: открыть окно Google (если его нет — любое системное окно распознавания). */
+    fun start() {
+        message = null
+        try {
+            launchDialog(intent().setPackage(GOOGLE_PKG))
+        } catch (e: ActivityNotFoundException) {
+            try { launchDialog(intent()) }
+            catch (e2: ActivityNotFoundException) { message = ctx.getString(R.string.study_mic_unavailable) }
         }
     }
 
-    private fun handleError(code: Int) {
-        message = when (code) {
-            SpeechRecognizer.ERROR_NO_MATCH, SpeechRecognizer.ERROR_SPEECH_TIMEOUT ->
-                ctx.getString(R.string.voice_no_match, langName)
-            SpeechRecognizer.ERROR_NETWORK, SpeechRecognizer.ERROR_NETWORK_TIMEOUT, SpeechRecognizer.ERROR_SERVER ->
-                ctx.getString(R.string.voice_network)
-            SpeechRecognizer.ERROR_LANGUAGE_NOT_SUPPORTED, SpeechRecognizer.ERROR_LANGUAGE_UNAVAILABLE ->
-                ctx.getString(R.string.voice_lang_unsupported, langName)
-            SpeechRecognizer.ERROR_INSUFFICIENT_PERMISSIONS ->
-                ctx.getString(R.string.voice_no_permission)
-            SpeechRecognizer.ERROR_CLIENT -> {
-                // Распознаватель Google не запустился — один раз пробуем другой, затем системное окно
-                if (useGoogle) { useGoogle = false; begin() } else fallbackToDialog()
-                null
-            }
-            else -> ctx.getString(R.string.voice_error_code, code)
+    /** Разбор ответа окна: текст — в поле ввода, иначе понятная причина. */
+    fun handleResult(resultCode: Int, data: Intent?, onText: (String) -> Unit) {
+        val text = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            ?.firstOrNull { it.isNotBlank() }
+        when {
+            resultCode == Activity.RESULT_OK && text != null -> onText(text)
+            resultCode == Activity.RESULT_CANCELED -> { /* пользователь закрыл окно */ }
+            resultCode == RecognizerIntent.RESULT_NETWORK_ERROR || resultCode == RecognizerIntent.RESULT_SERVER_ERROR ->
+                message = ctx.getString(R.string.voice_network)
+            resultCode == RecognizerIntent.RESULT_NO_MATCH || resultCode == Activity.RESULT_OK ->
+                message = ctx.getString(R.string.voice_no_match, langName)
+            else -> message = ctx.getString(R.string.voice_error_code, resultCode)
         }
     }
 
     private companion object {
         const val GOOGLE_PKG = "com.google.android.googlequicksearchbox"
-        const val GOOGLE_SERVICE = "com.google.android.voicesearch.serviceapi.GoogleRecognitionService"
     }
 }
 
 @Composable
-fun rememberVoiceInput(langTag: String, langName: String, prompt: String, onText: (String) -> Unit): VoiceInput {
+fun rememberVoiceInput(
+    langTag: String, otherTag: String, langName: String, prompt: String, onText: (String) -> Unit
+): VoiceInput {
     val ctx = LocalContext.current
     val voice = remember { VoiceInput(ctx) }
     voice.langTag = langTag
+    voice.otherTag = otherTag
     voice.langName = langName
     voice.prompt = prompt
-    voice.onText = onText
-    val dialog = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
-        if (res.resultCode == Activity.RESULT_OK) {
-            res.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull()?.let(voice.onText)
-        }
+    val currentOnText by rememberUpdatedState(onText)
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
+        voice.handleResult(res.resultCode, res.data) { currentOnText(it) }
     }
-    val permission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
-        if (granted) voice.begin() else voice.message = ctx.getString(R.string.voice_no_permission)
-    }
-    voice.launchSystemDialog = { dialog.launch(it) }
-    voice.requestPermission = { permission.launch(Manifest.permission.RECORD_AUDIO) }
-    DisposableEffect(Unit) { onDispose { voice.release() } }
+    voice.launchDialog = { launcher.launch(it) }
     return voice
 }

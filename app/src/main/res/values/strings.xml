@@ -203,10 +203,8 @@
     <string name="unit_month">%1$d mo</string>
 
     <!-- Голосовой ввод -->
-    <string name="voice_listening">Listening… speak now (%1$s)</string>
-    <string name="voice_no_match">Could not hear a clear answer. Recognition language: %1$s. Tap the microphone and try again.</string>
+    <string name="voice_no_match">Nothing was recognized. Recognition language: %1$s. If it keeps failing, add this language in the Google app: Settings → Voice → Languages.</string>
     <string name="voice_network">No internet connection. Voice recognition needs internet for this language.</string>
-    <string name="voice_lang_unsupported">Voice recognition does not support %1$s on this phone. Add the language in Google app settings → Voice.</string>
     <string name="voice_error_code">Voice recognition error (code %1$d)</string>
     <string name="voice_no_permission">Microphone permission is needed for voice input</string>
 

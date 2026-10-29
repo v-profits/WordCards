@@ -2,21 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!-- Голосовой ввод (прямой вызов распознавателя речи) -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!-- Нужно для доступа к движку синтеза речи (TTS) на Android 11+ -->
     <queries>
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE" />
         </intent>
-        <!-- Распознаватель речи Google: приложение должно его «видеть», чтобы вызвать напрямую -->
+        <!-- Окно голосового ввода Google -->
         <intent>
             <action android:name="android.speech.action.RECOGNIZE_SPEECH" />
-        </intent>
-        <!-- Службы распознавания речи (нужно для проверки доступности на Android 11+) -->
-        <intent>
-            <action android:name="android.speech.RecognitionService" />
         </intent>
         <package android:name="com.google.android.googlequicksearchbox" />
     </queries>

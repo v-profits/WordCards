@@ -287,12 +287,11 @@ private fun TypingBody(ui: StudyUi, vm: StudyViewModel) {
     val langLabel = stringResource(if (answerEn) R.string.lang_name_en else R.string.lang_name_ru)
     val voice = rememberVoiceInput(
         langTag = if (answerEn) "en-US" else "ru-RU",
+        otherTag = if (answerEn) "ru-RU" else "en-US",
         langName = langLabel,
         prompt = stringResource(if (answerEn) R.string.study_mic_prompt_en else R.string.study_mic_prompt_ru),
         onText = { vm.setVoiceResults(listOf(it)) }   // новый ввод заменяет прежний текст
     )
-    // При смене карточки прослушивание отменяем
-    LaunchedEffect(c) { voice.cancel() }
 
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
@@ -320,17 +319,13 @@ private fun TypingBody(ui: StudyUi, vm: StudyViewModel) {
             },
             trailingIcon = {
                 IconButton(onClick = { voice.start() }, enabled = !answered) {
-                    Icon(
-                        Icons.Default.Mic, stringResource(R.string.study_mic),
-                        tint = if (voice.listening) Red else LocalContentColor.current
-                    )
+                    Icon(Icons.Default.Mic, stringResource(R.string.study_mic))
                 }
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { vm.check() }),
             modifier = Modifier.fillMaxWidth()
         )
-        if (voice.listening) Text(stringResource(R.string.voice_listening, langLabel), style = MaterialTheme.typography.bodySmall)
         voice.message?.let { Text(it, color = Red, style = MaterialTheme.typography.bodySmall) }
         if (ui.hint && !answered)
             Text(stringResource(R.string.study_hint_text, ui.expected.take(1), ui.expected.count { it.isLetter() }))
