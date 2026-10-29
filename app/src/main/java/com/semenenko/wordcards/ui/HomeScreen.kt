@@ -1,4 +1,4 @@
-package com.example.wordcards.ui
+package com.semenenko.wordcards.ui
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
@@ -18,8 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.wordcards.R
-import com.example.wordcards.data.*
+import com.semenenko.wordcards.R
+import com.semenenko.wordcards.data.*
 import java.time.LocalDate
 
 /** Главный экран: серия, цель дня, пояснение порядка занятия, выбор режима и уровни. */

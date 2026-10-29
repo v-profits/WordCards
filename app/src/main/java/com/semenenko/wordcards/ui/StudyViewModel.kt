@@ -1,13 +1,13 @@
-package com.example.wordcards.ui
+package com.semenenko.wordcards.ui
 
 import android.app.Application
 import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import com.example.wordcards.R
-import com.example.wordcards.WordApp
-import com.example.wordcards.data.*
+import com.semenenko.wordcards.R
+import com.semenenko.wordcards.WordApp
+import com.semenenko.wordcards.data.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first

@@ -1,4 +1,4 @@
-package com.example.wordcards.data
+package com.semenenko.wordcards.data
 
 import android.content.Context
 import androidx.datastore.preferences.core.*

@@ -181,4 +181,19 @@
     <string name="unit_min">%1$d мин</string>
     <string name="unit_day">%1$d дн.</string>
     <string name="unit_month">%1$d мес.</string>
+
+    <string name="voice_listening">Слушаю… говорите (%1$s)</string>
+    <string name="voice_no_match">Ответ не расслышан. Язык распознавания: %1$s. Нажмите на микрофон и повторите.</string>
+    <string name="voice_network">Нет подключения к интернету. Для распознавания этого языка нужен интернет.</string>
+    <string name="voice_lang_unsupported">Распознавание речи на этом телефоне не поддерживает язык: %1$s. Добавьте язык в настройках приложения Google → Голос.</string>
+    <string name="voice_error_code">Ошибка распознавания речи (код %1$d)</string>
+    <string name="voice_no_permission">Для голосового ввода нужно разрешение на микрофон</string>
+
+    <string name="rating_title">Нравится приложение?</string>
+    <string name="rating_text">Пожалуйста, оцените «%1$s» — это помогает нам делать его лучше.</string>
+    <string name="rating_later">Позже</string>
+    <string name="rating_star_cd">%1$d из 5 звёзд</string>
+    <string name="mail_subject">Отзыв о «Карточки слов» (оценка %1$d из 5)</string>
+    <string name="mail_body">Здравствуйте!\n\nЧто мне понравилось и что можно улучшить:\n\n</string>
+    <string name="mail_no_client">Не найдено почтовое приложение. Напишите на %1$s</string>
 </resources>

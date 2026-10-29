@@ -1,4 +1,4 @@
-package com.example.wordcards.ui
+package com.semenenko.wordcards.ui
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
@@ -15,11 +15,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
-import com.example.wordcards.R
+import com.semenenko.wordcards.R
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.wordcards.data.Repository
+import com.semenenko.wordcards.data.Repository
 import java.time.LocalDate
 import java.util.Locale
 

@@ -1,4 +1,4 @@
-package com.example.wordcards.ui
+package com.semenenko.wordcards.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -22,8 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.wordcards.R
-import com.example.wordcards.data.*
+import com.semenenko.wordcards.R
+import com.semenenko.wordcards.data.*
 
 /** Словарь: поиск, фильтр по уровню, избранное, отметка «знаю», озвучивание слов и предложений. */
 @Composable

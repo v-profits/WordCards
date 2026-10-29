@@ -1,11 +1,5 @@
-package com.example.wordcards.ui
+package com.semenenko.wordcards.ui
 
-import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Intent
-import android.speech.RecognizerIntent
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectHorizontalDragGestures
@@ -32,8 +26,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.wordcards.R
-import com.example.wordcards.data.*
+import com.semenenko.wordcards.R
+import com.semenenko.wordcards.data.*
 import kotlin.math.roundToInt
 
 private val Green = Color(0xFF2E7D32)
@@ -132,7 +126,13 @@ private fun CardsBody(ui: StudyUi, vm: StudyViewModel) {
                         onDragCancel = { dx = 0f }
                     ) { _, d -> dx += d }
                 }
-        ) { FlipCard(front, back, ui.flipped, onClick = { vm.flip() }) }
+        ) {
+            FlipCard(
+                front, back, ui.flipped, onClick = { vm.flip() },
+                // Значок озвучки предложения на обороте карточки (как в других режимах)
+                onSpeakExample = if (w.targetExample(l).isNotBlank()) ({ vm.speakExample() }) else null
+            )
+        }
 
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = { vm.speak() }) {
@@ -189,7 +189,7 @@ private fun CardsBody(ui: StudyUi, vm: StudyViewModel) {
 
 /** Карточка с 3D-анимацией переворота. */
 @Composable
-private fun FlipCard(front: Face, back: Face, flipped: Boolean, onClick: () -> Unit) {
+private fun FlipCard(front: Face, back: Face, flipped: Boolean, onClick: () -> Unit, onSpeakExample: (() -> Unit)? = null) {
     val rot by animateFloatAsState(if (flipped) 180f else 0f, tween(450), label = "flip")
     val density = LocalDensity.current.density
     Card(
@@ -199,13 +199,13 @@ private fun FlipCard(front: Face, back: Face, flipped: Boolean, onClick: () -> U
     ) {
         Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) {
             if (rot <= 90f) FaceView(front)
-            else Box(Modifier.graphicsLayer { rotationY = 180f }) { FaceView(back) }  // зеркалим обратную сторону
+            else Box(Modifier.graphicsLayer { rotationY = 180f }) { FaceView(back, onSpeakExample) }  // зеркалим обратную сторону
         }
     }
 }
 
 @Composable
-private fun FaceView(f: Face) {
+private fun FaceView(f: Face, onSpeakExample: (() -> Unit)? = null) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.verticalScroll(rememberScrollState())) {
         Text(f.title, style = MaterialTheme.typography.displaySmall, textAlign = TextAlign.Center)
         if (f.sub.isNotBlank()) {
@@ -215,6 +215,11 @@ private fun FaceView(f: Face) {
         if (f.extra.isNotBlank()) {
             Spacer(Modifier.height(20.dp))
             Text(f.extra, style = MaterialTheme.typography.bodyMedium, textAlign = TextAlign.Center)
+            if (onSpeakExample != null) {
+                IconButton(onClick = onSpeakExample) {
+                    Icon(Icons.AutoMirrored.Filled.VolumeUp, stringResource(R.string.study_speak_sentence_cd))
+                }
+            }
         }
     }
 }
@@ -278,27 +283,16 @@ private fun TypingBody(ui: StudyUi, vm: StudyViewModel) {
     val answered = ui.verdict != Verdict.NONE
     val answerEn = ui.answerLang == LearnLang.EN
 
-    // Голосовой ввод через системное распознавание речи (разрешение на микрофон не требуется)
-    var voiceError by remember { mutableStateOf<String?>(null) }
-    val unavailable = stringResource(R.string.study_mic_unavailable)
-    val prompt = stringResource(if (answerEn) R.string.study_mic_prompt_en else R.string.study_mic_prompt_ru)
-    val speechLauncher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { res ->
-        if (res.resultCode == Activity.RESULT_OK) {
-            vm.setVoiceResults(res.data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).orEmpty())
-        }
-    }
-    val startVoice: () -> Unit = {
-        voiceError = null
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            // Язык распознавания совпадает с языком ожидаемого ответа
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE, if (answerEn) "en-US" else "ru-RU")
-            putExtra(RecognizerIntent.EXTRA_PROMPT, prompt)
-            putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
-        }
-        try { speechLauncher.launch(intent) }
-        catch (e: ActivityNotFoundException) { voiceError = unavailable }
-    }
+    // Голосовой ввод: язык распознавания всегда совпадает с языком ожидаемого ответа
+    val langLabel = stringResource(if (answerEn) R.string.lang_name_en else R.string.lang_name_ru)
+    val voice = rememberVoiceInput(
+        langTag = if (answerEn) "en-US" else "ru-RU",
+        langName = langLabel,
+        prompt = stringResource(if (answerEn) R.string.study_mic_prompt_en else R.string.study_mic_prompt_ru),
+        onText = { vm.setVoiceResults(listOf(it)) }   // новый ввод заменяет прежний текст
+    )
+    // При смене карточки прослушивание отменяем
+    LaunchedEffect(c) { voice.cancel() }
 
     Column(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
@@ -325,15 +319,19 @@ private fun TypingBody(ui: StudyUi, vm: StudyViewModel) {
                 ))
             },
             trailingIcon = {
-                IconButton(onClick = startVoice, enabled = !answered) {
-                    Icon(Icons.Default.Mic, stringResource(R.string.study_mic))
+                IconButton(onClick = { voice.start() }, enabled = !answered) {
+                    Icon(
+                        Icons.Default.Mic, stringResource(R.string.study_mic),
+                        tint = if (voice.listening) Red else LocalContentColor.current
+                    )
                 }
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(onDone = { vm.check() }),
             modifier = Modifier.fillMaxWidth()
         )
-        voiceError?.let { Text(it, color = Red, style = MaterialTheme.typography.bodySmall) }
+        if (voice.listening) Text(stringResource(R.string.voice_listening, langLabel), style = MaterialTheme.typography.bodySmall)
+        voice.message?.let { Text(it, color = Red, style = MaterialTheme.typography.bodySmall) }
         if (ui.hint && !answered)
             Text(stringResource(R.string.study_hint_text, ui.expected.take(1), ui.expected.count { it.isLetter() }))
         if (answered) {

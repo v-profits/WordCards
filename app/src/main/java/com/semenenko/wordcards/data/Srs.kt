@@ -1,4 +1,4 @@
-package com.example.wordcards.data
+package com.semenenko.wordcards.data
 
 import kotlin.math.max
 import kotlin.math.roundToInt

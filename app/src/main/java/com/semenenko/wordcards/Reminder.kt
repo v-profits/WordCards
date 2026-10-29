@@ -1,4 +1,4 @@
-package com.example.wordcards
+package com.semenenko.wordcards
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

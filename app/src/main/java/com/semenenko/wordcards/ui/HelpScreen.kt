@@ -1,4 +1,4 @@
-package com.example.wordcards.ui
+package com.semenenko.wordcards.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -11,7 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.example.wordcards.R
+import com.semenenko.wordcards.R
 
 /** Экран «Как это работает»: правила приложения, порядок появления слов, назначение кнопок. */
 @Composable

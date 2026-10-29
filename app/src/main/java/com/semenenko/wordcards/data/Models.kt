@@ -1,10 +1,10 @@
-package com.example.wordcards.data
+package com.semenenko.wordcards.data
 
 import androidx.annotation.StringRes
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import com.example.wordcards.R
+import com.semenenko.wordcards.R
 
 /** Слово/карточка вместе с состоянием интервального повторения. */
 @Entity(

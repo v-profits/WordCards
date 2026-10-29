@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.wordcards"
+    namespace = "com.semenenko.wordcards"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.wordcards"
+        applicationId = "com.semenenko.wordcards"
         minSdk = 26
         targetSdk = 34
         versionCode = 3

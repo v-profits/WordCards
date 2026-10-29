@@ -1,4 +1,4 @@
-package com.example.wordcards.ui
+package com.semenenko.wordcards.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -8,6 +8,8 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -15,20 +17,24 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
-import com.example.wordcards.AppLang
-import com.example.wordcards.R
-import com.example.wordcards.data.AppSettings
-import com.example.wordcards.data.LearnLang
+import com.semenenko.wordcards.AppLang
+import com.semenenko.wordcards.R
+import com.semenenko.wordcards.data.AppSettings
+import com.semenenko.wordcards.data.LearnLang
+import com.semenenko.wordcards.data.RatingPrefs
 import kotlinx.coroutines.launch
 
 private data class Tab(val route: String, val label: Int, val icon: ImageVector)
 
 /** Корень приложения: приветствие, нижняя навигация, справка и экран занятия. */
 @Composable
-fun AppRoot() {
+fun AppRoot(showRating: Boolean = false) {
     val app = rememberApp()
     val scope = rememberCoroutineScope()
     val st by app.settings.flow.collectAsState(initial = AppSettings())
+    val context = LocalContext.current
+    // Окно оценки: сохраняется при пересоздании экрана
+    var ratingVisible by rememberSaveable { mutableStateOf(showRating) }
     val nav = rememberNavController()
     val entry by nav.currentBackStackEntryAsState()
     val route = entry?.destination?.route
@@ -115,6 +121,18 @@ fun AppRoot() {
                 }
             },
             confirmButton = { }
+        )
+    }
+
+    // Оценка: 4–5 звёзд — в RuStore, 1–3 — письмо разработчику; после оценки окно больше не показывается
+    if (ratingVisible && st.loaded && st.onboarded) {
+        RatingDialog(
+            onLater = { ratingVisible = false },
+            onRate = { stars ->
+                RatingPrefs.markRated(context)
+                ratingVisible = false
+                if (stars >= 4) Feedback.openStore(context) else Feedback.sendMail(context, stars)
+            }
         )
     }
 }

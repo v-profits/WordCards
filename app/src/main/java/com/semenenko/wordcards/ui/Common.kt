@@ -1,9 +1,9 @@
-package com.example.wordcards.ui
+package com.semenenko.wordcards.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import com.example.wordcards.R
-import com.example.wordcards.data.LearnLang
+import com.semenenko.wordcards.R
+import com.semenenko.wordcards.data.LearnLang
 
 /** Название языка на текущем языке интерфейса. */
 @Composable

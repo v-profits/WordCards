@@ -201,4 +201,21 @@
     <string name="unit_min">%1$d min</string>
     <string name="unit_day">%1$d d</string>
     <string name="unit_month">%1$d mo</string>
+
+    <!-- Голосовой ввод -->
+    <string name="voice_listening">Listening… speak now (%1$s)</string>
+    <string name="voice_no_match">Could not hear a clear answer. Recognition language: %1$s. Tap the microphone and try again.</string>
+    <string name="voice_network">No internet connection. Voice recognition needs internet for this language.</string>
+    <string name="voice_lang_unsupported">Voice recognition does not support %1$s on this phone. Add the language in Google app settings → Voice.</string>
+    <string name="voice_error_code">Voice recognition error (code %1$d)</string>
+    <string name="voice_no_permission">Microphone permission is needed for voice input</string>
+
+    <!-- Оценка приложения -->
+    <string name="rating_title">Enjoying the app?</string>
+    <string name="rating_text">Please rate %1$s — it helps us make it better.</string>
+    <string name="rating_later">Later</string>
+    <string name="rating_star_cd">%1$d of 5 stars</string>
+    <string name="mail_subject">Word Cards feedback (rating %1$d of 5)</string>
+    <string name="mail_body">Hello!\n\nWhat I liked and what could be better:\n\n</string>
+    <string name="mail_no_client">No email app found. Please write to %1$s</string>
 </resources>

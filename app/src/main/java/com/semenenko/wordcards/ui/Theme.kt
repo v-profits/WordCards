@@ -1,11 +1,11 @@
-package com.example.wordcards.ui
+package com.semenenko.wordcards.ui
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
-import com.example.wordcards.WordApp
+import com.semenenko.wordcards.WordApp
 
 /** Тема: динамические цвета Material You (Android 12+), светлая/тёмная/системная. */
 @Composable

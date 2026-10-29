@@ -1,4 +1,4 @@
-package com.example.wordcards.ui
+package com.semenenko.wordcards.ui
 
 import android.Manifest
 import android.os.Build
@@ -16,11 +16,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.wordcards.AppLang
-import com.example.wordcards.R
-import com.example.wordcards.data.Direction
-import com.example.wordcards.data.LearnLang
-import com.example.wordcards.data.Levels
+import com.semenenko.wordcards.AppLang
+import com.semenenko.wordcards.R
+import com.semenenko.wordcards.data.Direction
+import com.semenenko.wordcards.data.LearnLang
+import com.semenenko.wordcards.data.Levels
 import kotlin.math.roundToInt
 
 /** Настройки: язык интерфейса, изучаемый язык, направление, лимиты, звук, тема, напоминания, импорт, сброс. */

@@ -1,4 +1,4 @@
-package com.example.wordcards
+package com.semenenko.wordcards
 
 import android.app.Application
 import android.content.Context
@@ -8,10 +8,10 @@ import android.speech.tts.TextToSpeech
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import com.example.wordcards.data.AppDatabase
-import com.example.wordcards.data.LearnLang
-import com.example.wordcards.data.Repository
-import com.example.wordcards.data.SettingsStore
+import com.semenenko.wordcards.data.AppDatabase
+import com.semenenko.wordcards.data.LearnLang
+import com.semenenko.wordcards.data.Repository
+import com.semenenko.wordcards.data.SettingsStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

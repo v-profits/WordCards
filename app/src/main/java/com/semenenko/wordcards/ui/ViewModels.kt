@@ -1,15 +1,15 @@
-package com.example.wordcards.ui
+package com.semenenko.wordcards.ui
 
 import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.annotation.StringRes
-import com.example.wordcards.AppLang
-import com.example.wordcards.R
-import com.example.wordcards.Reminder
-import com.example.wordcards.WordApp
-import com.example.wordcards.data.*
+import com.semenenko.wordcards.AppLang
+import com.semenenko.wordcards.R
+import com.semenenko.wordcards.Reminder
+import com.semenenko.wordcards.WordApp
+import com.semenenko.wordcards.data.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
