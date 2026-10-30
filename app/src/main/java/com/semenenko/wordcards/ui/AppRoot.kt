@@ -71,6 +71,7 @@ fun AppRoot(showRating: Boolean = false) {
             composable("home") {
                 HomeScreen(
                     onHelp = { nav.navigate("help") },
+                    onLessons = { level -> nav.navigate("lessons/$level") },
                     onStart = { level, mode, kind -> nav.navigate("study/$level/${mode.name}/${kind.name}") }
                 )
             }
@@ -78,6 +79,16 @@ fun AppRoot(showRating: Boolean = false) {
             composable("stats") { StatsScreen() }
             composable("settings") { SettingsScreen(onHelp = { nav.navigate("help") }) }
             composable("help") { HelpScreen(onBack = { nav.popBackStack() }) }
+            composable(
+                "lessons/{level}",
+                arguments = listOf(navArgument("level") { type = NavType.IntType })
+            ) {
+                LessonsScreen(
+                    onBack = { nav.popBackStack() },
+                    // Урок из выбранных слов готов — открываем экран занятия
+                    onStartLesson = { nav.navigate("study/0/CARDS/LESSON") }
+                )
+            }
             composable(
                 "study/{level}/{mode}/{kind}",
                 arguments = listOf(

@@ -68,6 +68,31 @@ interface WordDao {
     )
     suspend fun refreshWord(en: String, ru: String, ruPlain: String, tr: String, ee: String, er: String)
 
+    /** Слова урока номер k уровня: уровень отсортирован по частотности (id), урок — срез из limit слов. */
+    @Query("SELECT * FROM words WHERE level = :level ORDER BY id LIMIT :limit OFFSET :offset")
+    suspend fun lessonWords(level: Int, limit: Int, offset: Int): List<Word>
+
+    @Query("SELECT id, state, known FROM words WHERE level = :level ORDER BY id")
+    suspend fun levelBrief(level: Int): List<WordBrief>
+
+    /** Сброс слов среза уровня: снова «новые», история повторений стирается (избранное остаётся). */
+    @Query(
+        """UPDATE words SET state = 0, ease = 2.5, intervalDays = 0, reps = 0, lapses = 0, due = 0, known = 0
+           WHERE id IN (SELECT id FROM words WHERE level = :level ORDER BY id LIMIT :limit OFFSET :offset)"""
+    )
+    suspend fun resetRange(level: Int, limit: Int, offset: Int)
+
+    /** Отметить слова среза уровня как известные — они больше не попадают в уроки. */
+    @Query(
+        """UPDATE words SET state = 2, known = 1
+           WHERE id IN (SELECT id FROM words WHERE level = :level ORDER BY id LIMIT :limit OFFSET :offset)"""
+    )
+    suspend fun knownRange(level: Int, limit: Int, offset: Int)
+
+    /** Снять отметку «знаю» (когда пользователь сам выбрал пройти этот урок). */
+    @Query("UPDATE words SET known = 0 WHERE id IN (:ids)")
+    suspend fun unknownIds(ids: List<Long>)
+
     /** Слова урока по их id. */
     @Query("SELECT * FROM words WHERE id IN (:ids)")
     suspend fun byIds(ids: List<Long>): List<Word>

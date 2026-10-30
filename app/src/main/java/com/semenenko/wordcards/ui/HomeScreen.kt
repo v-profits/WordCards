@@ -24,7 +24,10 @@ import java.time.LocalDate
 
 /** Главный экран: серия, урок дня, дополнительные тренировки и уровни. */
 @Composable
-fun HomeScreen(vm: HomeViewModel = viewModel(), onHelp: () -> Unit, onStart: (Int, StudyMode, SessionKind) -> Unit) {
+fun HomeScreen(
+    vm: HomeViewModel = viewModel(), onHelp: () -> Unit, onLessons: (Int) -> Unit,
+    onStart: (Int, StudyMode, SessionKind) -> Unit
+) {
     val levels by vm.levels.collectAsState()
     val days by vm.days.collectAsState()
     val lesson by vm.lesson.collectAsState()
@@ -84,6 +87,7 @@ fun HomeScreen(vm: HomeViewModel = viewModel(), onHelp: () -> Unit, onStart: (In
         item {
             LessonCard(
                 lesson = lesson, newPerDay = st.newPerDay, dueNow = totalDue, noWords = noWords,
+                sourceLevel = st.lessonLevel, onSourceLevel = { vm.setLessonLevel(it) },
                 onStart = { vm.openLesson(extra = false) { onStart(0, StudyMode.CARDS, SessionKind.LESSON) } },
                 onMore = { vm.openLesson(extra = true) { onStart(0, StudyMode.CARDS, SessionKind.LESSON) } }
             )
@@ -114,7 +118,9 @@ fun HomeScreen(vm: HomeViewModel = viewModel(), onHelp: () -> Unit, onStart: (In
             }
         }
         items(Levels.all, key = { it.id }) { info ->
-            LevelCard(info, levels.firstOrNull { it.level == info.id }) { onStart(info.id, mode, kind) }
+            LevelCard(info, levels.firstOrNull { it.level == info.id }, onLessons = { onLessons(info.id) }) {
+                onStart(info.id, mode, kind)
+            }
         }
     }
 }
@@ -122,7 +128,8 @@ fun HomeScreen(vm: HomeViewModel = viewModel(), onHelp: () -> Unit, onStart: (In
 /** Урок дня: состояние (не начат / идёт / пройден) и прогресс по каждому этапу. */
 @Composable
 private fun LessonCard(
-    lesson: Lesson?, newPerDay: Int, dueNow: Int, noWords: Boolean, onStart: () -> Unit, onMore: () -> Unit
+    lesson: Lesson?, newPerDay: Int, dueNow: Int, noWords: Boolean,
+    sourceLevel: Int, onSourceLevel: (Int) -> Unit, onStart: () -> Unit, onMore: () -> Unit
 ) {
     val today = LocalDate.now().toString()
     val doneToday = lesson != null && lesson.finished && lesson.finishedDate == today
@@ -152,6 +159,21 @@ private fun LessonCard(
                     Spacer(Modifier.height(12.dp))
                     Button(onClick = onStart, modifier = Modifier.fillMaxWidth()) {
                         Text(stringResource(R.string.lesson_start))
+                    }
+                }
+            }
+            // Откуда брать новые слова: можно выбрать уровень под свою подготовку
+            if (!inProgress) {
+                Spacer(Modifier.height(12.dp))
+                Text(stringResource(R.string.lesson_source), style = MaterialTheme.typography.titleSmall)
+                Row(
+                    Modifier.horizontalScroll(rememberScrollState()).padding(top = 4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    FilterChip(selected = sourceLevel == 0, onClick = { onSourceLevel(0) },
+                        label = { Text(stringResource(R.string.lesson_source_all)) })
+                    Levels.all.forEach { l ->
+                        FilterChip(selected = sourceLevel == l.id, onClick = { onSourceLevel(l.id) }, label = { Text(l.code) })
                     }
                 }
             }
@@ -188,7 +210,7 @@ private fun LessonProgress(l: Lesson) {
 }
 
 @Composable
-private fun LevelCard(info: LevelInfo, s: LevelStat?, onClick: () -> Unit) {
+private fun LevelCard(info: LevelInfo, s: LevelStat?, onLessons: () -> Unit, onClick: () -> Unit) {
     val total = s?.total ?: 0
     val learned = s?.learned ?: 0
     Card(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
@@ -202,6 +224,11 @@ private fun LevelCard(info: LevelInfo, s: LevelStat?, onClick: () -> Unit) {
                 Text(stringResource(info.title), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
                 if ((s?.due ?: 0) > 0) {
                     Badge { Text("${s?.due}") }
+                    Spacer(Modifier.width(8.dp))
+                }
+                // Экран «Уроки» уровня: пройти урок заново, сбросить, отметить как известные
+                TextButton(onClick = onLessons, contentPadding = PaddingValues(horizontal = 8.dp)) {
+                    Text(stringResource(R.string.lessons_open))
                 }
             }
             Spacer(Modifier.height(6.dp))

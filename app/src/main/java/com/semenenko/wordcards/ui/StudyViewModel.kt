@@ -112,7 +112,7 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
         viewModelScope.launch {
             cfg = a.settings.flow.first()
             if (isLesson) {
-                lesson = lessons.ensure(repo, cfg.newPerDay, extra = false)
+                lesson = lessons.ensure(repo, cfg.newPerDay, extra = false, level = cfg.lessonLevel)
                 _ui.value = StudyUi(loading = false, mode = mode)
                 if (lesson == null) _ui.update { it.copy(finished = true) } else enterNextPhase()
                 return@launch
@@ -379,7 +379,7 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
     fun more() {
         viewModelScope.launch {
             if (isLesson) {
-                val l = lessons.create(repo, cfg.newPerDay, extra = true) ?: return@launch
+                val l = lessons.create(repo, cfg.newPerDay, extra = true, level = cfg.lessonLevel) ?: return@launch
                 lesson = l
                 _ui.update { it.copy(correct = 0) }
                 enterNextPhase()

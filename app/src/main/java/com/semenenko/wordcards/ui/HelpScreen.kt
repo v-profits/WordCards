@@ -22,7 +22,8 @@ fun HelpScreen(onBack: () -> Unit) {
         R.string.help_3_t to R.string.help_3_b, R.string.help_4_t to R.string.help_4_b,
         R.string.help_5_t to R.string.help_5_b, R.string.help_6_t to R.string.help_6_b,
         R.string.help_7_t to R.string.help_7_b, R.string.help_8_t to R.string.help_8_b,
-        R.string.help_9_t to R.string.help_9_b, R.string.help_10_t to R.string.help_10_b
+        R.string.help_9_t to R.string.help_9_b, R.string.help_11_t to R.string.help_11_b,
+        R.string.help_10_t to R.string.help_10_b
     )
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically) {

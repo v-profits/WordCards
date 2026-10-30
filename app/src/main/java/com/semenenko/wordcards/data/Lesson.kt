@@ -128,18 +128,30 @@ class LessonStore(ctx: Context) {
      * Текущий урок: незаконченный возвращается как есть (ждёт, новые слова не добавляются),
      * иначе создаётся новый. null — нет ни новых слов, ни слов к повторению.
      */
-    suspend fun ensure(repo: Repository, size: Int, extra: Boolean): Lesson? {
+    suspend fun ensure(repo: Repository, size: Int, extra: Boolean, level: Int): Lesson? {
         val cur = _lesson.value
         if (cur != null && !cur.finished) return cur
-        return create(repo, size, extra)
+        return create(repo, size, extra, level)
     }
 
-    suspend fun create(repo: Repository, size: Int, extra: Boolean): Lesson? {
-        val fresh = repo.words.fresh(0, size)
+    /** level: 0 — новые слова из всех уровней (с самых лёгких), 1..6 — только из этого уровня. */
+    suspend fun create(repo: Repository, size: Int, extra: Boolean, level: Int): Lesson? {
+        val fresh = repo.words.fresh(level, size)
         // В дополнительный урок повторение не включаем
         val due = if (extra) 0 else repo.words.due(0, System.currentTimeMillis(), LessonConfig.REVIEW_CAP).size
         if (fresh.isEmpty() && due == 0) return null
         val l = Lesson(wordIds = fresh.map { it.id }, reviewTotal = due, reviewDone = due == 0, extra = extra)
+        save(l)
+        return l
+    }
+
+    /**
+     * Урок из конкретных слов (пользователь выбрал номер урока на экране «Уроки»).
+     * Слова могут быть уже выученными — снимаем с них отметку «знаю», чтобы они прошли урок.
+     */
+    suspend fun createFromWords(repo: Repository, words: List<Word>): Lesson {
+        repo.words.unknownIds(words.map { it.id })
+        val l = Lesson(wordIds = words.map { it.id }, reviewTotal = 0, reviewDone = true, extra = true)
         save(l)
         return l
     }

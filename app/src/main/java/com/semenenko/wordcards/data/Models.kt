@@ -44,6 +44,9 @@ data class DailyStat(
     val newLearned: Int = 0
 )
 
+/** Краткие данные слова — для подсчёта прогресса по урокам уровня. */
+data class WordBrief(val id: Long, val state: Int, val known: Boolean)
+
 /** Сводка по уровню для главного экрана. */
 data class LevelStat(
     val level: Int,

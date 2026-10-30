@@ -32,6 +32,9 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     /** Текущий урок и дни, в которые урок был пройден (для серии). */
     val lesson = a.lessons.lesson
     val days = a.lessons.days
+    /** Выбор уровня, из которого берутся новые слова урока (0 — из всех). */
+    fun setLessonLevel(level: Int) { viewModelScope.launch { a.settings.setLessonLevel(level) } }
+
     /** Для урока не нашлось слов (всё выучено). */
     val noWords = MutableStateFlow(false)
 
@@ -41,8 +44,8 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
      */
     fun openLesson(extra: Boolean, onReady: () -> Unit) {
         viewModelScope.launch {
-            val size = a.settings.flow.first().newPerDay
-            val l = a.lessons.ensure(a.repo, size, extra)
+            val cfg = a.settings.flow.first()
+            val l = a.lessons.ensure(a.repo, cfg.newPerDay, extra, cfg.lessonLevel)
             noWords.value = l == null
             if (l != null) onReady()
         }
