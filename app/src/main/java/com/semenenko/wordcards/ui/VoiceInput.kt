@@ -42,34 +42,27 @@ class VoiceInput(private val ctx: Context) {
         putExtra(RecognizerIntent.EXTRA_PROMPT, prompt)
     }
 
-    /** Нажатие на микрофон: открыть окно Google (если его нет — любое системное окно распознавания). */
+    /** Нажатие на микрофон: открыть системное окно голосового ввода (на телефоне это окно Google). */
     fun start() {
         message = null
-        try {
-            launchDialog(intent().setPackage(GOOGLE_PKG))
-        } catch (e: ActivityNotFoundException) {
-            try { launchDialog(intent()) }
-            catch (e2: ActivityNotFoundException) { message = ctx.getString(R.string.study_mic_unavailable) }
-        }
+        try { launchDialog(intent()) }
+        catch (e: ActivityNotFoundException) { message = ctx.getString(R.string.study_mic_unavailable) }
     }
 
     /** Разбор ответа окна: текст — в поле ввода, иначе понятная причина. */
     fun handleResult(resultCode: Int, data: Intent?, onText: (String) -> Unit) {
         val text = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             ?.firstOrNull { it.isNotBlank() }
+        // Технические данные ответа — чтобы при сбое было видно, что именно вернуло окно
+        val debug = " [code=$resultCode, keys=${data?.extras?.keySet()?.joinToString(",") ?: "-"}]"
         when {
-            resultCode == Activity.RESULT_OK && text != null -> onText(text)
-            resultCode == Activity.RESULT_CANCELED -> { /* пользователь закрыл окно */ }
+            text != null -> onText(text)
+            // Окно просто закрыли (данных нет) — ничего не показываем
+            resultCode == Activity.RESULT_CANCELED && data == null -> { }
             resultCode == RecognizerIntent.RESULT_NETWORK_ERROR || resultCode == RecognizerIntent.RESULT_SERVER_ERROR ->
                 message = ctx.getString(R.string.voice_network)
-            resultCode == RecognizerIntent.RESULT_NO_MATCH || resultCode == Activity.RESULT_OK ->
-                message = ctx.getString(R.string.voice_no_match, langName)
-            else -> message = ctx.getString(R.string.voice_error_code, resultCode)
+            else -> message = ctx.getString(R.string.voice_no_match, langName) + debug
         }
-    }
-
-    private companion object {
-        const val GOOGLE_PKG = "com.google.android.googlequicksearchbox"
     }
 }
 

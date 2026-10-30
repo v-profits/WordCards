@@ -19,7 +19,7 @@ import com.semenenko.wordcards.R
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.semenenko.wordcards.data.Repository
+import com.semenenko.wordcards.data.LessonStore
 import java.time.LocalDate
 import java.util.Locale
 
@@ -28,6 +28,7 @@ import java.util.Locale
 fun StatsScreen(vm: HomeViewModel = viewModel()) {
     val recent by vm.recent.collectAsState()
     val levels by vm.levels.collectAsState()
+    val lessonDays by vm.days.collectAsState()   // дни, когда пройден урок (для серии)
 
     val byDate = recent.associateBy { it.date }
     val days = (6 downTo 0).map { LocalDate.now().minusDays(it.toLong()) }
@@ -42,7 +43,7 @@ fun StatsScreen(vm: HomeViewModel = viewModel()) {
         Text(stringResource(R.string.stats_title), style = MaterialTheme.typography.headlineSmall)
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Tile("${levels.sumOf { it.learned }}/${levels.sumOf { it.total }}", stringResource(R.string.stats_learned))
-            Tile("${Repository.streak(recent)}", stringResource(R.string.stats_streak))
+            Tile("${LessonStore.streak(lessonDays)}", stringResource(R.string.stats_streak))
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Tile("$totalReviewed", stringResource(R.string.stats_total))

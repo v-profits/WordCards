@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import com.semenenko.wordcards.data.AppDatabase
 import com.semenenko.wordcards.data.LearnLang
+import com.semenenko.wordcards.data.LessonStore
 import com.semenenko.wordcards.data.Repository
 import com.semenenko.wordcards.data.SettingsStore
 import kotlinx.coroutines.CoroutineScope
@@ -22,6 +23,7 @@ import java.util.Locale
 class WordApp : Application() {
     lateinit var repo: Repository
     lateinit var settings: SettingsStore
+    lateinit var lessons: LessonStore
     lateinit var speaker: Speaker
     private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
@@ -30,9 +32,14 @@ class WordApp : Application() {
         AppLang.restore(this)
         repo = Repository(this, AppDatabase.build(this))
         settings = SettingsStore(this)
+        lessons = LessonStore(this)
         speaker = Speaker(this)
         Reminder.createChannel(this)
-        appScope.launch { repo.seedIfNeeded() }
+        appScope.launch {
+            repo.seedIfNeeded()
+            // Серия теперь считается по пройденным урокам: переносим старые дни, чтобы она не обнулилась
+            lessons.migrateDays(repo.stats.reviewedDays())
+        }
     }
 }
 

@@ -24,8 +24,8 @@ enum class Direction { FORWARD, BACKWARD, MIXED }
 data class AppSettings(
     val learning: LearnLang = LearnLang.EN,
     val direction: Direction = Direction.FORWARD,
+    /** Размер урока — сколько новых слов в день. */
     val newPerDay: Int = 10,
-    val dailyGoal: Int = 20,
     val autoSpeak: Boolean = true,
     /** 0 — как в системе, 1 — светлая, 2 — тёмная. */
     val theme: Int = 0,
@@ -41,7 +41,6 @@ class SettingsStore(private val ctx: Context) {
     private val LEARN = stringPreferencesKey("learning")
     private val DIR = stringPreferencesKey("direction")
     private val NEW = intPreferencesKey("new_per_day")
-    private val GOAL = intPreferencesKey("daily_goal")
     private val SPEAK = booleanPreferencesKey("auto_speak")
     private val THEME = intPreferencesKey("theme")
     private val REM_ON = booleanPreferencesKey("reminder_on")
@@ -58,8 +57,8 @@ class SettingsStore(private val ctx: Context) {
                 "MIXED" -> Direction.MIXED
                 else -> Direction.FORWARD
             },
-            newPerDay = p[NEW] ?: d.newPerDay,
-            dailyGoal = p[GOAL] ?: d.dailyGoal,
+            // 0 означал «без лимита» в прошлых версиях — теперь это обычный размер урока
+            newPerDay = (p[NEW] ?: d.newPerDay).let { if (it <= 0) d.newPerDay else it },
             autoSpeak = p[SPEAK] ?: d.autoSpeak,
             theme = p[THEME] ?: d.theme,
             reminderOn = p[REM_ON] ?: d.reminderOn,
@@ -72,7 +71,6 @@ class SettingsStore(private val ctx: Context) {
     suspend fun setLearning(v: LearnLang) { ctx.store.edit { it[LEARN] = v.name } }
     suspend fun setDirection(v: Direction) { ctx.store.edit { it[DIR] = v.name } }
     suspend fun setNewPerDay(v: Int) { ctx.store.edit { it[NEW] = v } }
-    suspend fun setDailyGoal(v: Int) { ctx.store.edit { it[GOAL] = v } }
     suspend fun setAutoSpeak(v: Boolean) { ctx.store.edit { it[SPEAK] = v } }
     suspend fun setTheme(v: Int) { ctx.store.edit { it[THEME] = v } }
     suspend fun setReminder(on: Boolean, hour: Int) {

@@ -43,7 +43,7 @@ private fun examples(w: Word, l: LearnLang) =
 /** Транскрипция (IPA) относится к английскому слову — показываем её только при изучении английского. */
 private fun ipa(w: Word, l: LearnLang) = if (l == LearnLang.EN) w.transcription else ""
 
-/** Экран занятия: общий каркас (прогресс + выбор режима). */
+/** Экран занятия: общий каркас (прогресс, этап урока, выбор режима). */
 @Composable
 fun StudyScreen(vm: StudyViewModel = viewModel(), onExit: () -> Unit) {
     val ui by vm.ui.collectAsState()
@@ -51,17 +51,18 @@ fun StudyScreen(vm: StudyViewModel = viewModel(), onExit: () -> Unit) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             IconButton(onClick = onExit) { Icon(Icons.Default.Close, stringResource(R.string.close)) }
             LinearProgressIndicator(
-                progress = { if (ui.total == 0) 0f else ui.done / ui.total.toFloat() },
+                progress = { if (ui.total == 0) 0f else (ui.done / ui.total.toFloat()).coerceIn(0f, 1f) },
                 modifier = Modifier.weight(1f)
             )
             Spacer(Modifier.width(12.dp))
-            Text("${ui.done}/${ui.total}")
+            Text("${minOf(ui.done, ui.total)}/${ui.total}")
         }
+        ui.stage?.let { LessonHeader(it, ui.notice, onSkip = { vm.skipStage() }) }
         Spacer(Modifier.height(12.dp))
         when {
             ui.loading -> Box(Modifier.fillMaxSize(), Alignment.Center) { CircularProgressIndicator() }
             ui.finished -> FinishView(ui, vm.kind, vm.canMore, onExit) { vm.more() }
-            else -> when (vm.mode) {
+            else -> when (ui.mode) {
                 StudyMode.CARDS -> CardsBody(ui, vm)
                 StudyMode.CHOICE -> ChoiceBody(ui, vm)
                 StudyMode.TYPING, StudyMode.LISTEN -> TypingBody(ui, vm)
@@ -70,28 +71,73 @@ fun StudyScreen(vm: StudyViewModel = viewModel(), onExit: () -> Unit) {
     }
 }
 
+/** Строка над карточкой в уроке: какой сейчас этап, уведомление о пройденном этапе и пропуск. */
+@Composable
+private fun LessonHeader(stage: LessonStage, notice: LessonStage?, onSkip: () -> Unit) {
+    var confirm by remember { mutableStateOf(false) }
+    Column(Modifier.fillMaxWidth().padding(start = 12.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                if (stage == LessonStage.REVIEW) stringResource(R.string.lesson_review_label)
+                else stringResource(R.string.lesson_stage_label, stage.number, stringResource(stage.title)),
+                style = MaterialTheme.typography.titleSmall, modifier = Modifier.weight(1f)
+            )
+            // Пропуск разрешён только там, где нужны клавиатура или микрофон
+            if (stage == LessonStage.TYPING || stage == LessonStage.LISTEN) {
+                TextButton(onClick = { confirm = true }) { Text(stringResource(R.string.lesson_skip)) }
+            }
+        }
+        if (notice != null) {
+            Text(
+                stringResource(R.string.lesson_stage_notice, stringResource(notice.title)),
+                style = MaterialTheme.typography.bodySmall, color = Green
+            )
+        }
+    }
+    if (confirm) {
+        AlertDialog(
+            onDismissRequest = { confirm = false },
+            title = { Text(stringResource(R.string.lesson_skip_title)) },
+            text = { Text(stringResource(R.string.lesson_skip_text)) },
+            confirmButton = { TextButton(onClick = { confirm = false; onSkip() }) { Text(stringResource(R.string.lesson_skip)) } },
+            dismissButton = { TextButton(onClick = { confirm = false }) { Text(stringResource(R.string.cancel)) } }
+        )
+    }
+}
+
 @Composable
 private fun FinishView(ui: StudyUi, kind: SessionKind, canMore: Boolean, onExit: () -> Unit, onMore: () -> Unit) {
     Column(Modifier.fillMaxSize(), Arrangement.Center, Alignment.CenterHorizontally) {
+        val lessonDone = kind == SessionKind.LESSON && ui.lessonFinished
         Text(
-            stringResource(if (ui.total == 0) R.string.finish_empty_title else R.string.finish_done_title),
+            stringResource(
+                when {
+                    lessonDone -> R.string.lesson_finish_title
+                    ui.total == 0 -> R.string.finish_empty_title
+                    else -> R.string.finish_done_title
+                }
+            ),
             style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center
         )
         Spacer(Modifier.height(8.dp))
-        if (ui.total == 0) Text(
-            stringResource(
-                when (kind) {
-                    SessionKind.LEARN -> R.string.finish_empty_learn
-                    SessionKind.DUE -> R.string.finish_empty_due
-                    SessionKind.PRACTICE -> R.string.finish_empty_practice
-                    SessionKind.HARD -> R.string.finish_empty_hard
-                }
-            ), textAlign = TextAlign.Center
-        ) else Text(stringResource(R.string.finish_stats, ui.total, ui.correct))
+        when {
+            lessonDone -> Text(stringResource(R.string.lesson_finish_stats, ui.lessonWords, ui.correct))
+            ui.total == 0 -> Text(
+                stringResource(
+                    when (kind) {
+                        SessionKind.LESSON -> R.string.lesson_no_words
+                        SessionKind.DUE -> R.string.finish_empty_due
+                        SessionKind.PRACTICE -> R.string.finish_empty_practice
+                        SessionKind.HARD -> R.string.finish_empty_hard
+                    }
+                ), textAlign = TextAlign.Center
+            )
+            else -> Text(stringResource(R.string.finish_stats, ui.total, ui.correct))
+        }
         Spacer(Modifier.height(24.dp))
-        if (canMore) {
+        if (canMore && (kind != SessionKind.LESSON || lessonDone)) {
             Button(onClick = onMore) {
-                Text(stringResource(if (kind == SessionKind.LEARN) R.string.finish_more_learn else R.string.finish_more_practice))
+                Text(stringResource(if (kind == SessionKind.LESSON) R.string.lesson_more else R.string.finish_more_practice))
             }
             Spacer(Modifier.height(8.dp))
         }
@@ -297,7 +343,7 @@ private fun TypingBody(ui: StudyUi, vm: StudyViewModel) {
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        if (vm.mode == StudyMode.LISTEN) {
+        if (ui.mode == StudyMode.LISTEN) {
             Card(Modifier.fillMaxWidth()) {
                 Column(Modifier.fillMaxWidth().padding(24.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(stringResource(R.string.study_listen_prompt), textAlign = TextAlign.Center)

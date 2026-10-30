@@ -73,13 +73,8 @@ fun SettingsScreen(vm: SettingsViewModel = viewModel(), onHelp: () -> Unit) {
         }
 
         Section(stringResource(R.string.set_load_title)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(stringResource(R.string.set_unlimited), Modifier.weight(1f))
-                Switch(checked = s.newPerDay == 0, onCheckedChange = { vm.setNewPerDay(if (it) 0 else 10) })
-            }
-            if (s.newPerDay != 0) SliderRow({ stringResource(R.string.set_new_per_day, it) }, s.newPerDay, 5..100, 5) { vm.setNewPerDay(it) }
-            else Text(stringResource(R.string.set_unlimited_desc), style = MaterialTheme.typography.bodySmall)
-            SliderRow({ stringResource(R.string.set_goal, it) }, s.dailyGoal, 10..100, 10) { vm.setDailyGoal(it) }
+            // Размер урока: сколько новых слов в день
+            SliderRow({ stringResource(R.string.set_new_per_day, it) }, s.newPerDay, 5..100, 5) { vm.setNewPerDay(it) }
         }
 
         Section(stringResource(R.string.set_sound_title)) {

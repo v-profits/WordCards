@@ -54,8 +54,6 @@
     <string name="mode_listen_hint">Listen to the word and write it down (keyboard or microphone).</string>
 
     <!-- Типы занятий -->
-    <string name="kind_learn">Learn + review</string>
-    <string name="kind_learn_hint">Words that are due for review come first, then new words.</string>
     <string name="kind_due">Due only</string>
     <string name="kind_due_hint">Only what is scheduled for review right now.</string>
     <string name="kind_practice">Practice</string>
@@ -67,13 +65,8 @@
     <string name="home_help">How it works</string>
     <string name="home_studying">You are learning: %1$s</string>
     <string name="home_streak">Streak: %1$d days</string>
-    <string name="home_goal">Daily goal: %1$d of %2$d answers</string>
     <string name="home_due_now">Due for review now: %1$d</string>
     <string name="home_loading">Loading the dictionary (≈19,000 words)… This happens only once.</string>
-    <string name="home_start">Start session (all levels)</string>
-    <string name="home_order_limited">Order in a session: 1) words due for review, 2) new words (up to %1$d per day). Tap a level below to study only that level.</string>
-    <string name="home_order_unlimited">Order in a session: 1) words due for review, 2) new words (no daily limit). Tap a level below to study only that level.</string>
-    <string name="home_what">What to do</string>
     <string name="home_mode">Practice mode</string>
     <string name="level_progress">Learned %1$d of %2$d · new %3$d</string>
 
@@ -104,11 +97,9 @@
     <string name="finish_done_title">Session complete 🎉</string>
     <string name="finish_empty_title">Nothing more for now! 🎉</string>
     <string name="finish_stats">Words: %1$d · correct answers: %2$d</string>
-    <string name="finish_empty_learn">Nothing is due and today\'s limit of new words is reached.</string>
     <string name="finish_empty_due">No words are due for review right now.</string>
     <string name="finish_empty_practice">No learned words to practice yet.</string>
     <string name="finish_empty_hard">No hard words — great!</string>
-    <string name="finish_more_learn">Learn 10 more new words</string>
     <string name="finish_more_practice">Practice again</string>
 
     <!-- Слова -->
@@ -143,11 +134,8 @@
     <string name="set_dir_desc">Left of the arrow is what you see, right of the arrow is what you answer.</string>
     <string name="dir_pair">%1$s → %2$s</string>
     <string name="dir_mixed">Mixed</string>
-    <string name="set_load_title">Workload</string>
-    <string name="set_unlimited">No daily limit of new words</string>
-    <string name="set_unlimited_desc">New words come in batches of 100 per session — learn as many as you like.</string>
-    <string name="set_new_per_day">New words per day: %1$d</string>
-    <string name="set_goal">Daily goal (answers): %1$d</string>
+    <string name="set_load_title">Lesson</string>
+    <string name="set_new_per_day">Words per lesson: %1$d</string>
     <string name="set_sound_title">Sound and theme</string>
     <string name="set_autospeak">Pronounce words automatically</string>
     <string name="theme_system">System</string>
@@ -180,18 +168,18 @@
     <string name="help_1_b">The app uses spaced repetition. A word you answered well comes back later and later (10 minutes, 1 day, 4 days, weeks, months). A word you forgot comes back soon. This way you spend time only on words that are about to fade from memory.</string>
     <string name="help_2_t">Levels</string>
     <string name="help_2_b">Words are sorted by how common they are in real speech. The first level holds the ~500 most frequent words; the next ones (A2, B1, B2, C1, C2) hold rarer and rarer words. A few thousand words from levels A1–B2 are already enough for everyday conversation. Start with A1 and move up.</string>
-    <string name="help_3_t">What appears in a session, and in what order</string>
-    <string name="help_3_b">1) First come the words that are due for review: you have already met them and it is time to repeat them.\n2) Then come new words, up to your daily limit (Settings → Workload).\nA wrong answer returns the word to the same session a few cards later, until you get it right. The progress bar counts words, not attempts.</string>
-    <string name="help_4_t">Session types (Home → What to do)</string>
-    <string name="help_4_b">• Learn + review — the normal mode: due words first, then new ones.\n• Due only — repeat what is scheduled, without new words.\n• Practice — extra training on words you have already learned, in random order. It does not change the schedule, so it is safe for cramming before a trip or an exam.\n• Hard words — the words you got wrong most often. Also does not change the schedule.</string>
+    <string name="help_3_t">What a lesson contains, and in what order</string>
+    <string name="help_3_b">Your daily lesson is a fixed set of new words (Settings → Lesson: words per lesson).\n1) First comes a quick review of old words that are due (if there are any).\n2) Then the same new words are practised in 4 steps, one after another: Cards → Choice → Typing → Listening. The app moves from one step to the next by itself.\nA step is finished when every word has been answered correctly; a wrong answer brings the word back a few cards later. The day counts for your streak only when the whole lesson is done. If you stop, the lesson waits for you, and no new words are added until you finish it.</string>
+    <string name="help_4_t">Extra practice (Home → Extra practice)</string>
+    <string name="help_4_b">• Due only — repeat what is scheduled for review right now.\n• Practice — extra training on words you have already learned, in random order. It does not change the schedule.\n• Hard words — the words you got wrong most often. It does not change the schedule either.\nHere you choose the mode yourself (Cards, Choice, Typing or Listening). Extra practice does not count for the lesson.</string>
     <string name="help_5_t">Practice modes</string>
-    <string name="help_5_b">• Cards — you see a word; try to recall the translation, tap “Show answer”, then rate yourself.\n• Choice — pick the right translation out of four.\n• Typing — type the translation, or tap the microphone and say it. A new dictation replaces the previous text until you press “Check”.\n• Listening — you hear the word and write it down. Great for pronunciation and spelling.</string>
+    <string name="help_5_b">In a lesson all four modes are used in turn; in extra practice you pick one.\n• Cards — you see a word; try to recall the translation, tap “Show answer”, then rate yourself. Only this step sets the review schedule.\n• Choice — pick the right translation out of four.\n• Typing — type the translation, or tap the microphone and say it. A new dictation replaces the previous text until you press “Check”.\n• Listening — you hear the word and write it down. Great for pronunciation and spelling.</string>
     <string name="help_6_t">The buttons on a card</string>
-    <string name="help_6_b">• Show answer — flips the card (tapping the card works too).\n• Again / Hard / Good / Easy — how well you remembered the word. The time under each button shows when the word will return: Again = soon (about 10 minutes), Easy = much later. Be honest: the schedule adapts to you.\n• Swipe — after flipping, swipe right if you knew the word, left if you did not.\n• Speaker icon — pronounces the word. “Sentence” pronounces the example sentence, so you can hear the word in real speech.\n• Already know — removes the word from learning for good.</string>
+    <string name="help_6_b">• Show answer — flips the card (tapping the card works too).\n• Again / Hard / Good / Easy — how well you remembered the word. The time under each button shows when the word will return: Again = soon (about 10 minutes), Easy = much later. Be honest: the schedule adapts to you.\n• Swipe — after flipping, swipe right if you knew the word, left if you did not.\n• Speaker icon — pronounces the word or the example sentence, so you can hear the word in real speech.\n• Already know — removes the word from learning for good.\n• Skip step — in the Typing and Listening steps you can skip the step if you cannot speak or type right now.</string>
     <string name="help_7_t">The Words tab</string>
     <string name="help_7_b">Browse and search all words. Tap an example sentence to hear it. ★ adds a word to favorites; ✓ marks it as known — it will no longer appear in sessions.</string>
-    <string name="help_8_t">Goal, streak and limit</string>
-    <string name="help_8_b">The daily goal is the number of answers you aim for each day. The streak counts the days in a row with at least one answer. The daily limit of new words protects you from overload: you can switch it off in Settings, or tap “Learn 10 more new words” at the end of a session.</string>
+    <string name="help_8_t">Streak and lesson size</string>
+    <string name="help_8_b">The streak counts the days in a row when you finished a lesson. The lesson size (Settings → Lesson) is how many new words you learn per day. After a finished lesson you can tap “One more lesson” for another batch of new words — it does not change the streak.</string>
     <string name="help_9_t">Languages</string>
     <string name="help_9_b">The interface language and the language you are learning are two separate settings. Russian speakers learn English; English speakers learn Russian. The words of the language you are learning are pronounced aloud and recognized by voice. Settings → Card direction chooses whether you see the learned language first, your own language first, or a mix. Pronunciation and voice input need the Android voice for that language (install it in Android settings if you hear nothing).</string>
     <string name="help_10_t">Tips</string>
@@ -205,8 +193,6 @@
     <!-- Голосовой ввод -->
     <string name="voice_no_match">Nothing was recognized. Recognition language: %1$s. If it keeps failing, add this language in the Google app: Settings → Voice → Languages.</string>
     <string name="voice_network">No internet connection. Voice recognition needs internet for this language.</string>
-    <string name="voice_error_code">Voice recognition error (code %1$d)</string>
-    <string name="voice_no_permission">Microphone permission is needed for voice input</string>
 
     <!-- Оценка приложения -->
     <string name="rating_title">Enjoying the app?</string>
@@ -216,4 +202,23 @@
     <string name="mail_subject">Word Cards feedback (rating %1$d of 5)</string>
     <string name="mail_body">Hello!\n\nWhat I liked and what could be better:\n\n</string>
     <string name="mail_no_client">No email app found. Please write to %1$s</string>
+    <string name="stage_review">Review</string>
+    <string name="lesson_title">Today\'s lesson</string>
+    <string name="lesson_desc">One lesson = %1$d new words in 4 steps: Cards → Choice → Typing → Listening. Words due for review come first. The day counts only when the whole lesson is done; if you stop, it waits for you.</string>
+    <string name="lesson_plan">New words: %1$d · due for review: %2$d</string>
+    <string name="lesson_start">Start lesson</string>
+    <string name="lesson_continue">Continue lesson</string>
+    <string name="lesson_done_today">Today\'s lesson is done ✓</string>
+    <string name="lesson_more">One more lesson</string>
+    <string name="lesson_no_words">No words left for a lesson</string>
+    <string name="lesson_stage_label">Step %1$d of 4: %2$s</string>
+    <string name="lesson_review_label">Review of words that are due</string>
+    <string name="lesson_stage_notice">✓ Step “%1$s” done</string>
+    <string name="lesson_skip">Skip step</string>
+    <string name="lesson_skip_title">Skip this step?</string>
+    <string name="lesson_skip_text">The step will be counted as passed. Use this if you can\'t speak or type right now.</string>
+    <string name="lesson_finish_title">Lesson complete 🎉</string>
+    <string name="lesson_finish_stats">New words: %1$d · correct answers: %2$d</string>
+    <string name="home_training">Extra practice</string>
+    <string name="home_training_start">Start practice (all levels)</string>
 </resources>

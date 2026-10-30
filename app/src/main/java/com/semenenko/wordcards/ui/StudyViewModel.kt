@@ -23,9 +23,12 @@ enum class StudyMode(@StringRes val title: Int, @StringRes val hint: Int) {
     LISTEN(R.string.mode_listen, R.string.mode_listen_hint)   // слушаем слово и пишем его
 }
 
-/** Что именно делаем на занятии. */
+/**
+ * Что именно делаем. LESSON — урок дня (повторение + новые слова по четырём этапам);
+ * остальное — дополнительные тренировки, которые не влияют на урок.
+ */
 enum class SessionKind(@StringRes val title: Int, @StringRes val hint: Int) {
-    LEARN(R.string.kind_learn, R.string.kind_learn_hint),
+    LESSON(R.string.lesson_title, R.string.lesson_title),
     DUE(R.string.kind_due, R.string.kind_due_hint),
     PRACTICE(R.string.kind_practice, R.string.kind_practice_hint),
     HARD(R.string.kind_hard, R.string.kind_hard_hint)
@@ -61,21 +64,44 @@ data class StudyUi(
     val total: Int = 0,
     val correct: Int = 0,
     val finished: Boolean = false,
-    val intervals: Map<Grade, Interval> = emptyMap()
+    val intervals: Map<Grade, Interval> = emptyMap(),
+    /** Текущий режим (в уроке меняется по этапам). */
+    val mode: StudyMode = StudyMode.CARDS,
+    /** Этап урока; null — обычная тренировка. */
+    val stage: LessonStage? = null,
+    /** Только что пройденный этап — показываем «✓ этап пройден» до первого ответа. */
+    val notice: LessonStage? = null,
+    val lessonWords: Int = 0,
+    val lessonFinished: Boolean = false
 )
 
 class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewModel(app) {
     private val a = getApplication<WordApp>()
     private val repo = a.repo
 
+    private val lessons = a.lessons
+
     val level: Int = handle.get<Int>("level") ?: 0
-    val mode: StudyMode = runCatching { StudyMode.valueOf(handle.get<String>("mode") ?: "") }
+    val kind: SessionKind = runCatching { SessionKind.valueOf(handle.get<String>("kind") ?: "") }
+        .getOrDefault(SessionKind.DUE)
+    private val isLesson get() = kind == SessionKind.LESSON
+
+    /** Текущий режим: в тренировке задан сразу, в уроке меняется вместе с этапом. */
+    private var mode: StudyMode = runCatching { StudyMode.valueOf(handle.get<String>("mode") ?: "") }
         .getOrDefault(StudyMode.CARDS)
 
-    val kind: SessionKind = runCatching { SessionKind.valueOf(handle.get<String>("kind") ?: "") }
-        .getOrDefault(SessionKind.LEARN)
-    /** Тренировка: ответы не меняют интервалы повторения. */
-    private val cram get() = kind == SessionKind.PRACTICE || kind == SessionKind.HARD
+    private var lesson: Lesson? = null
+    private var stage: LessonStage? = null
+
+    /**
+     * Ответы не меняют интервалы повторения: тренировки «Пройденное» и «Сложные»,
+     * а также этапы урока «Выбор», «Ввод» и «Аудио» (расписание обновляется один раз — на этапе «Карточки»).
+     */
+    private val cram get() = when (kind) {
+        SessionKind.PRACTICE, SessionKind.HARD -> true
+        SessionKind.LESSON -> stage == LessonStage.CHOICE || stage == LessonStage.TYPING || stage == LessonStage.LISTEN
+        else -> false
+    }
 
     private val queue = ArrayDeque<StudyCard>()
     private val _ui = MutableStateFlow(StudyUi())
@@ -85,22 +111,115 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
     init {
         viewModelScope.launch {
             cfg = a.settings.flow.first()
+            if (isLesson) {
+                lesson = lessons.ensure(repo, cfg.newPerDay, extra = false)
+                _ui.value = StudyUi(loading = false, mode = mode)
+                if (lesson == null) _ui.update { it.copy(finished = true) } else enterNextPhase()
+                return@launch
+            }
             val now = System.currentTimeMillis()
             val list: List<Word> = when (kind) {
-                SessionKind.LEARN -> {
-                    // newPerDay == 0 — «без лимита»: за одну сессию берём пачку по 100 слов
-                    val today = repo.stats.get(repo.today())
-                    val newLimit = if (cfg.newPerDay == 0) 100
-                    else (cfg.newPerDay - (today?.newLearned ?: 0)).coerceAtLeast(0)
-                    repo.words.due(level, now, 200) + repo.words.fresh(level, newLimit)
-                }
                 SessionKind.DUE -> repo.words.due(level, now, 300)
                 SessionKind.PRACTICE -> repo.words.learned(level, 30)
-                SessionKind.HARD -> repo.words.hard(level, 30)
+                else -> repo.words.hard(level, 30)
             }
             list.forEach { queue.addLast(makeCard(it)) }
-            _ui.value = StudyUi(loading = false, total = queue.size)
+            _ui.value = StudyUi(loading = false, total = queue.size, mode = mode)
             next()
+        }
+    }
+
+    // ---------- Урок: этапы ----------
+    private fun modeOf(st: LessonStage) = when (st) {
+        LessonStage.REVIEW, LessonStage.CARDS -> StudyMode.CARDS
+        LessonStage.CHOICE -> StudyMode.CHOICE
+        LessonStage.TYPING -> StudyMode.TYPING
+        LessonStage.LISTEN -> StudyMode.LISTEN
+    }
+
+    private fun lessonDone(): Int {
+        val l = lesson ?: return 0
+        val st = stage ?: return 0
+        return l.doneCount(st)
+    }
+
+    /** Переходит к первому непройденному этапу и готовит его очередь; если этапов нет — урок закончен. */
+    private suspend fun enterNextPhase(notice: LessonStage? = null) {
+        val l = lesson ?: return
+        val st = l.current
+        if (st == null) { finishLesson(l); return }
+        stage = st
+        mode = modeOf(st)
+        queue.clear()
+        val words: List<Word>
+        if (st == LessonStage.REVIEW) {
+            words = repo.words.due(0, System.currentTimeMillis(), LessonConfig.REVIEW_CAP)
+        } else {
+            val done = l.done[st.name].orEmpty()
+            val byId = repo.words.byIds(l.wordIds).associateBy { it.id }
+            var cur = l
+            val todo = ArrayList<Word>()
+            for (id in l.wordIds) {
+                if (id in done) continue
+                val w = byId[id]
+                // Слово отмечено «знаю» или удалено — этап для него считаем пройденным
+                if (w == null || w.known) cur = cur.withDone(st, id) else todo += w
+            }
+            if (cur !== l) { lesson = cur; lessons.save(cur) }
+            words = if (st == LessonStage.CARDS) todo else todo.shuffled()
+        }
+        words.forEach { queue.addLast(makeCard(it)) }
+        val cur = lesson ?: return
+        _ui.update {
+            it.copy(
+                loading = false, finished = false, lessonFinished = false, stage = st, mode = mode,
+                notice = notice, done = cur.doneCount(st), total = cur.total(st), lessonWords = cur.wordIds.size
+            )
+        }
+        next()
+    }
+
+    /** Очередь этапа пуста: отмечаем этап пройденным и идём дальше. */
+    private fun completePhase() {
+        viewModelScope.launch {
+            var l = lesson ?: return@launch
+            val st = stage ?: return@launch
+            l = if (st == LessonStage.REVIEW) l.copy(reviewDone = true) else l.withAllDone(st)
+            lesson = l
+            lessons.save(l)
+            enterNextPhase(notice = st)
+        }
+    }
+
+    private fun finishLesson(l: Lesson) {
+        val today = repo.today()
+        val finished = l.copy(finishedDate = today)
+        lesson = finished
+        lessons.save(finished)
+        lessons.markDay(today)   // день засчитан в серию только теперь
+        stage = null
+        _ui.update { it.copy(card = null, finished = true, stage = null, notice = null, lessonFinished = true, lessonWords = finished.wordIds.size) }
+    }
+
+    /** Слово пройдено на текущем этапе — сохраняем прогресс урока (он переживёт выход из приложения). */
+    private fun markWordDone(id: Long) {
+        var l = lesson ?: return
+        val st = stage ?: return
+        l = if (st == LessonStage.REVIEW) l.copy(reviewDoneCount = l.reviewDoneCount + 1) else l.withDone(st, id)
+        lesson = l
+        lessons.save(l)
+    }
+
+    /** Пропуск этапа — разрешён для «Ввода» и «Аудио» (если нельзя говорить или печатать). */
+    fun skipStage() {
+        viewModelScope.launch {
+            val l = lesson ?: return@launch
+            val st = stage ?: return@launch
+            if (st != LessonStage.TYPING && st != LessonStage.LISTEN) return@launch
+            val n = l.copy(skipped = l.skipped + st.name)
+            lesson = n
+            lessons.save(n)
+            enterNextPhase()
         }
     }
 
@@ -116,7 +235,7 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
     private fun next() {
         val c = queue.removeFirstOrNull()
         if (c == null) {
-            _ui.update { it.copy(card = null, finished = true) }
+            if (isLesson) completePhase() else _ui.update { it.copy(card = null, finished = true) }
             return
         }
         // В режиме «Аудио» пишем услышанное слово на изучаемом языке
@@ -156,7 +275,8 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
         val c = _ui.value.card ?: return
         viewModelScope.launch {
             repo.words.update(c.word.copy(known = true, state = 2))
-            _ui.update { it.copy(done = it.done + 1) }
+            if (isLesson) markWordDone(c.word.id)
+            _ui.update { it.copy(done = if (isLesson) lessonDone() else it.done + 1, notice = null) }
             next()
         }
     }
@@ -227,9 +347,10 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
             val requeue: Boolean
             val nextWord: Word
             if (cram) {
-                // Тренировка: считаем только статистику; ошибки/«трудно» повторяем в этой же сессии
+                // Тренировка / этапы урока кроме «Карточек»: расписание не меняем, считаем только статистику.
+                // В уроке повторяем слово только после ошибки; в тренировке — ещё и после «трудно».
                 repo.saveStatOnly(g != Grade.AGAIN)
-                requeue = g == Grade.AGAIN || g == Grade.HARD
+                requeue = if (isLesson) g == Grade.AGAIN else (g == Grade.AGAIN || g == Grade.HARD)
                 nextWord = c.word
             } else {
                 val updated = Srs.schedule(c.word, g, System.currentTimeMillis())
@@ -239,10 +360,12 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
                 nextWord = updated
             }
             if (requeue) queue.add(minOf(3, queue.size), makeCard(nextWord))
+            else if (isLesson) markWordDone(c.word.id)
             _ui.update {
                 it.copy(
-                    done = it.done + if (requeue) 0 else 1,
-                    correct = it.correct + if (g != Grade.AGAIN) 1 else 0
+                    done = if (isLesson) lessonDone() else it.done + if (requeue) 0 else 1,
+                    correct = it.correct + if (g != Grade.AGAIN) 1 else 0,
+                    notice = null
                 )
             }
             next()
@@ -250,16 +373,19 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
     }
 
     /** Можно ли после завершения предложить «ещё». */
-    val canMore: Boolean get() = kind == SessionKind.LEARN || kind == SessionKind.PRACTICE
+    val canMore: Boolean get() = kind == SessionKind.LESSON || kind == SessionKind.PRACTICE
 
-    /** «Учить ещё»: новая пачка слов сверх дневного лимита / ещё одна тренировка. */
+    /** «Ещё один урок» (новая порция слов, серию не меняет) / ещё одна тренировка. */
     fun more() {
         viewModelScope.launch {
-            val list = when (kind) {
-                SessionKind.LEARN -> repo.words.fresh(level, 10)
-                SessionKind.PRACTICE -> repo.words.learned(level, 30)
-                else -> emptyList()
+            if (isLesson) {
+                val l = lessons.create(repo, cfg.newPerDay, extra = true) ?: return@launch
+                lesson = l
+                _ui.update { it.copy(correct = 0) }
+                enterNextPhase()
+                return@launch
             }
+            val list = if (kind == SessionKind.PRACTICE) repo.words.learned(level, 30) else emptyList()
             if (list.isEmpty()) return@launch
             list.forEach { queue.addLast(makeCard(it)) }
             _ui.update { it.copy(finished = false, total = it.done + queue.size) }

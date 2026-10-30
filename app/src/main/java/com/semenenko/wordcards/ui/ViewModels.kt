@@ -29,6 +29,24 @@ class HomeViewModel(app: Application) : AndroidViewModel(app) {
     val settings = a.settings.flow
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), AppSettings())
     val seeding = a.repo.seeding
+    /** Текущий урок и дни, в которые урок был пройден (для серии). */
+    val lesson = a.lessons.lesson
+    val days = a.lessons.days
+    /** Для урока не нашлось слов (всё выучено). */
+    val noWords = MutableStateFlow(false)
+
+    /**
+     * Готовит урок: незаконченный возвращается как есть, иначе создаётся новый.
+     * Когда урок готов, вызывается onReady (переход на экран занятия).
+     */
+    fun openLesson(extra: Boolean, onReady: () -> Unit) {
+        viewModelScope.launch {
+            val size = a.settings.flow.first().newPerDay
+            val l = a.lessons.ensure(a.repo, size, extra)
+            noWords.value = l == null
+            if (l != null) onReady()
+        }
+    }
 }
 
 /** Список слов с поиском и фильтрами. */
@@ -63,7 +81,6 @@ class SettingsViewModel(app: Application) : AndroidViewModel(app) {
     /** Язык интерфейса: "" — системный, "en", "ru". */
     fun setLanguage(tag: String) = AppLang.set(a, tag)
     fun setNewPerDay(v: Int) = viewModelScope.launch { a.settings.setNewPerDay(v) }
-    fun setDailyGoal(v: Int) = viewModelScope.launch { a.settings.setDailyGoal(v) }
     fun setAutoSpeak(v: Boolean) = viewModelScope.launch { a.settings.setAutoSpeak(v) }
     fun setTheme(v: Int) = viewModelScope.launch { a.settings.setTheme(v) }
 
@@ -83,6 +100,7 @@ class SettingsViewModel(app: Application) : AndroidViewModel(app) {
 
     fun resetProgress() = viewModelScope.launch {
         a.repo.words.resetProgress(0)
+        a.lessons.save(null)   // незаконченный урок относится к старому прогрессу
         message.value = UiMsg(R.string.msg_reset_done)
     }
 }

@@ -22,19 +22,22 @@ import com.semenenko.wordcards.R
 import com.semenenko.wordcards.data.*
 import java.time.LocalDate
 
-/** Главный экран: серия, цель дня, пояснение порядка занятия, выбор режима и уровни. */
+/** Главный экран: серия, урок дня, дополнительные тренировки и уровни. */
 @Composable
 fun HomeScreen(vm: HomeViewModel = viewModel(), onHelp: () -> Unit, onStart: (Int, StudyMode, SessionKind) -> Unit) {
     val levels by vm.levels.collectAsState()
-    val recent by vm.recent.collectAsState()
+    val days by vm.days.collectAsState()
+    val lesson by vm.lesson.collectAsState()
+    val noWords by vm.noWords.collectAsState()
     val st by vm.settings.collectAsState()
     val seeding by vm.seeding.collectAsState()
     var mode by rememberSaveable { mutableStateOf(StudyMode.CARDS) }
-    var kind by rememberSaveable { mutableStateOf(SessionKind.LEARN) }
+    var kind by rememberSaveable { mutableStateOf(SessionKind.DUE) }
 
-    val reviewedToday = recent.firstOrNull { it.date == LocalDate.now().toString() }?.reviewed ?: 0
-    val streak = Repository.streak(recent)
+    val streak = LessonStore.streak(days)
     val totalDue = levels.sumOf { it.due }
+    // Дополнительные тренировки (урок — отдельной карточкой)
+    val trainings = SessionKind.entries.filter { it != SessionKind.LESSON }
 
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
@@ -65,12 +68,6 @@ fun HomeScreen(vm: HomeViewModel = viewModel(), onHelp: () -> Unit, onStart: (In
                         Spacer(Modifier.width(8.dp))
                         Text(stringResource(R.string.home_streak, streak), style = MaterialTheme.typography.titleMedium)
                     }
-                    Spacer(Modifier.height(12.dp))
-                    Text(stringResource(R.string.home_goal, reviewedToday, st.dailyGoal))
-                    LinearProgressIndicator(
-                        progress = { (reviewedToday / st.dailyGoal.toFloat()).coerceIn(0f, 1f) },
-                        modifier = Modifier.fillMaxWidth().padding(top = 6.dp)
-                    )
                     Spacer(Modifier.height(8.dp))
                     Text(stringResource(R.string.home_due_now, totalDue), style = MaterialTheme.typography.bodyMedium)
                 }
@@ -85,21 +82,17 @@ fun HomeScreen(vm: HomeViewModel = viewModel(), onHelp: () -> Unit, onStart: (In
             }
         }
         item {
-            Button(onClick = { onStart(0, mode, kind) }, modifier = Modifier.fillMaxWidth()) {
-                Text(stringResource(R.string.home_start))
-            }
-            // Объясняем, что и в каком порядке появится в занятии
-            Text(
-                if (st.newPerDay == 0) stringResource(R.string.home_order_unlimited)
-                else stringResource(R.string.home_order_limited, st.newPerDay),
-                style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 6.dp)
+            LessonCard(
+                lesson = lesson, newPerDay = st.newPerDay, dueNow = totalDue, noWords = noWords,
+                onStart = { vm.openLesson(extra = false) { onStart(0, StudyMode.CARDS, SessionKind.LESSON) } },
+                onMore = { vm.openLesson(extra = true) { onStart(0, StudyMode.CARDS, SessionKind.LESSON) } }
             )
         }
         item {
-            Text(stringResource(R.string.home_what), style = MaterialTheme.typography.titleSmall)
+            Text(stringResource(R.string.home_training), style = MaterialTheme.typography.titleMedium)
             Spacer(Modifier.height(6.dp))
             Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                SessionKind.entries.forEach { k ->
+                trainings.forEach { k ->
                     FilterChip(selected = kind == k, onClick = { kind = k }, label = { Text(stringResource(k.title)) })
                 }
             }
@@ -115,9 +108,82 @@ fun HomeScreen(vm: HomeViewModel = viewModel(), onHelp: () -> Unit, onStart: (In
             }
             Text(stringResource(mode.hint), style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 4.dp))
         }
+        item {
+            OutlinedButton(onClick = { onStart(0, mode, kind) }, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.home_training_start))
+            }
+        }
         items(Levels.all, key = { it.id }) { info ->
             LevelCard(info, levels.firstOrNull { it.level == info.id }) { onStart(info.id, mode, kind) }
         }
+    }
+}
+
+/** Урок дня: состояние (не начат / идёт / пройден) и прогресс по каждому этапу. */
+@Composable
+private fun LessonCard(
+    lesson: Lesson?, newPerDay: Int, dueNow: Int, noWords: Boolean, onStart: () -> Unit, onMore: () -> Unit
+) {
+    val today = LocalDate.now().toString()
+    val doneToday = lesson != null && lesson.finished && lesson.finishedDate == today
+    val inProgress = lesson != null && !lesson.finished
+    Card(Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(16.dp)) {
+            Text(stringResource(R.string.lesson_title), style = MaterialTheme.typography.titleMedium)
+            Spacer(Modifier.height(8.dp))
+            when {
+                doneToday -> {
+                    Text(stringResource(R.string.lesson_done_today), color = Color(0xFF2E7D32),
+                        style = MaterialTheme.typography.titleSmall)
+                    Spacer(Modifier.height(12.dp))
+                    OutlinedButton(onClick = onMore, modifier = Modifier.fillMaxWidth()) {
+                        Text(stringResource(R.string.lesson_more))
+                    }
+                }
+                inProgress && lesson != null -> {
+                    LessonProgress(lesson)
+                    Spacer(Modifier.height(8.dp))
+                    Button(onClick = onStart, modifier = Modifier.fillMaxWidth()) {
+                        Text(stringResource(R.string.lesson_continue))
+                    }
+                }
+                else -> {
+                    Text(stringResource(R.string.lesson_plan, newPerDay, dueNow))
+                    Spacer(Modifier.height(12.dp))
+                    Button(onClick = onStart, modifier = Modifier.fillMaxWidth()) {
+                        Text(stringResource(R.string.lesson_start))
+                    }
+                }
+            }
+            if (noWords) {
+                Spacer(Modifier.height(8.dp))
+                Text(stringResource(R.string.lesson_no_words), color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall)
+            }
+            Spacer(Modifier.height(10.dp))
+            // Как устроен урок — тут же, чтобы было понятно, что и в каком порядке появится
+            Text(stringResource(R.string.lesson_desc, newPerDay), style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.outline)
+        }
+    }
+}
+
+/** Прогресс по этапам урока: повторение (если есть) и четыре режима. */
+@Composable
+private fun LessonProgress(l: Lesson) {
+    LessonStage.entries.filter { it != LessonStage.REVIEW || l.reviewTotal > 0 }.forEach { st ->
+        val total = l.total(st)
+        val done = l.doneCount(st).coerceAtMost(total)
+        val complete = l.stageDone(st)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(if (complete) "✓ " else "• ", color = if (complete) Color(0xFF2E7D32) else MaterialTheme.colorScheme.outline)
+            Text(stringResource(st.title), Modifier.weight(1f), style = MaterialTheme.typography.bodyMedium)
+            Text("$done/$total", style = MaterialTheme.typography.bodyMedium)
+        }
+        LinearProgressIndicator(
+            progress = { if (total == 0 || complete) 1f else done / total.toFloat() },
+            modifier = Modifier.fillMaxWidth().padding(top = 2.dp, bottom = 8.dp)
+        )
     }
 }
 

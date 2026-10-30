@@ -68,6 +68,10 @@ interface WordDao {
     )
     suspend fun refreshWord(en: String, ru: String, ruPlain: String, tr: String, ee: String, er: String)
 
+    /** Слова урока по их id. */
+    @Query("SELECT * FROM words WHERE id IN (:ids)")
+    suspend fun byIds(ids: List<Long>): List<Word>
+
     @Update
     suspend fun update(word: Word)
 
@@ -99,6 +103,10 @@ interface StatDao {
 
     @Upsert
     suspend fun upsert(s: DailyStat)
+
+    /** Дни, когда были ответы (для переноса старой серии при обновлении). */
+    @Query("SELECT date FROM daily_stats WHERE reviewed > 0")
+    suspend fun reviewedDays(): List<String>
 
     @Query("SELECT * FROM daily_stats ORDER BY date DESC LIMIT :n")
     fun recent(n: Int): Flow<List<DailyStat>>
