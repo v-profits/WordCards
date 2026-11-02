@@ -57,6 +57,13 @@ fun StudyScreen(vm: StudyViewModel = viewModel(), onExit: () -> Unit) {
             Spacer(Modifier.width(12.dp))
             Text("${minOf(ui.done, ui.total)}/${ui.total}")
         }
+        // В тренировке всегда видно, что именно сейчас идёт: вид и режим
+        if (vm.kind != SessionKind.LESSON) {
+            Text(
+                "${stringResource(vm.kind.title)} · ${stringResource(ui.mode.title)}",
+                style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(start = 12.dp)
+            )
+        }
         ui.stage?.let { LessonHeader(it, ui.notice, onSkip = { vm.skipStage() }) }
         Spacer(Modifier.height(12.dp))
         when {
@@ -129,6 +136,7 @@ private fun FinishView(ui: StudyUi, kind: SessionKind, canMore: Boolean, onExit:
                         SessionKind.DUE -> R.string.finish_empty_due
                         SessionKind.PRACTICE -> R.string.finish_empty_practice
                         SessionKind.HARD -> R.string.finish_empty_hard
+                        SessionKind.COURSE -> R.string.finish_empty_course
                     }
                 ), textAlign = TextAlign.Center
             )

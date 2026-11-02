@@ -63,9 +63,12 @@ class LessonsViewModel(app: Application, handle: SavedStateHandle) : AndroidView
     fun hasUnfinishedLesson(): Boolean = a.lessons.lesson.value?.let { !it.finished } == true
 
     /** Пройти урок номер number: создаём урок из его слов (даже если они уже выучены). */
-    fun studyLesson(number: Int, onReady: () -> Unit) {
+    fun studyLesson(number: Int, onReady: () -> Unit) = studyLessons(number, number, onReady)
+
+    /** Пройти уроки с from по to как один урок (4 этапа по словам всех выбранных уроков). */
+    fun studyLessons(from: Int, to: Int, onReady: () -> Unit) {
         viewModelScope.launch {
-            val words = repo.words.lessonWords(level, size, (number - 1) * size)
+            val words = repo.words.lessonWords(level, (to - from + 1) * size, (from - 1) * size)
             if (words.isEmpty()) return@launch
             a.lessons.createFromWords(repo, words)
             onReady()

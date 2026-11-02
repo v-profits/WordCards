@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.FitnessCenter
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
@@ -40,10 +41,17 @@ fun AppRoot(showRating: Boolean = false) {
     val route = entry?.destination?.route
     val tabs = listOf(
         Tab("home", R.string.tab_home, Icons.Default.Home),
+        Tab("training", R.string.tab_training, Icons.Default.FitnessCenter),
         Tab("words", R.string.tab_words, Icons.Default.Book),
         Tab("stats", R.string.tab_stats, Icons.Default.BarChart),
         Tab("settings", R.string.tab_settings, Icons.Default.Settings)
     )
+    // Переход на вкладку нижней панели (так же, как нажатие на неё)
+    fun openTab(r: String) = nav.navigate(r) {
+        popUpTo("home") { saveState = true }
+        launchSingleTop = true
+        restoreState = true
+    }
     Scaffold(
         bottomBar = {
             // На экране занятия и справки нижнюю панель скрываем
@@ -72,7 +80,15 @@ fun AppRoot(showRating: Boolean = false) {
                 HomeScreen(
                     onHelp = { nav.navigate("help") },
                     onLessons = { level -> nav.navigate("lessons/$level") },
+                    onTrainings = { openTab("training") },
                     onStart = { level, mode, kind -> nav.navigate("study/$level/${mode.name}/${kind.name}") }
+                )
+            }
+            composable("training") {
+                TrainingScreen(
+                    onStart = { level, mode, kind, from, to, limit ->
+                        nav.navigate("study/$level/${mode.name}/${kind.name}?from=$from&to=$to&limit=$limit")
+                    }
                 )
             }
             composable("words") { WordsScreen() }
@@ -90,11 +106,15 @@ fun AppRoot(showRating: Boolean = false) {
                 )
             }
             composable(
-                "study/{level}/{mode}/{kind}",
+                // from / to / limit — необязательные: диапазон уроков и размер тренировки
+                "study/{level}/{mode}/{kind}?from={from}&to={to}&limit={limit}",
                 arguments = listOf(
                     navArgument("level") { type = NavType.IntType },
                     navArgument("mode") { type = NavType.StringType },
-                    navArgument("kind") { type = NavType.StringType }
+                    navArgument("kind") { type = NavType.StringType },
+                    navArgument("from") { type = NavType.IntType; defaultValue = 0 },
+                    navArgument("to") { type = NavType.IntType; defaultValue = 0 },
+                    navArgument("limit") { type = NavType.IntType; defaultValue = 30 }
                 )
             ) { StudyScreen(onExit = { nav.popBackStack() }) }
         }

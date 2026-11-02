@@ -51,6 +51,36 @@ interface WordDao {
     )
     suspend fun hard(level: Int, limit: Int): List<Word>
 
+    /** Количество слов для экрана «Тренировки» (те же условия, что у запросов выше). */
+    @Query(
+        """SELECT COUNT(*) FROM words WHERE known = 0 AND state > 0 AND due <= :now
+           AND (:level = 0 OR level = :level)"""
+    )
+    suspend fun dueCount(level: Int, now: Long): Int
+
+    @Query(
+        """SELECT COUNT(*) FROM words WHERE known = 0 AND state > 0 AND (lapses > 0 OR ease < 2.3)
+           AND (:level = 0 OR level = :level)"""
+    )
+    suspend fun hardCount(level: Int): Int
+
+    @Query("SELECT COUNT(*) FROM words WHERE (state = 2 OR known = 1) AND (:level = 0 OR level = :level)")
+    suspend fun learnedCount(level: Int): Int
+
+    @Query("SELECT COUNT(*) FROM words WHERE (:level = 0 OR level = :level)")
+    suspend fun wordCount(level: Int): Int
+
+    /**
+     * Тренировка «Весь курс / уроки»: любые слова (в том числе ещё не изученные).
+     * Берём срез из span слов начиная с offset (уровень отсортирован по частотности, как и уроки),
+     * из него — случайные n слов. level = 0 — весь курс (все уровни).
+     */
+    @Query(
+        """SELECT * FROM (SELECT * FROM words WHERE (:level = 0 OR level = :level)
+           ORDER BY level, id LIMIT :span OFFSET :offset) ORDER BY RANDOM() LIMIT :n"""
+    )
+    suspend fun courseSample(level: Int, span: Int, offset: Int, n: Int): List<Word>
+
     @Query("SELECT * FROM words")
     suspend fun all(): List<Word>
 

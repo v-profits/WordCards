@@ -95,7 +95,8 @@ class Repository(private val ctx: Context, private val db: AppDatabase) {
             s.copy(
                 reviewed = s.reviewed + 1,
                 correct = s.correct + if (correct) 1 else 0,
-                newLearned = s.newLearned + if (old.state == 0) 1 else 0
+                // «Выучено» — слово перешло в состояние «на повторении» (раньше считалось первое появление слова)
+                newLearned = s.newLearned + if (new.state == 2 && old.state != 2) 1 else 0
             )
         )
     }

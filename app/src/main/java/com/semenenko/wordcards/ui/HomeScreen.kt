@@ -7,6 +7,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.FitnessCenter
+import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocalFireDepartment
 import androidx.compose.material3.*
@@ -22,11 +25,11 @@ import com.semenenko.wordcards.R
 import com.semenenko.wordcards.data.*
 import java.time.LocalDate
 
-/** Главный экран: серия, урок дня, дополнительные тренировки и уровни. */
+/** Главный экран: серия, урок дня, переход к тренировкам и уровни (с их уроками). */
 @Composable
 fun HomeScreen(
     vm: HomeViewModel = viewModel(), onHelp: () -> Unit, onLessons: (Int) -> Unit,
-    onStart: (Int, StudyMode, SessionKind) -> Unit
+    onTrainings: () -> Unit, onStart: (Int, StudyMode, SessionKind) -> Unit
 ) {
     val levels by vm.levels.collectAsState()
     val days by vm.days.collectAsState()
@@ -34,13 +37,9 @@ fun HomeScreen(
     val noWords by vm.noWords.collectAsState()
     val st by vm.settings.collectAsState()
     val seeding by vm.seeding.collectAsState()
-    var mode by rememberSaveable { mutableStateOf(StudyMode.CARDS) }
-    var kind by rememberSaveable { mutableStateOf(SessionKind.DUE) }
 
     val streak = LessonStore.streak(days)
     val totalDue = levels.sumOf { it.due }
-    // Дополнительные тренировки (урок — отдельной карточкой)
-    val trainings = SessionKind.entries.filter { it != SessionKind.LESSON }
 
     LazyColumn(
         contentPadding = PaddingValues(16.dp),
@@ -92,34 +91,41 @@ fun HomeScreen(
                 onMore = { vm.openLesson(extra = true) { onStart(0, StudyMode.CARDS, SessionKind.LESSON) } }
             )
         }
+        // Тренировки живут на своей вкладке; здесь — короткая подсказка и переход
+        item { TrainingCard(totalDue, onTrainings) }
         item {
-            Text(stringResource(R.string.home_training), style = MaterialTheme.typography.titleMedium)
-            Spacer(Modifier.height(6.dp))
-            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                trainings.forEach { k ->
-                    FilterChip(selected = kind == k, onClick = { kind = k }, label = { Text(stringResource(k.title)) })
-                }
-            }
-            Text(stringResource(kind.hint), style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 4.dp))
-        }
-        item {
-            Text(stringResource(R.string.home_mode), style = MaterialTheme.typography.titleSmall)
-            Spacer(Modifier.height(6.dp))
-            Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                StudyMode.entries.forEach { m ->
-                    FilterChip(selected = mode == m, onClick = { mode = m }, label = { Text(stringResource(m.title)) })
-                }
-            }
-            Text(stringResource(mode.hint), style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 4.dp))
-        }
-        item {
-            OutlinedButton(onClick = { onStart(0, mode, kind) }, modifier = Modifier.fillMaxWidth()) {
-                Text(stringResource(R.string.home_training_start))
+            Column {
+                Text(stringResource(R.string.home_levels_title), style = MaterialTheme.typography.titleMedium)
+                Text(
+                    stringResource(R.string.home_levels_hint), style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.outline
+                )
             }
         }
         items(Levels.all, key = { it.id }) { info ->
-            LevelCard(info, levels.firstOrNull { it.level == info.id }, onLessons = { onLessons(info.id) }) {
-                onStart(info.id, mode, kind)
+            LevelCard(info, levels.firstOrNull { it.level == info.id }, onLessons = { onLessons(info.id) })
+        }
+    }
+}
+
+/** Переход на вкладку «Тренировки»: что там можно делать и сколько слов ждёт повторения. */
+@Composable
+private fun TrainingCard(due: Int, onOpen: () -> Unit) {
+    Card(Modifier.fillMaxWidth()) {
+        Column(Modifier.padding(16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Default.FitnessCenter, null, tint = MaterialTheme.colorScheme.primary)
+                Spacer(Modifier.width(8.dp))
+                Text(stringResource(R.string.train_title), style = MaterialTheme.typography.titleMedium)
+            }
+            Spacer(Modifier.height(6.dp))
+            Text(stringResource(R.string.home_train_text), style = MaterialTheme.typography.bodyMedium)
+            Spacer(Modifier.height(10.dp))
+            OutlinedButton(onClick = onOpen, modifier = Modifier.fillMaxWidth()) {
+                Text(
+                    if (due > 0) stringResource(R.string.home_train_open_due, due)
+                    else stringResource(R.string.home_train_open)
+                )
             }
         }
     }
@@ -209,11 +215,12 @@ private fun LessonProgress(l: Lesson) {
     }
 }
 
+/** Карточка уровня. Нажатие на карточку или на крупную кнопку открывает уроки этого уровня. */
 @Composable
-private fun LevelCard(info: LevelInfo, s: LevelStat?, onLessons: () -> Unit, onClick: () -> Unit) {
+private fun LevelCard(info: LevelInfo, s: LevelStat?, onLessons: () -> Unit) {
     val total = s?.total ?: 0
     val learned = s?.learned ?: 0
-    Card(onClick = onClick, modifier = Modifier.fillMaxWidth()) {
+    Card(onClick = onLessons, modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Surface(shape = RoundedCornerShape(8.dp), color = MaterialTheme.colorScheme.primaryContainer) {
@@ -222,14 +229,7 @@ private fun LevelCard(info: LevelInfo, s: LevelStat?, onLessons: () -> Unit, onC
                 }
                 Spacer(Modifier.width(10.dp))
                 Text(stringResource(info.title), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
-                if ((s?.due ?: 0) > 0) {
-                    Badge { Text("${s?.due}") }
-                    Spacer(Modifier.width(8.dp))
-                }
-                // Экран «Уроки» уровня: пройти урок заново, сбросить, отметить как известные
-                TextButton(onClick = onLessons, contentPadding = PaddingValues(horizontal = 8.dp)) {
-                    Text(stringResource(R.string.lessons_open))
-                }
+                if ((s?.due ?: 0) > 0) Badge { Text("${s?.due}") }
             }
             Spacer(Modifier.height(6.dp))
             Text(stringResource(info.desc), style = MaterialTheme.typography.bodySmall)
@@ -240,6 +240,17 @@ private fun LevelCard(info: LevelInfo, s: LevelStat?, onLessons: () -> Unit, onC
             )
             Spacer(Modifier.height(4.dp))
             Text(stringResource(R.string.level_progress, learned, total, s?.fresh ?: 0), style = MaterialTheme.typography.labelMedium)
+            Spacer(Modifier.height(12.dp))
+            // Экран «Уроки» уровня: пройти урок или диапазон, отметить известные, сбросить
+            FilledTonalButton(
+                onClick = onLessons, modifier = Modifier.fillMaxWidth().heightIn(min = 48.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 10.dp)
+            ) {
+                Icon(Icons.Default.GridView, null, Modifier.size(22.dp))
+                Spacer(Modifier.width(10.dp))
+                Text(stringResource(R.string.lessons_open), style = MaterialTheme.typography.titleMedium, modifier = Modifier.weight(1f))
+                Icon(Icons.AutoMirrored.Filled.KeyboardArrowRight, null)
+            }
         }
     }
 }

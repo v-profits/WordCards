@@ -53,6 +53,12 @@ fun LessonsScreen(vm: LessonsViewModel = viewModel(), onBack: () -> Unit, onStar
         if (vm.hasUnfinishedLesson()) confirm = ctx.getString(R.string.confirm_replace_lesson) to go else go()
     }
 
+    // Пройти диапазон уроков одним занятием (с подтверждением, если есть незаконченный урок)
+    fun studyRange(a: Int, b: Int) {
+        val go = { vm.studyLessons(a, b, onStartLesson) }
+        if (vm.hasUnfinishedLesson()) confirm = ctx.getString(R.string.confirm_replace_lesson) to go else go()
+    }
+
     LazyVerticalGrid(
         columns = GridCells.Adaptive(56.dp),
         contentPadding = PaddingValues(16.dp),
@@ -117,6 +123,13 @@ fun LessonsScreen(vm: LessonsViewModel = viewModel(), onBack: () -> Unit, onStar
                         valueRange = 1f..count.toFloat(), steps = (count - 2).coerceAtLeast(0)
                     )
                     Spacer(Modifier.height(4.dp))
+                    Text(
+                        stringResource(R.string.lessons_range_words, wordsIn(from, to)),
+                        style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline
+                    )
+                    Button(onClick = { studyRange(from, to) }, modifier = Modifier.fillMaxWidth()) {
+                        Text(stringResource(R.string.lessons_range_study, from, to), textAlign = TextAlign.Center)
+                    }
                     OutlinedButton(
                         onClick = { confirm = ctx.getString(R.string.confirm_range_known, from, to, wordsIn(from, to)) to { vm.markKnownLessons(from, to) } },
                         modifier = Modifier.fillMaxWidth()

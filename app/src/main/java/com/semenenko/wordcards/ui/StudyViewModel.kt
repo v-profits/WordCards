@@ -31,7 +31,9 @@ enum class SessionKind(@StringRes val title: Int, @StringRes val hint: Int) {
     LESSON(R.string.lesson_title, R.string.lesson_title),
     DUE(R.string.kind_due, R.string.kind_due_hint),
     PRACTICE(R.string.kind_practice, R.string.kind_practice_hint),
-    HARD(R.string.kind_hard, R.string.kind_hard_hint)
+    HARD(R.string.kind_hard, R.string.kind_hard_hint),
+    /** Любые слова: весь курс, уровень или диапазон уроков — без прохождения этапов урока. */
+    COURSE(R.string.kind_course, R.string.kind_course_hint)
 }
 
 enum class Verdict { NONE, CORRECT, WRONG }
@@ -86,6 +88,11 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
         .getOrDefault(SessionKind.DUE)
     private val isLesson get() = kind == SessionKind.LESSON
 
+    /** Диапазон уроков (только для COURSE; 0 — без диапазона) и размер тренировки. */
+    private val from: Int = handle.get<Int>("from") ?: 0
+    private val to: Int = handle.get<Int>("to") ?: 0
+    private val limit: Int = handle.get<Int>("limit") ?: 30
+
     /** Текущий режим: в тренировке задан сразу, в уроке меняется вместе с этапом. */
     private var mode: StudyMode = runCatching { StudyMode.valueOf(handle.get<String>("mode") ?: "") }
         .getOrDefault(StudyMode.CARDS)
@@ -94,11 +101,11 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
     private var stage: LessonStage? = null
 
     /**
-     * Ответы не меняют интервалы повторения: тренировки «Пройденное» и «Сложные»,
+     * Ответы не меняют интервалы повторения: тренировки «Пройденное», «Сложные» и «Весь курс»,
      * а также этапы урока «Выбор», «Ввод» и «Аудио» (расписание обновляется один раз — на этапе «Карточки»).
      */
     private val cram get() = when (kind) {
-        SessionKind.PRACTICE, SessionKind.HARD -> true
+        SessionKind.PRACTICE, SessionKind.HARD, SessionKind.COURSE -> true
         SessionKind.LESSON -> stage == LessonStage.CHOICE || stage == LessonStage.TYPING || stage == LessonStage.LISTEN
         else -> false
     }
@@ -117,15 +124,27 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
                 if (lesson == null) _ui.update { it.copy(finished = true) } else enterNextPhase()
                 return@launch
             }
-            val now = System.currentTimeMillis()
-            val list: List<Word> = when (kind) {
-                SessionKind.DUE -> repo.words.due(level, now, 300)
-                SessionKind.PRACTICE -> repo.words.learned(level, 30)
-                else -> repo.words.hard(level, 30)
-            }
+            val list = loadList()
             list.forEach { queue.addLast(makeCard(it)) }
             _ui.value = StudyUi(loading = false, total = queue.size, mode = mode)
             next()
+        }
+    }
+
+    /** Слова для тренировки (не для урока) — по выбранному виду, уровню и размеру. */
+    private suspend fun loadList(): List<Word> {
+        val now = System.currentTimeMillis()
+        return when (kind) {
+            SessionKind.DUE -> repo.words.due(level, now, limit)
+            SessionKind.PRACTICE -> repo.words.learned(level, limit)
+            SessionKind.HARD -> repo.words.hard(level, limit)
+            SessionKind.COURSE ->
+                if (level != 0 && from > 0 && to >= from) {
+                    // Диапазон уроков выбранного уровня: нумерация та же, что на экране «Уроки»
+                    val size = cfg.newPerDay.coerceAtLeast(1)
+                    repo.words.courseSample(level, (to - from + 1) * size, (from - 1) * size, limit)
+                } else repo.words.courseSample(level, Int.MAX_VALUE, 0, limit)
+            SessionKind.LESSON -> emptyList()
         }
     }
 
@@ -373,7 +392,7 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
     }
 
     /** Можно ли после завершения предложить «ещё». */
-    val canMore: Boolean get() = kind == SessionKind.LESSON || kind == SessionKind.PRACTICE
+    val canMore: Boolean get() = kind != SessionKind.DUE
 
     /** «Ещё один урок» (новая порция слов, серию не меняет) / ещё одна тренировка. */
     fun more() {
@@ -385,7 +404,7 @@ class StudyViewModel(app: Application, handle: SavedStateHandle) : AndroidViewMo
                 enterNextPhase()
                 return@launch
             }
-            val list = if (kind == SessionKind.PRACTICE) repo.words.learned(level, 30) else emptyList()
+            val list = loadList()
             if (list.isEmpty()) return@launch
             list.forEach { queue.addLast(makeCard(it)) }
             _ui.update { it.copy(finished = false, total = it.done + queue.size) }
