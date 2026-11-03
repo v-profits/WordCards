@@ -29,13 +29,14 @@ class VoiceInput(private val ctx: Context) {
     var launchDialog: (Intent) -> Unit = {}
 
     private fun intent(): Intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        // Режим «поисковые запросы» лучше подходит для одиночных коротких слов, чем «свободная речь»
+        putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH)
         // Основной язык — тот, на котором ожидается ответ
         putExtra(RecognizerIntent.EXTRA_LANGUAGE, langTag)
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, langTag)
-        putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, false)
-        // Второй язык как дополнительный: если распознаватель «слушает» не тот язык, он всё равно поймёт
-        putExtra("android.speech.extra.EXTRA_ADDITIONAL_LANGUAGES", arrayOf(otherTag))
+        // Только один язык: при двух языках сразу короткие слова (at, on, to) часто сбрасывались
+        // с ответом «Не слышно. Повторите.», потому что звук относился не к тому языку
+        putExtra(RecognizerIntent.EXTRA_ONLY_RETURN_LANGUAGE_PREFERENCE, true)
         putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, false)
         putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 3)
         putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, ctx.packageName)
