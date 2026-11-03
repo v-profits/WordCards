@@ -5,14 +5,18 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.VolumeUp
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -36,12 +40,42 @@ fun WordsScreen(vm: WordsViewModel = viewModel()) {
     val learn = app.settings.flow.collectAsState(initial = AppSettings()).value.learning
     val speaker = app.speaker
 
+    // Голосовой поиск: язык распознавания — изучаемый (английский), второй язык — дополнительный
+    val learnEn = learn == LearnLang.EN
+    val voice = rememberVoiceInput(
+        langTag = if (learnEn) "en-US" else "ru-RU",
+        otherTag = if (learnEn) "ru-RU" else "en-US",
+        langName = langName(learn),
+        prompt = stringResource(if (learnEn) R.string.study_mic_prompt_en else R.string.study_mic_prompt_ru),
+        onText = { vm.query.value = it.trim() }
+    )
+    val listState = rememberLazyListState()
+    // При любом изменении запроса или фильтра список возвращается к первому слову,
+    // иначе LazyColumn «держится» за прежнее слово по ключу, и первые варианты оказываются выше экрана
+    LaunchedEffect(q, level, fav) { listState.scrollToItem(0) }
+
     Column(Modifier.fillMaxSize()) {
         OutlinedTextField(
             value = q, onValueChange = { vm.query.value = it },
             label = { Text(stringResource(R.string.words_search)) }, singleLine = true,
+            trailingIcon = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (q.isNotEmpty()) {
+                        IconButton(onClick = { vm.query.value = "" }) {
+                            Icon(Icons.Default.Close, stringResource(R.string.close))
+                        }
+                    }
+                    IconButton(onClick = { voice.start() }) {
+                        Icon(Icons.Default.Mic, stringResource(R.string.study_mic))
+                    }
+                }
+            },
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)
         )
+        voice.message?.let {
+            Text(it, Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall)
+        }
         Row(
             Modifier.horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -59,8 +93,8 @@ fun WordsScreen(vm: WordsViewModel = viewModel()) {
         // Короткое пояснение значков
         Text(stringResource(R.string.words_hint), Modifier.padding(16.dp, 2.dp, 16.dp, 8.dp),
             style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
-        LazyColumn(Modifier.fillMaxSize()) {
-            items(words, key = { it.id }) { w ->
+        LazyColumn(Modifier.fillMaxSize(), state = listState) {
+            items(words) { w ->
                 WordRow(w, learn,
                     onSpeak = { speaker.speak(w.target(learn), learn) },
                     onSpeakExample = { speaker.speak(w.targetExample(learn), learn) },

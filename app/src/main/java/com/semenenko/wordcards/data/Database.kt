@@ -136,11 +136,28 @@ interface WordDao {
     @Query("SELECT * FROM words WHERE id != :id ORDER BY RANDOM() LIMIT :n")
     suspend fun distractorsAny(id: Long, n: Int): List<Word>
 
+    /**
+     * Порядок результатов: 0 — точное совпадение, 1 — слово начинается с запроса,
+     * 2 — с запроса начинается одно из слов фразы, 3 — запрос внутри слова; затем короткие слова выше.
+     */
     @Query(
         """SELECT * FROM words WHERE (:level = 0 OR level = :level)
            AND (:fav = 0 OR favorite = 1)
            AND (en LIKE '%' || :q || '%' OR REPLACE(ru, char(769), '') LIKE '%' || :q || '%')
-           ORDER BY level, id LIMIT 2000"""
+           ORDER BY
+             CASE
+               WHEN :q = '' THEN 4
+               WHEN en = :q COLLATE NOCASE OR REPLACE(ru, char(769), '') = :q THEN 0
+               WHEN en LIKE :q || '%' OR REPLACE(ru, char(769), '') LIKE :q || '%' THEN 1
+               WHEN en LIKE '% ' || :q || '%' OR REPLACE(ru, char(769), '') LIKE '% ' || :q || '%' THEN 2
+               ELSE 3
+             END,
+             CASE
+               WHEN :q = '' THEN 0
+               WHEN en LIKE '%' || :q || '%' THEN LENGTH(en)
+               ELSE LENGTH(REPLACE(ru, char(769), ''))
+             END,
+             level, id LIMIT 2000"""
     )
     fun search(q: String, level: Int, fav: Int): Flow<List<Word>>
 

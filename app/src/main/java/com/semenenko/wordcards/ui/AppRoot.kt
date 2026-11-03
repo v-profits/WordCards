@@ -14,7 +14,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
@@ -68,7 +70,13 @@ fun AppRoot(showRating: Boolean = false) {
                                 }
                             },
                             icon = { Icon(t.icon, null) },
-                            label = { Text(stringResource(t.label)) }
+                            // Подпись всегда в одну строку и одного размера — значки стоят ровно
+                            label = {
+                                Text(
+                                    stringResource(t.label), maxLines = 1, softWrap = false,
+                                    overflow = TextOverflow.Clip, fontSize = 10.sp, letterSpacing = 0.sp
+                                )
+                            }
                         )
                     }
                 }

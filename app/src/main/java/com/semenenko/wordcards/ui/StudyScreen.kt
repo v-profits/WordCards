@@ -173,19 +173,28 @@ private fun CardsBody(ui: StudyUi, vm: StudyViewModel) {
                     // Свайп возможен только после переворота: вправо — «знаю», влево — «не знаю»
                     if (ui.flipped) detectHorizontalDragGestures(
                         onDragEnd = {
+                            // После оценки смещение не сбрасываем: оно обнулится само, когда придёт
+                            // следующая карточка (remember(c)) — иначе на миг мелькает старый перевод
                             if (dx > 300f) vm.grade(Grade.GOOD)
                             else if (dx < -300f) vm.grade(Grade.AGAIN)
-                            dx = 0f
+                            else dx = 0f
                         },
                         onDragCancel = { dx = 0f }
                     ) { _, d -> dx += d }
                 }
         ) {
-            FlipCard(
-                front, back, ui.flipped, onClick = { vm.flip() },
-                // Значок озвучки предложения на обороте карточки (как в других режимах)
-                onSpeakExample = if (w.targetExample(l).isNotBlank()) ({ vm.speakExample() }) else null
-            )
+            // key(c): для каждой новой карточки состояние переворота создаётся заново (угол 0°),
+            // поэтому перевод следующего слова не виден, пока карточка «разворачивается» назад
+            key(c) {
+                FlipCard(
+                    front, back, ui.flipped, onClick = { vm.flip() },
+                    // Значок озвучки слова — под самим словом (на той стороне, где слово изучаемого языка)
+                    onSpeakWord = { vm.speak() },
+                    frontHasTarget = !c.reverse,
+                    // Значок озвучки предложения на обороте карточки (как в других режимах)
+                    onSpeakExample = if (w.targetExample(l).isNotBlank()) ({ vm.speakExample() }) else null
+                )
+            }
         }
 
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
@@ -243,7 +252,10 @@ private fun CardsBody(ui: StudyUi, vm: StudyViewModel) {
 
 /** Карточка с 3D-анимацией переворота. */
 @Composable
-private fun FlipCard(front: Face, back: Face, flipped: Boolean, onClick: () -> Unit, onSpeakExample: (() -> Unit)? = null) {
+private fun FlipCard(
+    front: Face, back: Face, flipped: Boolean, onClick: () -> Unit,
+    onSpeakWord: () -> Unit, frontHasTarget: Boolean, onSpeakExample: (() -> Unit)? = null
+) {
     val rot by animateFloatAsState(if (flipped) 180f else 0f, tween(450), label = "flip")
     val density = LocalDensity.current.density
     Card(
@@ -252,19 +264,27 @@ private fun FlipCard(front: Face, back: Face, flipped: Boolean, onClick: () -> U
             .graphicsLayer { rotationY = rot; cameraDistance = 14 * density }
     ) {
         Box(Modifier.fillMaxSize().padding(24.dp), contentAlignment = Alignment.Center) {
-            if (rot <= 90f) FaceView(front)
-            else Box(Modifier.graphicsLayer { rotationY = 180f }) { FaceView(back, onSpeakExample) }  // зеркалим обратную сторону
+            if (rot <= 90f) FaceView(front, onSpeakWord = if (frontHasTarget) onSpeakWord else null)
+            else Box(Modifier.graphicsLayer { rotationY = 180f }) {   // зеркалим обратную сторону
+                FaceView(back, onSpeakExample, onSpeakWord = if (!frontHasTarget) onSpeakWord else null)
+            }
         }
     }
 }
 
 @Composable
-private fun FaceView(f: Face, onSpeakExample: (() -> Unit)? = null) {
+private fun FaceView(f: Face, onSpeakExample: (() -> Unit)? = null, onSpeakWord: (() -> Unit)? = null) {
     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.verticalScroll(rememberScrollState())) {
         Text(f.title, style = MaterialTheme.typography.displaySmall, textAlign = TextAlign.Center)
         if (f.sub.isNotBlank()) {
             Spacer(Modifier.height(8.dp))
             Text(f.sub, style = MaterialTheme.typography.titleMedium, color = MaterialTheme.colorScheme.outline)
+        }
+        // Значок озвучки слова прямо под словом (дублирует нижний значок)
+        if (onSpeakWord != null) {
+            IconButton(onClick = onSpeakWord) {
+                Icon(Icons.AutoMirrored.Filled.VolumeUp, stringResource(R.string.study_speak_word))
+            }
         }
         if (f.extra.isNotBlank()) {
             Spacer(Modifier.height(20.dp))

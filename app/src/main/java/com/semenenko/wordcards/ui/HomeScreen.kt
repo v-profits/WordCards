@@ -215,12 +215,12 @@ private fun LessonProgress(l: Lesson) {
     }
 }
 
-/** Карточка уровня. Нажатие на карточку или на крупную кнопку открывает уроки этого уровня. */
+/** Карточка уровня. Уроки уровня открываются только крупной кнопкой внизу; сама карточка не нажимается. */
 @Composable
 private fun LevelCard(info: LevelInfo, s: LevelStat?, onLessons: () -> Unit) {
     val total = s?.total ?: 0
     val learned = s?.learned ?: 0
-    Card(onClick = onLessons, modifier = Modifier.fillMaxWidth()) {
+    Card(modifier = Modifier.fillMaxWidth()) {
         Column(Modifier.padding(16.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Surface(shape = RoundedCornerShape(8.dp), color = MaterialTheme.colorScheme.primaryContainer) {

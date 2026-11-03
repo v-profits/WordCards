@@ -13,6 +13,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -41,13 +45,14 @@ fun StatsScreen(vm: HomeViewModel = viewModel()) {
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(stringResource(R.string.stats_title), style = MaterialTheme.typography.headlineSmall)
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Tile("${levels.sumOf { it.learned }}/${levels.sumOf { it.total }}", stringResource(R.string.stats_learned))
-            Tile("${LessonStore.streak(lessonDays)}", stringResource(R.string.stats_streak))
+        // Левые окна шире правых: в них длинные числа («выучено 123/4567», «ответов всего»)
+        Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Tile("${levels.sumOf { it.learned }}/${levels.sumOf { it.total }}", stringResource(R.string.stats_learned), 1.4f)
+            Tile("${LessonStore.streak(lessonDays)}", stringResource(R.string.stats_streak), 1f)
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Tile("$totalReviewed", stringResource(R.string.stats_total))
-            Tile("$accuracy%", stringResource(R.string.stats_accuracy))
+        Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            Tile("$totalReviewed", stringResource(R.string.stats_total), 1.4f)
+            Tile("$accuracy%", stringResource(R.string.stats_accuracy), 1f)
         }
         Card(Modifier.fillMaxWidth()) {
             Column(Modifier.padding(16.dp)) {
@@ -145,11 +150,20 @@ private fun LegendDot(color: Color, text: String) {
 }
 
 @Composable
-private fun RowScope.Tile(big: String, caption: String) {
-    Card(Modifier.weight(1f)) {
-        Column(Modifier.padding(16.dp).fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-            Text(big, style = MaterialTheme.typography.headlineMedium)
-            Text(caption, style = MaterialTheme.typography.labelMedium)
+private fun RowScope.Tile(big: String, caption: String, weight: Float) {
+    Card(Modifier.weight(weight).fillMaxHeight()) {
+        Column(
+            Modifier.padding(horizontal = 8.dp, vertical = 16.dp).fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            // Число всегда в одну строку: если не помещается — шрифт сам уменьшается
+            var size by remember(big) { mutableStateOf(24.sp) }
+            Text(
+                big, fontSize = size, maxLines = 1, softWrap = false,
+                style = MaterialTheme.typography.headlineSmall.copy(fontSize = size),
+                onTextLayout = { if (it.didOverflowWidth && size > 12.sp) size = size * 0.9f }
+            )
+            Text(caption, style = MaterialTheme.typography.labelMedium, textAlign = TextAlign.Center)
         }
     }
 }
